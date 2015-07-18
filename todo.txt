@@ -1,0 +1,20 @@
+== GOALS for car-fighter port ==
+To hold entities and render them to the screen
+    all of them are rectangles
+User Input
+    [done] Keyboard
+    [] Controller
+Car Physics
+    Acceleration
+    Rotate
+        More like, do exactly what the joystick does
+    Skidding
+Collisions being detected between objects
+    NOT AABB, but all rectangular bounding boxes
+Draw images to the screen
+    with transparency in backgrounds
+Lasers
+    Death
+    Set up targets to shoot
+Multiple Players
+Resetting the level
