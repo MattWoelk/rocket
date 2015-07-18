@@ -8,7 +8,7 @@ use itertools;
 use opengl_graphics::GlGraphics;
 use opengl_graphics::glyph_cache::GlyphCache;
 use piston::input::Key;
-use rand::{self, ThreadRng};
+use rand::{self, Rng, ThreadRng};
 
 use drawing::{color, Point, Size};
 use models::{Bullet, Enemy, Particle, Vector, World};
@@ -124,7 +124,7 @@ impl Game {
         };
 
         // Set speed and advance the player with wrap around
-        let speed = if self.actions.boost { 400.0  } else { 200.0 };
+        let speed = if self.actions.boost { 470.0  } else { 200.0 };
         self.world.player.advance_wrapping(dt * speed, self.world.size.clone());
 
         // Update particles
@@ -144,7 +144,7 @@ impl Game {
         // Add bullets
         if self.actions.shoot && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
             self.timers.last_shoot = self.timers.current_time;
-            self.world.bullets.push(Bullet::new(Vector::new(self.world.player.nose(), self.world.player.direction())));
+            self.world.bullets.push(Bullet::new(Vector::new(self.world.player.nose(), self.world.player.direction() + self.rng.gen::<f64>() - 0.5)));
         }
 
         // Advance bullets
