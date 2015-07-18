@@ -25,11 +25,6 @@ use sdl2::{joystick, controller};
 use sdl2::controller::GameController;
 
 
-enum AnyEvent {
-    Piston(Event),
-    Sdl2(SDL2Event),
-}
-
 fn main() {
     // Initialization stuff
 
@@ -74,27 +69,22 @@ fn main() {
 
     println!("Controller mapping: {}", controller.mapping());
 
-    for event in sdl_context.event_pump().wait_iter().map(|it| AnyEvent::Sdl2(it)) {
-        match event {
-            AnyEvent::Sdl2(sdl2_event) => {
-                match sdl2_event {
-                    SDL2Event::ControllerAxisMotion{ axis, value: val, .. } => {
-                        // Axis motion is an absolute value in the range
-                        // [-32768, 32767]. Let's simulate a very rough dead
-                        // zone to ignore spurious events.
-                        if (val as i32).abs() > 10000 {
-                            println!("Axis {:?} moved to {}", axis, val);
-                        }
-                    }
-                    SDL2Event::ControllerButtonDown{ button, .. } =>
-                        println!("Button {:?} down", button),
-                    SDL2Event::ControllerButtonUp{ button, .. } =>
-                        println!("Button {:?} up", button),
-                    SDL2Event::Quit{..} => break,
-                    _ => (),
+    for sdl2_event in sdl_context.event_pump().wait_iter() {
+        match sdl2_event {
+            SDL2Event::ControllerAxisMotion{ axis, value: val, .. } => {
+                // Axis motion is an absolute value in the range
+                // [-32768, 32767]. Let's simulate a very rough dead
+                // zone to ignore spurious events.
+                if (val as i32).abs() > 10000 {
+                    println!("Axis {:?} moved to {}", axis, val);
                 }
             }
-            _ => {println!("WHUA!?")}
+            SDL2Event::ControllerButtonDown{ button, .. } =>
+                println!("Button {:?} down", button),
+            SDL2Event::ControllerButtonUp{ button, .. } =>
+                println!("Button {:?} up", button),
+            SDL2Event::Quit{..} => break,
+            _ => (),
         }
     }
 
@@ -113,32 +103,26 @@ fn main() {
     let mut game = Game::new(Size::new(1024.0, 600.0));
 
     // Event handling
-    for any_event in window.events().ups(60).max_fps(60).map(|it| AnyEvent::Piston(it)) {
-        match any_event {
-            AnyEvent::Piston(e) => {
-                match e {
-                    Event::Input(Input::Press(Button::Keyboard(key))) => {
-                        game.key_press(key);
-                    }
-
-                    Event::Input(Input::Release(Button::Keyboard(key))) => {
-                        game.key_release(key);
-                    }
-
-                    Event::Render(args) => {
-                        gl.draw(args.viewport(), |c, g| game.render(c, g));
-                    }
-
-                    Event::Update(args) => {
-                        // TODO: check controller using something like sdl2
-                        game.update(args.dt);
-                    }
-
-                    _ => {}
-                }
+    for e in window.events().ups(60).max_fps(60) {
+        match e {
+            Event::Input(Input::Press(Button::Keyboard(key))) => {
+                game.key_press(key);
             }
 
-            _ => {println!("NEW")}
+            Event::Input(Input::Release(Button::Keyboard(key))) => {
+                game.key_release(key);
+            }
+
+            Event::Render(args) => {
+                gl.draw(args.viewport(), |c, g| game.render(c, g));
+            }
+
+            Event::Update(args) => {
+                // TODO: check controller using something like sdl2
+                game.update(args.dt);
+            }
+
+            _ => {}
         }
     }
 }
