@@ -109,6 +109,7 @@ fn main() {
                             if (val as i32).abs() > 10000 {
                                 println!("Axis {:?} moved to {}", axis, val);
                             }
+                            game.handle_axis(axis, val as i32);
                         }
                         SDL2Event::ControllerButtonDown{ button, .. } =>
                             println!("Button {:?} down", button),

@@ -14,6 +14,8 @@ use drawing::{color, Point, Size};
 use models::{Bullet, Enemy, Particle, Vector, World};
 use traits::{Advance, Collide, Position};
 
+use sdl2::controller::Axis;
+
 const UPS: u16 = 120;
 const BULLET_RATE: f64 = 0.01;
 
@@ -38,6 +40,7 @@ pub struct Game {
 struct Actions {
     rotate_left: bool,
     rotate_right: bool,
+    rotate_amount: i32,
     boost: bool,
     shoot: bool
 }
@@ -91,6 +94,14 @@ impl Game {
         }
     }
 
+    pub fn handle_axis(&mut self, axis: Axis, value: i32) {
+        let dead_zoned_value = if value.abs() < 10000 {0} else {value};
+        match axis {
+            Axis::LeftX => self.actions.rotate_amount = dead_zoned_value,
+            _ => ()
+        }
+    }
+
     /// Renders the game to the screen
     pub fn render(&mut self, c: graphics::context::Context, g: &mut GlGraphics) {
         // Clear everything
@@ -118,9 +129,10 @@ impl Game {
         // Update rocket rotation
         if self.actions.rotate_left {
             *self.world.player.direction_mut() += (-0.06 * UPS as f64) * dt;
-        }
-        if self.actions.rotate_right {
+        } else if self.actions.rotate_right {
             *self.world.player.direction_mut() += (0.06 * UPS as f64) * dt;
+        } else {
+            *self.world.player.direction_mut() += (self.actions.rotate_amount as f64 / 32000.0 * 0.06 * UPS as f64) * dt;
         };
 
         // Set speed and advance the player with wrap around
@@ -235,7 +247,7 @@ impl Game {
             // Make an explosion where the player was
             let ppos = self.world.player.position();
             Game::make_explosion(&mut self.world.particles, ppos, 8);
-            
+
             self.reset();
         }
     }
