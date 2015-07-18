@@ -69,24 +69,6 @@ fn main() {
 
     println!("Controller mapping: {}", controller.mapping());
 
-    for sdl2_event in sdl_context.event_pump().wait_iter() {
-        match sdl2_event {
-            SDL2Event::ControllerAxisMotion{ axis, value: val, .. } => {
-                // Axis motion is an absolute value in the range
-                // [-32768, 32767]. Let's simulate a very rough dead
-                // zone to ignore spurious events.
-                if (val as i32).abs() > 10000 {
-                    println!("Axis {:?} moved to {}", axis, val);
-                }
-            }
-            SDL2Event::ControllerButtonDown{ button, .. } =>
-                println!("Button {:?} down", button),
-            SDL2Event::ControllerButtonUp{ button, .. } =>
-                println!("Button {:?} up", button),
-            SDL2Event::Quit{..} => break,
-            _ => (),
-        }
-    }
 
     let opengl = OpenGL::_3_2;
 
@@ -118,7 +100,24 @@ fn main() {
             }
 
             Event::Update(args) => {
-                // TODO: check controller using something like sdl2
+                for sdl2_event in sdl_context.event_pump().poll_iter() {
+                    match sdl2_event {
+                        SDL2Event::ControllerAxisMotion{ axis, value: val, .. } => {
+                            // Axis motion is an absolute value in the range
+                            // [-32768, 32767]. Let's simulate a very rough dead
+                            // zone to ignore spurious events.
+                            if (val as i32).abs() > 10000 {
+                                println!("Axis {:?} moved to {}", axis, val);
+                            }
+                        }
+                        SDL2Event::ControllerButtonDown{ button, .. } =>
+                            println!("Button {:?} down", button),
+                        SDL2Event::ControllerButtonUp{ button, .. } =>
+                            println!("Button {:?} up", button),
+                        SDL2Event::Quit{..} => break,
+                        _ => (),
+                    }
+                }
                 game.update(args.dt);
             }
 
