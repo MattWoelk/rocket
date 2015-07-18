@@ -144,7 +144,8 @@ impl Game {
         // Add bullets
         if self.actions.shoot && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
             self.timers.last_shoot = self.timers.current_time;
-            self.world.bullets.push(Bullet::new(Vector::new(self.world.player.nose(), self.world.player.direction() + self.rng.gen::<f64>() - 0.5)));
+            let bullet_angle = if self.actions.boost {self.rng.gen::<f64>() - 0.5} else {0.};
+            self.world.bullets.push(Bullet::new(Vector::new(self.world.player.nose(), self.world.player.direction() + bullet_angle)));
         }
 
         // Advance bullets
