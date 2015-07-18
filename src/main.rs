@@ -75,10 +75,8 @@ fn main() {
     println!("Controller mapping: {}", controller.mapping());
 
     for event in sdl_context.event_pump().wait_iter() {
-        use sdl2::event::Event;
-
         match event {
-            Event::ControllerAxisMotion{ axis, value: val, .. } => {
+            SDL2Event::ControllerAxisMotion{ axis, value: val, .. } => {
                 // Axis motion is an absolute value in the range
                 // [-32768, 32767]. Let's simulate a very rough dead
                 // zone to ignore spurious events.
@@ -86,11 +84,11 @@ fn main() {
                     println!("Axis {:?} moved to {}", axis, val);
                 }
             }
-            Event::ControllerButtonDown{ button, .. } =>
+            SDL2Event::ControllerButtonDown{ button, .. } =>
                 println!("Button {:?} down", button),
-            Event::ControllerButtonUp{ button, .. } =>
+            SDL2Event::ControllerButtonUp{ button, .. } =>
                 println!("Button {:?} up", button),
-            Event::Quit{..} => break,
+            SDL2Event::Quit{..} => break,
             _ => (),
         }
     }
