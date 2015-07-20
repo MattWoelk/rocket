@@ -4,6 +4,10 @@ To hold entities and render them to the screen
 User Input
     [done] Keyboard
     [] Controller
+        [done] joystick
+        [done] buttons
+        [] decrease the dead-zone size for more accuracy
+            OR keep it, but make it a better equation
 Car Physics
     Acceleration
     Rotate
