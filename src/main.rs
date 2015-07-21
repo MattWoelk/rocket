@@ -61,13 +61,12 @@ fn main() {
         }
     }
 
-    let controller =
-        match controller {
-            Some(c) => c,
-            None     => panic!("Couldn't open any controller"),
-        };
-
-    println!("Controller mapping: {}", controller.mapping());
+    if let Some(c) = controller {
+        let controller = c;
+        println!("Controller mapping: {}", controller.mapping());
+    } else {
+        println!("No Controllers Found");
+    }
 
 
     let opengl = OpenGL::_3_2;
