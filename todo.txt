@@ -1,4 +1,5 @@
 == GOALS for car-fighter port ==
+[] read through entire rocket program and make sure I understand EVERYTHING about it.
 To hold entities and render them to the screen
     all of them are rectangles
 User Input
