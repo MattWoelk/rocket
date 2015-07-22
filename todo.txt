@@ -10,10 +10,15 @@ User Input
         [] decrease the dead-zone size for more accuracy
             OR keep it, but make it a better equation
 Car Physics
-    Acceleration
-    Rotate
+    [] Acceleration
+        [] change the up button so that it is acceleration instead of
+           a constant speed boost
+        [] change it to use RT instead of RB, and use that analogue-ness
+        [] change the gun scatter so that it's a functions of the
+           ship's acceleration or speed? Not sure which yet.
+    [] Rotate
         More like, do exactly what the joystick does
-    Skidding
+    [] Skidding
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
 Draw images to the screen
