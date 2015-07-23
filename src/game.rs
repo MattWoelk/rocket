@@ -137,6 +137,7 @@ impl Game {
 
         // Set speed and advance the player with wrap around
         let speed = if self.actions.boost { 470.0  } else { 200.0 };
+        // TODO: Here is where we change the boost to be acceleration instead of velocity.
         self.world.player.advance_wrapping(dt * speed, self.world.size.clone());
 
         // Update particles

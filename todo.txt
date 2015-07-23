@@ -7,6 +7,8 @@ User Input
     [] Controller
         [done] joystick
         [done] buttons
+        [done] make sure all controller actions are processed in each frame, not just one.
+            Yup, for each poll_iter, perfect.
         [] decrease the dead-zone size for more accuracy
             OR keep it, but make it a better equation
 Car Physics
