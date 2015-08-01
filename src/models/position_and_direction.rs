@@ -53,11 +53,5 @@ macro_rules! derive_position_direction {
             }
 
         }
-
-        impl $t {
-            fn add_direction(&mut self, radians: f64) {
-                self.position_and_direction.direction += radians;
-            }
-        }
     }
 }
