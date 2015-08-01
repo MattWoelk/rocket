@@ -3,13 +3,14 @@ use opengl_graphics::GlGraphics;
 use rand::Rng;
 
 use drawing::Size;
-use models::{Bullet, Enemy, Particle, Player};
+use models::{Bullet, Wave, Enemy, Particle, Player};
 
 /// A model that contains the other models and renders them
 pub struct World {
     pub player: Player,
     pub particles: Vec<Particle>,
     pub bullets: Vec<Bullet>,
+    pub waves: Vec<Wave>,
     pub enemies: Vec<Enemy>,
     pub size: Size
 }
@@ -21,6 +22,7 @@ impl World {
             player: Player::random(rng, size.clone()),
             particles: Vec::with_capacity(1000),
             bullets: vec![],
+            waves: vec![],
             enemies: vec![],
             size: size
         }
@@ -34,6 +36,10 @@ impl World {
 
         for bullet in &self.bullets {
             bullet.draw(&c, g);
+        }
+
+        for wave in &self.waves {
+            wave.draw(&c, g);
         }
 
         for enemy in &self.enemies {

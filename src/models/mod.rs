@@ -3,12 +3,14 @@
 mod vector;
 
 mod bullet;
+mod wave;
 mod enemy;
 mod particle;
 mod player;
 mod world;
 
 pub use self::bullet::Bullet;
+pub use self::wave::Wave;
 pub use self::enemy::Enemy;
 pub use self::particle::Particle;
 pub use self::player::Player;

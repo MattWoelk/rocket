@@ -11,7 +11,7 @@ use piston::input::Key;
 use rand::{self, Rng, ThreadRng};
 
 use drawing::{color, Point, Size};
-use models::{Bullet, Enemy, Particle, Pose, World};
+use models::{Bullet, Wave, Enemy, Particle, Pose, World};
 use traits::{Advance, Collide, Position};
 
 use sdl2::controller::Axis;
@@ -160,6 +160,7 @@ impl Game {
             self.timers.last_shoot = self.timers.current_time;
             let bullet_angle = if self.actions.boost {self.rng.gen::<f64>() - 0.5} else {0.};
             self.world.bullets.push(Bullet::new(Pose::new(self.world.player.nose(), self.world.player.angle_radians() + bullet_angle)));
+            self.world.waves.push(Wave::new(self.world.player.position().clone()));
         }
 
         // Advance bullets
