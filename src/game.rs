@@ -89,7 +89,8 @@ impl Game {
         match key {
             Key::Left => self.actions.rotate_left = pressed,
             Key::Right => self.actions.rotate_right = pressed,
-            Key::Up => self.actions.boost = pressed,
+            Key::Up => self.actions.player_speed = if pressed {-32768} else {0},
+            Key::Down => self.actions.player_speed = if pressed {32768} else {0},
             Key::Space => self.actions.shoot = pressed,
             _ => ()
         }
