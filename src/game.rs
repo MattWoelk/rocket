@@ -41,6 +41,7 @@ struct Actions {
     rotate_left: bool,
     rotate_right: bool,
     rotate_amount: i32,
+    player_speed: i32,
     boost: bool,
     shoot: bool
 }
@@ -98,6 +99,7 @@ impl Game {
         let dead_zoned_value = if value.abs() < 10000 {0} else {value};
         match axis {
             Axis::LeftX => self.actions.rotate_amount = dead_zoned_value,
+            Axis::LeftY => self.actions.player_speed = dead_zoned_value,
             _ => ()
         }
     }
@@ -135,10 +137,7 @@ impl Game {
             *self.world.player.direction_mut() += (self.actions.rotate_amount as f64 / 32000.0 * 0.06 * ROTATIONS_PER_SECOND) * dt;
         };
 
-        // Set speed and advance the player with wrap around
-        let speed = if self.actions.boost { 470.0  } else { 200.0 };
-        // TODO: Here is where we change the boost to be acceleration instead of velocity.
-        self.world.player.advance_wrapping(dt * speed, self.world.size.clone());
+        self.world.player.advance_wrapping(dt * (self.actions.player_speed as f64) / -32000.0 * 400., self.world.size.clone());
 
         // Update particles
         for particle in &mut self.world.particles {

@@ -16,6 +16,9 @@ Dot Physics
         or "angle_turns"
     [] Fix Vector to have two vectors? (see TODO in vector.rs).
         Maybe stop using "vector" entirely, and put it all straight on Player.
+        [done] add speed to Player
+        [done] use Player speed to ramp stuff up!
+        [] match player movement to joystick.... kinda
     [] change all occurrences of PI to use TAU instead
     [] Acceleration
         [] change the up button so that it is acceleration instead of
