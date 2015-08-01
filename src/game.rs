@@ -168,6 +168,10 @@ impl Game {
             bullet.update(dt * 500.0);
         }
 
+        for wave in &mut self.world.waves {
+            wave.update(dt);
+        }
+
         // Remove bullets outside the viewport
         { // Shorten the lifetime of size
         let size = &self.world.size;
