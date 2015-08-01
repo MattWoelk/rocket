@@ -11,7 +11,7 @@ use piston::input::Key;
 use rand::{self, Rng, ThreadRng};
 
 use drawing::{color, Point, Size};
-use models::{Bullet, Enemy, Particle, Vector, World};
+use models::{Bullet, Enemy, Particle, PositionAndDirection, World};
 use traits::{Advance, Collide, Position};
 
 use sdl2::controller::Axis;
@@ -151,14 +151,14 @@ impl Game {
         // Add new particles at the player's position, to leave a trail
         if self.timers.current_time - self.timers.last_tail_particle > 0.05 {
             self.timers.last_tail_particle = self.timers.current_time;
-            self.world.particles.push(Particle::new(self.world.player.vector.clone().invert(), 0.5));
+            self.world.particles.push(Particle::new(self.world.player.position_and_direction.clone().invert(), 0.5));
         }
 
         // Add bullets
         if self.actions.shoot && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
             self.timers.last_shoot = self.timers.current_time;
             let bullet_angle = if self.actions.boost {self.rng.gen::<f64>() - 0.5} else {0.};
-            self.world.bullets.push(Bullet::new(Vector::new(self.world.player.nose(), self.world.player.direction() + bullet_angle)));
+            self.world.bullets.push(Bullet::new(PositionAndDirection::new(self.world.player.nose(), self.world.player.direction() + bullet_angle)));
         }
 
         // Advance bullets
@@ -177,7 +177,7 @@ impl Game {
             self.timers.last_spawned_enemy = self.timers.current_time;
             let mut new_enemy: Enemy;
             loop {
-                new_enemy = Enemy::new(Vector::random(&mut self.rng, self.world.size.clone()));
+                new_enemy = Enemy::new(PositionAndDirection::random(&mut self.rng, self.world.size.clone()));
                 if !self.world.player.collides_with(&new_enemy) {
                     break;
                 }
@@ -257,7 +257,7 @@ impl Game {
     fn make_explosion(particles: &mut Vec<Particle>, position: Point, intensity: u8) {
         for rotation in itertools::linspace(0.0, 2.0 * f64::consts::PI, 30) {
             for ttl in (1..intensity).map(|x| (x as f64) / 10.0) {
-                particles.push(Particle::new(Vector::new(position.clone(), rotation), ttl));
+                particles.push(Particle::new(PositionAndDirection::new(position.clone(), rotation), ttl));
             }
         }
     }

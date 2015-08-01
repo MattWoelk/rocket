@@ -13,8 +13,7 @@ pub struct PositionAndDirection {
     pub direction: f64
 }
 
-impl PositionAndDirection {  // TODO: rename position_and_direction?? Aren't vectors not supposed to have a position?
-               // Yeah, magnitude and direction, not position and direction... grr...
+impl PositionAndDirection {
     /// Returns a new `PositionAndDirection`
     pub fn new(position: Point, direction: f64) -> PositionAndDirection {
         PositionAndDirection { position: position, direction: direction }
