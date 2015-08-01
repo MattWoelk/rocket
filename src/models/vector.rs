@@ -4,9 +4,9 @@ use rand::Rng;
 
 use drawing::{Point, Size};
 
-/// A `Vector`
+/// A `Pose`
 #[derive(Clone, Default)]
-pub struct Vector {  // TODO: Why isn't this magnitude and direction?
+pub struct Pose {  // TODO: Why isn't this magnitude and direction?
                      // why position and direction?
                      // it should just be position on its own!!!!!
                      // This makes no sense!!!
@@ -19,19 +19,19 @@ pub struct Vector {  // TODO: Why isn't this magnitude and direction?
     pub angle_radians: f64
 }
 
-impl Vector {
-    /// Returns a new `Vector`
-    pub fn new(position: Point, angle_radians: f64) -> Vector {
-        Vector { position: position, angle_radians: angle_radians }
+impl Pose {
+    /// Returns a new `Pose`
+    pub fn new(position: Point, angle_radians: f64) -> Pose {
+        Pose { position: position, angle_radians: angle_radians }
     }
 
-    /// Returns a random `Vector` within the given bounds
-    pub fn random<R: Rng>(rng: &mut R, bounds: Size) -> Vector {
-        Vector::new(Point::random(rng, bounds), rng.gen())
+    /// Returns a random `Pose` within the given bounds
+    pub fn random<R: Rng>(rng: &mut R, bounds: Size) -> Pose {
+        Pose::new(Point::random(rng, bounds), rng.gen())
     }
 
     /// Consumes the vector and returns a new one with inverted direction
-    pub fn invert(mut self) -> Vector {
+    pub fn invert(mut self) -> Pose {
         self.angle_radians -= f64::consts::PI;
         self
     }

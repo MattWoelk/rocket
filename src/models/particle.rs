@@ -1,5 +1,5 @@
 use drawing::color;
-use super::Vector;
+use super::Pose;
 use traits::{Advance, Position};
 
 use graphics::{Context, Ellipse};
@@ -11,7 +11,7 @@ use opengl_graphics::GlGraphics;
 /// in a given direction until their time is up. They are spawned when the
 /// player or an enemy is killed
 pub struct Particle {
-    pub vector: Vector,
+    pub vector: Pose,
     pub ttl: f64
 }
 
@@ -19,7 +19,7 @@ derive_position_direction!(Particle);
 
 impl Particle {
     /// Create a particle with the given vector and time to live in seconds
-    pub fn new(vector: Vector, ttl: f64) -> Particle {
+    pub fn new(vector: Pose, ttl: f64) -> Particle {
         Particle { vector: vector, ttl: ttl }
     }
 

@@ -1,20 +1,20 @@
 use drawing::Point;
-use super::Vector;
+use super::Pose;
 use traits::{Advance, Collide, Position};
 
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;
 
-/// Enemies follow the player in order to cause a collision and let him explode 
+/// Enemies follow the player in order to cause a collision and let him explode
 pub struct Enemy {
-    vector: Vector
+    vector: Pose
 }
 
 derive_position_direction!(Enemy);
 
 impl Enemy {
     /// Create a enemy with the given vector
-    pub fn new(vector: Vector) -> Enemy {
+    pub fn new(vector: Pose) -> Enemy {
         Enemy { vector: vector }
     }
 
