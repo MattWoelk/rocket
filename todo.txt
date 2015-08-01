@@ -13,6 +13,9 @@ User Input
             OR keep it, but make it a better equation
 Dot Physics
     [] change angle_radians to "turns", which I like better for angles.
+        or "angle_turns"
+    [] Fix Vector to have two vectors? (see TODO in vector.rs).
+        Maybe stop using "vector" entirely, and put it all straight on Player.
     [] change all occurrences of PI to use TAU instead
     [] Acceleration
         [] change the up button so that it is acceleration instead of

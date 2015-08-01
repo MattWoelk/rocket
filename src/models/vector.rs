@@ -6,7 +6,13 @@ use drawing::{Point, Size};
 
 /// A `Vector`
 #[derive(Clone, Default)]
-pub struct Vector {
+pub struct Vector {  // TODO: Why isn't this magnitude and direction?
+                     // why position and direction?
+                     // it should just be position on its own!!!!!
+                     // This makes no sense!!!
+                     // Is the position where it is, and the direction where it's going?
+                     // If so, this should really be two vectors, as the speed should be stored
+                     // with the velocity
     /// The position of the vector
     pub position: Point,
     /// The direction angle, in radians
