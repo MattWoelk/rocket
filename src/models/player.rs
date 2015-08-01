@@ -6,10 +6,13 @@ use drawing::{color, Point, Size};
 use super::Pose;
 use traits::{Advance, Collide, Position};
 
+pub const PLAYER_DEFAULT_SPEED: f64 = 200.;
+
 /// The `Player` is the rocket controlled by the user
 #[derive(Default)]
 pub struct Player {
-    pub vector: Pose
+    pub vector: Pose,
+    pub speed: f64,
 }
 
 derive_position_direction!(Player);
@@ -24,7 +27,10 @@ const POLYGON: &'static [[f64; 2]] = &[
 impl Player {
     /// Create a new `Player` with a random position and direction
     pub fn random<R: Rng>(rng: &mut R, bounds: Size) -> Player {
-        Player { vector: Pose::random(rng, bounds) }
+        Player {
+            vector: Pose::random(rng, bounds),
+            speed: PLAYER_DEFAULT_SPEED,
+        }
     }
 
     /// Draw the player
