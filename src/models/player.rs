@@ -31,7 +31,7 @@ impl Player {
     pub fn draw(&self, c: &Context, gl: &mut GlGraphics) {
         // Set the center of the player as the origin and rotate it
         let transform = c.transform.trans(self.x(), self.y())
-                                   .rot_rad(self.direction());
+                                   .rot_rad(self.angle_radians());
 
         // Draw a rectangle on the position of the player
         Polygon::new(color::RED).draw(POLYGON, &c.draw_state, transform, gl);
@@ -40,7 +40,7 @@ impl Player {
     /// Returns the nose of the rocket
     pub fn nose(&self) -> Point {
         Point::new(POLYGON[1][0], POLYGON[1][1])
-            .rotate(self.direction())
+            .rotate(self.angle_radians())
             .translate(&self.position())
     }
 }

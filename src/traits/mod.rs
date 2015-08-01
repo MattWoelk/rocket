@@ -27,7 +27,7 @@ pub trait Position {
 /// A trait for objects that have can move in a given direction
 pub trait Advance: Position {
     /// Returns the direction of the object
-    fn direction(&self) -> f64;
+    fn angle_radians(&self) -> f64;
 
     /// Returns a mutable reference to the direction of the object
     fn direction_mut(&mut self) -> &mut f64;
@@ -45,8 +45,8 @@ pub trait Advance: Position {
 
     /// Advances the object in the given amount of units, according to its direction
     fn advance(&mut self, units: f64) {
-        *self.x_mut() += self.direction().cos() * units;
-        *self.y_mut() += self.direction().sin() * units;
+        *self.x_mut() += self.angle_radians().cos() * units;
+        *self.y_mut() += self.angle_radians().sin() * units;
     }
 
     /// Similar to `Advance::advance`, but the final possition will be wrapped

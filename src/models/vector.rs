@@ -10,13 +10,13 @@ pub struct Vector {
     /// The position of the vector
     pub position: Point,
     /// The direction angle, in radians
-    pub direction: f64
+    pub angle_radians: f64
 }
 
 impl Vector {
     /// Returns a new `Vector`
-    pub fn new(position: Point, direction: f64) -> Vector {
-        Vector { position: position, direction: direction }
+    pub fn new(position: Point, angle_radians: f64) -> Vector {
+        Vector { position: position, angle_radians: angle_radians }
     }
 
     /// Returns a random `Vector` within the given bounds
@@ -26,7 +26,7 @@ impl Vector {
 
     /// Consumes the vector and returns a new one with inverted direction
     pub fn invert(mut self) -> Vector {
-        self.direction -= f64::consts::PI;
+        self.angle_radians -= f64::consts::PI;
         self
     }
 }
@@ -43,12 +43,12 @@ macro_rules! derive_position_direction {
         }
 
         impl ::traits::Advance for $t {
-            fn direction(&self) -> f64 {
-                self.vector.direction
+            fn angle_radians(&self) -> f64 {
+                self.vector.angle_radians
             }
 
             fn direction_mut(&mut self) -> &mut f64 {
-                &mut self.vector.direction
+                &mut self.vector.angle_radians
             }
         }
     }

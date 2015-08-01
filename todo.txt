@@ -11,7 +11,9 @@ User Input
             Yup, for each poll_iter, perfect.
         [] decrease the dead-zone size for more accuracy
             OR keep it, but make it a better equation
-Car Physics
+Dot Physics
+    [] change angle_radians to "turns", which I like better for angles.
+    [] change all occurrences of PI to use TAU instead
     [] Acceleration
         [] change the up button so that it is acceleration instead of
            a constant speed boost
@@ -20,7 +22,6 @@ Car Physics
            ship's acceleration or speed? Not sure which yet.
     [] Rotate
         More like, do exactly what the joystick does
-    [] Skidding
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
 Draw images to the screen
