@@ -99,12 +99,6 @@ fn main() {
                 for sdl2_event in sdl_context.event_pump().poll_iter() {
                     match sdl2_event {
                         SDL2Event::ControllerAxisMotion{ axis, value: val, .. } => {
-                            // Axis motion is an absolute value in the range
-                            // [-32768, 32767]. Let's simulate a very rough dead
-                            // zone to ignore spurious events.
-                            if (val as i32).abs() > 10000 {
-                                println!("Axis {:?} moved to {}", axis, val);
-                            }
                             game.handle_axis(axis, val as i32);
                         }
                         SDL2Event::ControllerButtonDown{ button, .. } => {
