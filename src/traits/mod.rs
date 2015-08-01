@@ -65,6 +65,22 @@ pub trait Advance: Position {
         wrap(self.x_mut(), bounds.width);
         wrap(self.y_mut(), bounds.height);
     }
+
+    fn advance_with_wrapping(&mut self, displacement: Point, bounds: Size) {
+        *self.x_mut() += displacement.x;
+        *self.y_mut() += displacement.y;
+
+        fn wrap(k: &mut f64, bound: f64) {
+            if *k < 0.0 {
+                *k += bound;
+            } else if *k >= bound {
+                *k -= bound;
+            }
+        }
+
+        wrap(self.x_mut(), bounds.width);
+        wrap(self.y_mut(), bounds.height);
+    }
 }
 
 /// A trait that provides collision detection for objects with a position and a radius

@@ -42,6 +42,7 @@ struct Actions {
     rotate_right: bool,
     rotate_amount: i32,
     player_speed: i32,
+    player_velocity: Point,
     boost: bool,
     shoot: bool
 }
@@ -99,8 +100,8 @@ impl Game {
     pub fn handle_axis(&mut self, axis: Axis, value: i32) {
         let dead_zoned_value = if value.abs() < 10000 {0} else {value};
         match axis {
-            Axis::LeftX => self.actions.rotate_amount = dead_zoned_value,
-            Axis::LeftY => self.actions.player_speed = -dead_zoned_value,
+            Axis::LeftX => self.actions.player_velocity.x = dead_zoned_value as f64,
+            Axis::LeftY => self.actions.player_velocity.y = dead_zoned_value as f64,
             _ => ()
         }
     }
@@ -138,7 +139,11 @@ impl Game {
             *self.world.player.direction_mut() += (self.actions.rotate_amount as f64 / 32000.0 * 0.06 * ROTATIONS_PER_SECOND) * dt;
         };
 
-        self.world.player.advance_wrapping(dt * (self.actions.player_speed as f64) / 32000.0 * 400., self.world.size.clone());
+        let displacement = Point {
+            x: dt * self.actions.player_velocity.x / 32000.0 * 400.0,
+            y: dt * self.actions.player_velocity.y / 32000.0 * 400.0,
+        };
+        self.world.player.advance_with_wrapping(displacement, self.world.size.clone());
 
         // Update particles
         for particle in &mut self.world.particles {
