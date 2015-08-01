@@ -16,7 +16,7 @@ use traits::{Advance, Collide, Position};
 
 use sdl2::controller::Axis;
 
-const UPS: u16 = 120;
+const ROTATIONS_PER_SECOND: f64 = 120.;
 const BULLET_RATE: f64 = 0.01;
 
 /// The data structure that drives the game
@@ -128,11 +128,11 @@ impl Game {
 
         // Update rocket rotation
         if self.actions.rotate_left {
-            *self.world.player.direction_mut() += (-0.06 * UPS as f64) * dt;
+            *self.world.player.direction_mut() += (-0.06 * ROTATIONS_PER_SECOND) * dt;
         } else if self.actions.rotate_right {
-            *self.world.player.direction_mut() += (0.06 * UPS as f64) * dt;
+            *self.world.player.direction_mut() += (0.06 * ROTATIONS_PER_SECOND) * dt;
         } else {
-            *self.world.player.direction_mut() += (self.actions.rotate_amount as f64 / 32000.0 * 0.06 * UPS as f64) * dt;
+            *self.world.player.direction_mut() += (self.actions.rotate_amount as f64 / 32000.0 * 0.06 * ROTATIONS_PER_SECOND) * dt;
         };
 
         // Set speed and advance the player with wrap around
