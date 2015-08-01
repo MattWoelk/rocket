@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::f64;
 
 use super::Size;
 
@@ -44,5 +45,9 @@ impl Point {
         self.x += other.x;
         self.y += other.y;
         self
+    }
+
+    pub fn radians(self) -> f64 {
+        self.y.atan2(self.x)
     }
 }

@@ -98,7 +98,8 @@ impl Game {
     }
 
     pub fn handle_axis(&mut self, axis: Axis, value: i32) {
-        let dead_zoned_value = if value.abs() < 10000 {0} else {value};
+        // TODO: set the dead zone based on the magnitude instead of the single axis value
+        let dead_zoned_value = if value.abs() < 5000 {0} else {value - (5000 * value/value.abs())};
         match axis {
             Axis::LeftX => self.actions.player_velocity.x = dead_zoned_value as f64,
             Axis::LeftY => self.actions.player_velocity.y = dead_zoned_value as f64,
@@ -131,13 +132,8 @@ impl Game {
         self.timers.current_time += dt;
 
         // Update rocket rotation
-        if self.actions.rotate_left {
-            *self.world.player.direction_mut() += (-0.06 * ROTATIONS_PER_SECOND) * dt;
-        } else if self.actions.rotate_right {
-            *self.world.player.direction_mut() += (0.06 * ROTATIONS_PER_SECOND) * dt;
-        } else {
-            *self.world.player.direction_mut() += (self.actions.rotate_amount as f64 / 32000.0 * 0.06 * ROTATIONS_PER_SECOND) * dt;
-        };
+        let direction = self.actions.player_velocity.clone().radians();
+        *self.world.player.direction_mut() = direction;
 
         let displacement = Point {
             x: dt * self.actions.player_velocity.x / 32000.0 * 400.0,
