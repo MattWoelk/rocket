@@ -50,6 +50,7 @@ fn main() {
                     // We managed to find and open a game controller,
                     // exit the loop
                     println!("Success: opened \"{}\"", c.name());
+                    println!("Controller mapping: {}", c.mapping());
                     controller = Some(c);
                     break;
                 },
@@ -61,14 +62,9 @@ fn main() {
         }
     }
 
-    let controller =
-        match controller {
-            Some(c) => c,
-            None     => panic!("Couldn't open any controller"),
-        };
-
-    println!("Controller mapping: {}", controller.mapping());
-
+    if let None = controller {
+        println!("Couldn't open any controller");
+    }
 
     let opengl = OpenGL::_3_2;
 
