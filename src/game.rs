@@ -89,8 +89,8 @@ impl Game {
         match key {
             Key::Left => self.actions.rotate_left = pressed,
             Key::Right => self.actions.rotate_right = pressed,
-            Key::Up => self.actions.player_speed = if pressed {-32768} else {0},
-            Key::Down => self.actions.player_speed = if pressed {32768} else {0},
+            Key::Up => self.actions.player_speed = if pressed {32768} else {0},
+            Key::Down => self.actions.player_speed = if pressed {-32768} else {0},
             Key::Space => self.actions.shoot = pressed,
             _ => ()
         }
@@ -100,7 +100,7 @@ impl Game {
         let dead_zoned_value = if value.abs() < 10000 {0} else {value};
         match axis {
             Axis::LeftX => self.actions.rotate_amount = dead_zoned_value,
-            Axis::LeftY => self.actions.player_speed = dead_zoned_value,
+            Axis::LeftY => self.actions.player_speed = -dead_zoned_value,
             _ => ()
         }
     }
@@ -138,7 +138,7 @@ impl Game {
             *self.world.player.direction_mut() += (self.actions.rotate_amount as f64 / 32000.0 * 0.06 * ROTATIONS_PER_SECOND) * dt;
         };
 
-        self.world.player.advance_wrapping(dt * (self.actions.player_speed as f64) / -32000.0 * 400., self.world.size.clone());
+        self.world.player.advance_wrapping(dt * (self.actions.player_speed as f64) / 32000.0 * 400., self.world.size.clone());
 
         // Update particles
         for particle in &mut self.world.particles {
