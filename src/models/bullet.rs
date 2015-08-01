@@ -1,5 +1,5 @@
 use drawing::color;
-use super::PositionAndDirection;
+use super::Vector;
 use traits::{Advance, Collide, Position};
 
 use graphics::{Context, Ellipse};
@@ -9,15 +9,15 @@ use opengl_graphics::GlGraphics;
 ///
 /// When an enemy is reached by a bullet, it will explode
 pub struct Bullet {
-    position_and_direction: PositionAndDirection
+    vector: Vector
 }
 
 derive_position_direction!(Bullet);
 
 impl Bullet {
-    /// Create a bullet with the given position_and_direction
-    pub fn new(position_and_direction: PositionAndDirection) -> Bullet {
-        Bullet { position_and_direction: position_and_direction }
+    /// Create a bullet with the given vector
+    pub fn new(vector: Vector) -> Bullet {
+        Bullet { vector: vector }
     }
 
     /// Draw the bullet

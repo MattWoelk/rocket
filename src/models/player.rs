@@ -3,13 +3,13 @@ use opengl_graphics::GlGraphics;
 use rand::Rng;
 
 use drawing::{color, Point, Size};
-use super::PositionAndDirection;
+use super::Vector;
 use traits::{Advance, Collide, Position};
 
 /// The `Player` is the rocket controlled by the user
 #[derive(Default)]
 pub struct Player {
-    pub position_and_direction: PositionAndDirection
+    pub vector: Vector
 }
 
 derive_position_direction!(Player);
@@ -24,9 +24,7 @@ const POLYGON: &'static [[f64; 2]] = &[
 impl Player {
     /// Create a new `Player` with a random position and direction
     pub fn random<R: Rng>(rng: &mut R, bounds: Size) -> Player {
-        Player {
-            position_and_direction: PositionAndDirection::random(rng, bounds)
-        }
+        Player { vector: Vector::random(rng, bounds) }
     }
 
     /// Draw the player
