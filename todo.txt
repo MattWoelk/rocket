@@ -14,7 +14,7 @@ User Input
 Dot Physics
     [] change angle_radians to "turns", which I like better for angles.
         or "angle_turns"
-    [] Fix Vector to have two vectors? (see TODO in vector.rs).
+    [done] Fix Vector to have two vectors? (see TODO in vector.rs).
         Maybe stop using "vector" entirely, and put it all straight on Player.
         [done] add speed to Player
         [done] use Player speed to ramp stuff up!
@@ -23,11 +23,20 @@ Dot Physics
     [] Acceleration
         [] change the up button so that it is acceleration instead of
            a constant speed boost
-        [] change it to use RT instead of RB, and use that analogue-ness
         [] change the gun scatter so that it's a functions of the
            ship's acceleration or speed? Not sure which yet.
-    [] Rotate
-        More like, do exactly what the joystick does
+    [done] Rotate
+        [done] More like, do exactly what the joystick does
+        [done] get keyboard working for this, too
+Rings
+    [done] make circle grow out of player
+    [] change circle colour depending on which button was pressed
+    [] change circle to be an "arc", which is a polygon.
+        Needs to be a list of arc sections that wrap around 0 properly.
+        [] draw a polygon
+        [] draw a pretend circle
+            takes in two angles, and draws between them
+            draws forward from one to the other (even if 0 gets in the way)
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
 Draw images to the screen

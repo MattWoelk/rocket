@@ -88,10 +88,10 @@ impl Game {
     /// Handles a key press or release
     fn handle_key(&mut self, key: Key, pressed: bool) {
         match key {
-            Key::Left => self.actions.rotate_left = pressed,
-            Key::Right => self.actions.rotate_right = pressed,
-            Key::Up => self.actions.player_speed = if pressed {32768} else {0},
-            Key::Down => self.actions.player_speed = if pressed {-32768} else {0},
+            Key::Left => self.actions.player_velocity.x = if pressed {-32768.} else {0.},
+            Key::Right => self.actions.player_velocity.x = if pressed {32768.} else {0.},
+            Key::Up => self.actions.player_velocity.y = if pressed {-32768.} else {0.},
+            Key::Down => self.actions.player_velocity.y = if pressed {32768.} else {0.},
             Key::Space => self.actions.shoot = pressed,
             _ => ()
         }
@@ -100,6 +100,8 @@ impl Game {
     pub fn handle_axis(&mut self, axis: Axis, value: i32) {
         // TODO: set the dead zone based on the magnitude instead of the single axis value
         let dead_zoned_value = if value.abs() < 5000 {0} else {value - (5000 * value/value.abs())};
+            // TODO: use signum instead of the / here.
+
         match axis {
             Axis::LeftX => self.actions.player_velocity.x = dead_zoned_value as f64,
             Axis::LeftY => self.actions.player_velocity.y = dead_zoned_value as f64,
