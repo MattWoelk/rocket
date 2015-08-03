@@ -16,7 +16,6 @@ use traits::{Advance, Collide, Position};
 
 use sdl2::controller::Axis;
 
-const ROTATIONS_PER_SECOND: f64 = 120.;
 const BULLET_RATE: f64 = 0.01;
 
 /// The data structure that drives the game
@@ -38,10 +37,6 @@ pub struct Game {
 /// Active actions (toggled by user input)
 #[derive(Default)]
 struct Actions {
-    rotate_left: bool,
-    rotate_right: bool,
-    rotate_amount: i32,
-    player_speed: i32,
     player_velocity: Point,
     boost: bool,
     shoot: bool

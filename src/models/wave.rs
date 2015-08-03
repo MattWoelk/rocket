@@ -3,7 +3,6 @@ use super::Pose;
 use traits::{Advance, Collide, Position};
 
 use graphics::{Context, Ellipse};
-use graphics::ellipse::Border;
 use opengl_graphics::GlGraphics;
 
 /// Enemies follow the player in order to cause a collision and let him explode

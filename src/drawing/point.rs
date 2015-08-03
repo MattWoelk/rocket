@@ -1,5 +1,4 @@
 use rand::Rng;
-use std::f64;
 
 use super::Size;
 
