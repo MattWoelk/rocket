@@ -99,8 +99,8 @@ impl Game {
 
     pub fn handle_axis(&mut self, axis: Axis, value: i32) {
         // TODO: set the dead zone based on the magnitude instead of the single axis value
-        let dead_zoned_value = if value.abs() < 5000 {0} else {value - (5000 * value/value.abs())};
-            // TODO: use signum instead of the / here.
+        // will require handling both axes at once.
+        let dead_zoned_value = if value.abs() < 5000 {0} else {value - (5000 * value.signum())};
 
         match axis {
             Axis::LeftX => self.actions.player_velocity.x = dead_zoned_value as f64,
