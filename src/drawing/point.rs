@@ -3,7 +3,7 @@ use rand::Rng;
 use super::Size;
 
 /// A `Point` represents a position in space
-#[derive(Clone, Default)]
+#[derive(Clone, Default, Debug)]
 pub struct Point {
     pub x: f64,
     pub y: f64
@@ -13,6 +13,13 @@ impl Point {
     /// Returns a new `Point` with the given coordinates
     pub fn new(x: f64, y: f64) -> Point {
         Point { x: x, y: y}
+    }
+
+    pub fn new_by_radius_angle(radius: f64, angle:f64) -> Point {
+        Point {
+            x: radius * angle.sin(),
+            y: radius * angle.cos(),
+        }
     }
 
     /// Returns a random `Point` within the given bounds (exclusive)
