@@ -42,17 +42,36 @@ impl Wave {
             let range_of_angle_indices = 0..(angle_indices_in_range + 1);
             let angles = range_of_angle_indices.map(|x| x as f64 * (segment[1] - segment[0]) / angle_indices_in_range as f64 + segment[0]);
 
-            let points = angles.map(
-                |angle| {
+            let angles_vec = angles.collect::<Vec<_>>();
+
+            let outer_points = angles_vec.iter().map(
+                |&angle| {
                     Point::new_by_radius_angle(self.radius, angle).translate(&self.position)
                 });
 
-            let vertices = points
+            let inner_points = angles_vec.iter().map(
+                |&angle| {
+                    Point::new_by_radius_angle(self.radius - 10., angle).translate(&self.position)
+                }).rev();
+
+            //let all_points = outer_points.chain(inner_points);
+
+            let vertices = outer_points
                 .map(|p| Vec2d::from(p))
                 .collect::<Vec<Vec2d>>();
 
             Polygon::new([0.5, 1.0, 0.0, 1.0])
                 .draw(&vertices,
+                      &c.draw_state,
+                      c.transform,
+                      gl);
+
+            let vertices_inner = inner_points
+                .map(|p| Vec2d::from(p))
+                .collect::<Vec<Vec2d>>();
+
+            Polygon::new([1.0, 0.0, 0.0, 1.0])
+                .draw(&vertices_inner,
                       &c.draw_state,
                       c.transform,
                       gl);
