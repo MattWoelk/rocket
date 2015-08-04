@@ -9,6 +9,7 @@ use graphics::math::Vec2d;
 use opengl_graphics::GlGraphics;
 
 const TAU: f64 = f64::consts::PI * 2.;
+const WAVE_SPEED_PER_SECOND: f64 = 500.;
 
 /// Enemies follow the player in order to cause a collision and let him explode
 pub struct Wave {
@@ -60,8 +61,7 @@ impl Wave {
 
     /// Update the wave
     pub fn update(&mut self, dt: f64) {
-        // Point to the player
-        self.radius += 100.0 * dt;
+        self.radius += WAVE_SPEED_PER_SECOND * dt;
     }
 }
 

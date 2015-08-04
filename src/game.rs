@@ -16,7 +16,7 @@ use traits::{Advance, Collide, Position};
 
 use sdl2::controller::Axis;
 
-const BULLET_RATE: f64 = 1.;
+const BULLET_RATE: f64 = 0.3;
 
 /// The data structure that drives the game
 pub struct Game {
@@ -43,12 +43,22 @@ struct Actions {
 }
 
 /// Timers to handle creation of bullets, enemies and particles
-#[derive(Default)]
 struct Timers {
     current_time: f64,
     last_tail_particle: f64,
     last_shoot: f64,
     last_spawned_enemy: f64
+}
+
+impl Timers {
+    fn new() -> Self {
+        Timers {
+            current_time: 0.,
+            last_tail_particle: 0.,
+            last_shoot: 0.,
+            last_spawned_enemy: 0.,
+        }
+    }
 }
 
 /// Additional resources needed for the game
@@ -64,7 +74,7 @@ impl Game {
             world: World::new(&mut rng, size),
             score: 0,
             actions: Actions::default(),
-            timers: Timers::default(),
+            timers: Timers::new(),
             rng: rng,
             resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
         }
