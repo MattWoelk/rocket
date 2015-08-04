@@ -38,7 +38,8 @@ Rings
             [done] draw it for real
                 [done] convert from Point to vec2d
                 [done] make polygon
-        [] limit firing rate to one per x
+        [done] limit firing rate to one per second
+        [] fix firing rate so the first shot happens.
         [] draw 2 layers of polygon
         [] draw a pretend circle
             takes in two angles, and draws between them

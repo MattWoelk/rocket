@@ -16,7 +16,7 @@ use traits::{Advance, Collide, Position};
 
 use sdl2::controller::Axis;
 
-const BULLET_RATE: f64 = 0.01;
+const BULLET_RATE: f64 = 1.;
 
 /// The data structure that drives the game
 pub struct Game {
