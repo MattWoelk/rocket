@@ -1,9 +1,10 @@
 use rand::Rng;
 
 use super::Size;
+use graphics::math::Vec2d;
 
 /// A `Point` represents a position in space
-#[derive(Clone, Default, Debug)]
+#[derive(Clone, Copy, Default, Debug)]
 pub struct Point {
     pub x: f64,
     pub y: f64
@@ -55,5 +56,11 @@ impl Point {
 
     pub fn radians(self) -> f64 {
         self.y.atan2(self.x)
+    }
+}
+
+impl From<Point> for Vec2d {
+    fn from(p: Point) -> Self {
+        [p.x, p.y]
     }
 }

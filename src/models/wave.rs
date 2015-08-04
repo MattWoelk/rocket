@@ -4,7 +4,8 @@ use drawing::Point;
 use super::Pose;
 use traits::{Advance, Collide, Position};
 
-use graphics::{Context, Ellipse};
+use graphics::{Context, Polygon};
+use graphics::math::Vec2d;
 use opengl_graphics::GlGraphics;
 
 const TAU: f64 = f64::consts::PI * 2.;
@@ -45,20 +46,15 @@ impl Wave {
                     Point::new_by_radius_angle(self.radius, angle).translate(&self.position)
                 });
 
-            for point in points {
-                let y = point.y;
-                let x = point.x;
-                let r = 1.;
+            let vertices = points
+                .map(|p| Vec2d::from(p))
+                .collect::<Vec<Vec2d>>();
 
-                Ellipse::new([1.0, 0.0, 0.0, 1.0]).draw(
-                    [
-                        x - r + 10.0,
-                        y - r + 10.0,
-                        2.0 * r - 20.0,
-                        2.0 * r - 20.0
-                    ],
-                    &c.draw_state, c.transform, gl);
-            }
+            Polygon::new([0.5, 1.0, 0.0, 1.0])
+                .draw(&vertices,
+                      &c.draw_state,
+                      c.transform,
+                      gl);
         }
     }
 

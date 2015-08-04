@@ -33,7 +33,13 @@ Rings
     [] change circle colour depending on which button was pressed
     [] change circle to be an "arc", which is a polygon.
         Needs to be a list of arc sections that wrap around 0 properly.
-        [] draw a polygon
+        [done] draw a polygon
+            [done] draw vertices of a polygon
+            [done] draw it for real
+                [done] convert from Point to vec2d
+                [done] make polygon
+        [] limit firing rate to one per x
+        [] draw 2 layers of polygon
         [] draw a pretend circle
             takes in two angles, and draws between them
             draws forward from one to the other (even if 0 gets in the way)
