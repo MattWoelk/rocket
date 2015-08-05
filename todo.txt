@@ -41,6 +41,9 @@ Rings
         [done] limit firing rate to one per second
         [done] fix firing rate so the first shot happens.
         [] draw 2 layers of polygon
+            [] fix them
+                [] make a pause button for debugging purposes
+                [] with a "step" button once paused
         [] draw a pretend circle
             takes in two angles, and draws between them
             draws forward from one to the other (even if 0 gets in the way)

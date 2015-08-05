@@ -39,7 +39,8 @@ pub struct Game {
 struct Actions {
     player_velocity: Point,
     boost: bool,
-    shoot: bool
+    shoot: bool,
+    pause: bool,
 }
 
 /// Timers to handle creation of bullets, enemies and particles
@@ -98,6 +99,7 @@ impl Game {
             Key::Up => self.actions.player_velocity.y = if pressed {-32768.} else {0.},
             Key::Down => self.actions.player_velocity.y = if pressed {32768.} else {0.},
             Key::Space => self.actions.shoot = pressed,
+            Key::P => self.actions.pause = pressed,
             _ => ()
         }
     }
@@ -136,6 +138,10 @@ impl Game {
     ///
     /// `dt` is the amount of seconds that have passed since the last update
     pub fn update(&mut self, dt: f64) {
+        if self.actions.pause {
+            println!("PAUSED!");
+            return;
+        }
         self.timers.current_time += dt;
 
         // Update rocket rotation
