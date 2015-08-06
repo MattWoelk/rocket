@@ -12,8 +12,9 @@ mod traits;
 
 use glutin_window::GlutinWindow;
 use opengl_graphics::{GlGraphics, OpenGL};
-use piston::event::{Event, Events, EventLoop, RenderEvent};
-use piston::input::{Button, Input};
+//use piston::event::{EventLoop, RenderEvent};
+use piston::event_loop::{EventLoop};
+use piston::input::{Event, Button, Input};
 use piston::window::WindowSettings;
 
 use drawing::Size;
@@ -66,7 +67,7 @@ fn main() {
         println!("Couldn't open any controller");
     }
 
-    let opengl = OpenGL::_3_2;
+    let opengl = OpenGL::V3_2;
 
     let window: GlutinWindow =
         WindowSettings::new("Rocket", [1024, 600])
