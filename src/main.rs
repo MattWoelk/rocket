@@ -14,9 +14,6 @@ use graphics::math::Vec2d;
 use graphics::{Transformed};
 use opengl_graphics::glyph_cache::GlyphCache;
 
-use std::f64;
-const TAU: f64 = f64::consts::PI * 2.;
-
 fn main() {
     // Initialization stuff
     let opengl = OpenGL::_3_2;
@@ -44,50 +41,35 @@ fn main() {
 
 
 fn draw_polygon(c: &Context, gl: &mut GlGraphics) {
-    let angle_segments = vec![[TAU * 1./6., TAU * 1./3.]];
-    let sides_per_one_radian = 32. / TAU;
-    let radius = 500.0;
-    let position = Point::new(00.0, 300.0);
+    let vertices = [
+        [433.0127018922193, 550.0],
+        [475.52825814757676, 454.5084971874737],
+        [497.2609476841366, 352.26423163382685],
+        [497.2609476841367, 247.73576836617332],
+        [475.5282581475768, 145.49150281252633],
+        [433.01270189221935, 50.000000000000114],
+        [398.3716857408418, 70.00000000000011],
+        [437.4859974957707, 157.85218258752423],
+        [457.4800718694058, 251.91690689687948],
+        [457.4800718694057, 348.0830931031207],
+        [437.4859974957706, 442.14781741247583],
+        [398.37168574084177, 530.0]
+    ];
 
-    for segment in &angle_segments {
-        let angle_indices_in_range = ((segment[1] - segment[0]) * sides_per_one_radian) as i64;
-        let range_of_angle_indices = 0..(angle_indices_in_range + 1);
-        let angles = range_of_angle_indices.map(|x| x as f64 * (segment[1] - segment[0]) / angle_indices_in_range as f64 + segment[0]);
+    Polygon::new([0.0, 0.5, 0.0, 1.0])
+        .draw(&vertices,
+              &c.draw_state,
+              c.transform,
+              gl);
 
-        let angles_vec = angles.collect::<Vec<_>>();
-
-        let outer_points = angles_vec.iter().map(
-            |&angle| {
-                Point::new_by_radius_angle(radius, angle).translate(&position)
-            });
-
-        let inner_points = angles_vec.iter().map(
-            |&angle| {
-                Point::new_by_radius_angle(radius - 40., angle).translate(&position)
-            }).rev();
-
-        let all_points = outer_points.chain(inner_points);
-
-        let vertices: Vec<Vec2d> = all_points
-            .map(|p| Vec2d::from(p))
-            .collect();
-
-
-        Polygon::new([0.0, 0.5, 0.0, 1.0])
-            .draw(&vertices,
-                  &c.draw_state,
-                  c.transform,
-                  gl);
-
-        for (i, p) in vertices.iter().enumerate() {
-            let mut text = graphics::Text::new(24);
-            text.color = [1.0, 0.5, 0.0, 1.0];
-            text.draw(&format!("{}", i),
-            &mut GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap(),
-            &c.draw_state,
-            c.trans(p[0], p[1]).transform,
-            gl);
-        }
+    for (i, p) in vertices.iter().enumerate() {
+        let mut text = graphics::Text::new(24);
+        text.color = [1.0, 0.5, 0.0, 1.0];
+        text.draw(&format!("{}", i),
+        &mut GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap(),
+        &c.draw_state,
+        c.trans(p[0], p[1]).transform,
+        gl);
     }
 }
 
