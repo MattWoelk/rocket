@@ -10,7 +10,6 @@ use piston::window::WindowSettings;
 
 use std::path::Path;
 use graphics::{Context, Polygon};
-use graphics::math::Vec2d;
 use graphics::{Transformed};
 use opengl_graphics::glyph_cache::GlyphCache;
 
@@ -70,40 +69,5 @@ fn draw_polygon(c: &Context, gl: &mut GlGraphics) {
         &c.draw_state,
         c.trans(p[0], p[1]).transform,
         gl);
-    }
-}
-
-
-/// A `Point` represents a position in space
-#[derive(Clone, Copy, Default, Debug)]
-pub struct Point {
-    pub x: f64,
-    pub y: f64
-}
-
-impl Point {
-    /// Returns a new `Point` with the given coordinates
-    pub fn new(x: f64, y: f64) -> Point {
-        Point { x: x, y: y}
-    }
-
-    pub fn new_by_radius_angle(radius: f64, angle:f64) -> Point {
-        Point {
-            x: radius * angle.sin(),
-            y: radius * angle.cos(),
-        }
-    }
-
-    /// Translates the point by another point
-    pub fn translate(mut self, other: &Point) -> Point {
-        self.x += other.x;
-        self.y += other.y;
-        self
-    }
-}
-
-impl From<Point> for Vec2d {
-    fn from(p: Point) -> Self {
-        [p.x, p.y]
     }
 }
