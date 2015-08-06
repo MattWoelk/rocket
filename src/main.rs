@@ -46,8 +46,8 @@ fn main() {
 fn draw_polygon(c: &Context, gl: &mut GlGraphics) {
     let angle_segments = vec![[TAU * 1./6., TAU * 1./3.]];
     let sides_per_one_radian = 32. / TAU;
-    let radius = 300.0;
-    let position = Point::new(300.0, 300.0);
+    let radius = 500.0;
+    let position = Point::new(00.0, 300.0);
 
     for segment in &angle_segments {
         let angle_indices_in_range = ((segment[1] - segment[0]) * sides_per_one_radian) as i64;
