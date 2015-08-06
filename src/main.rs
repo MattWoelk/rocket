@@ -1,9 +1,7 @@
 extern crate glutin_window;
 extern crate graphics;
-extern crate itertools;
 extern crate opengl_graphics;
 extern crate piston;
-extern crate rand;
 
 use glutin_window::GlutinWindow;
 use opengl_graphics::{GlGraphics, OpenGL};
