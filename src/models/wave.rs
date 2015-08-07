@@ -4,7 +4,7 @@ use drawing::Point;
 use super::Pose;
 use traits::{Advance, Collide, Position};
 
-use graphics::{Context, Polygon};
+use graphics::{Context, Line};
 use graphics::math::Vec2d;
 use opengl_graphics::GlGraphics;
 
@@ -51,11 +51,16 @@ impl Wave {
                 .map(|p| Vec2d::from(p))
                 .collect::<Vec<Vec2d>>();
 
-            Polygon::new([0.5, 1.0, 0.0, 1.0])
-                .draw(&vertices,
-                      &c.draw_state,
-                      c.transform,
-                      gl);
+            let line_colour = [0.5, 1.0, 0.0, 1.0];
+            let line_width = 3.0;
+            for pair in vertices.windows(2) {
+                let line = [pair[0][0], pair[0][1], pair[1][0], pair[1][1]];
+                Line::new(line_colour, line_width)
+                    .draw(line,
+                          &c.draw_state,
+                          c.transform,
+                          gl);
+            }
         }
     }
 
