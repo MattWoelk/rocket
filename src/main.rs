@@ -1,4 +1,5 @@
 extern crate glutin_window;
+extern crate piston_window;
 extern crate graphics;
 extern crate itertools;
 extern crate opengl_graphics;
@@ -10,14 +11,12 @@ mod game;
 mod models;
 mod traits;
 
-use glutin_window::GlutinWindow;
-use opengl_graphics::{GlGraphics, OpenGL};
-//use piston::event::{EventLoop, RenderEvent};
-use piston::event_loop::{EventLoop};
-use piston::input::{Event, Button, Input};
-use piston::window::WindowSettings;
-
+use opengl_graphics::GlGraphics;
 use drawing::Size;
+
+use piston_window::{Event, Events, Button, Input, EventLoop, OpenGL};
+use piston_window::{PistonWindow, WindowSettings};
+
 use game::Game;
 
 extern crate sdl2;
@@ -69,12 +68,13 @@ fn main() {
 
     let opengl = OpenGL::V3_2;
 
-    let window: GlutinWindow =
+    let window: PistonWindow =
         WindowSettings::new("Rocket", [1024, 600])
             .exit_on_esc(true)
             .opengl(opengl)
             .samples(8)
-            .into();
+            .build()
+            .unwrap();
 
     let mut gl = GlGraphics::new(opengl);
 

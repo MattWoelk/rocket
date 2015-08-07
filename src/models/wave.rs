@@ -54,9 +54,9 @@ impl Wave {
                     Point::new_by_radius_angle(self.radius - 10., angle).translate(&self.position)
                 }).rev();
 
-            //let all_points = outer_points.chain(inner_points);
+            let all_points = outer_points.chain(inner_points);
 
-            let vertices = outer_points
+            let vertices = all_points
                 .map(|p| Vec2d::from(p))
                 .collect::<Vec<Vec2d>>();
 
@@ -66,15 +66,15 @@ impl Wave {
                       c.transform,
                       gl);
 
-            let vertices_inner = inner_points
-                .map(|p| Vec2d::from(p))
-                .collect::<Vec<Vec2d>>();
+            //let vertices_inner = inner_points
+            //    .map(|p| Vec2d::from(p))
+            //    .collect::<Vec<Vec2d>>();
 
-            Polygon::new([1.0, 0.0, 0.0, 1.0])
-                .draw(&vertices_inner,
-                      &c.draw_state,
-                      c.transform,
-                      gl);
+            //Polygon::new([1.0, 0.0, 0.0, 1.0])
+            //    .draw(&vertices_inner,
+            //          &c.draw_state,
+            //          c.transform,
+            //          gl);
         }
     }
 

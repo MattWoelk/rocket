@@ -4,10 +4,17 @@ version = "0.1.0"
 authors = ["Adolfo Ochagavía <aochagavia92@gmail.com>"]
 
 [dependencies]
+gfx = "0.6.5"
+gfx_device_gl = "0.4.1"
+piston = "0.9.0"
+piston2d-gfx_graphics = "0.4.0"
+piston2d-graphics = "0.4.1"
+shader_version = "0.2.0"
+pistoncore-glutin_window = "0.11.0"
+
+piston_window = "0.14"
+
 itertools = "0.3"
-piston = "*"
-piston2d-graphics = "*"
-pistoncore-glutin_window = "*"
 piston2d-opengl_graphics = "*"
 rand = "0.3"
 sdl2 = "0.5"
