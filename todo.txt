@@ -40,10 +40,12 @@ Rings
                 [done] make polygon
         [done] limit firing rate to one per second
         [done] fix firing rate so the first shot happens.
-        [] draw 2 layers of polygon
-        [] draw a pretend circle
+        [nope] draw 2 layers of polygon
+        [done] draw a pretend circle
             takes in two angles, and draws between them
             draws forward from one to the other (even if 0 gets in the way)
+            [done] draw it as thick lines instead of polygons
+            [done] thicken the lines.
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
 Draw images to the screen

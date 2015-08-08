@@ -57,7 +57,7 @@ impl Wave {
                 .collect::<Vec<Vec2d>>();
 
             let line_colour = [0.5, 1.0, 0.0, 1.0];
-            let line_width = 3.0;
+            let line_width = 8.0;
             for pair in vertices.windows(2) {
                 let line = [pair[0][0], pair[0][1], pair[1][0], pair[1][1]];
                 Line::new(line_colour, line_width)
