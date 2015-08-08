@@ -15,7 +15,7 @@ const WAVE_SPEED_PER_SECOND: f64 = 500.;
 pub struct Wave {
     position: Point,
     vector: Pose,
-    radius: f64,
+    pub radius: f64,
     angle_segments: Vec<[f64; 2]>,
 }
 
@@ -29,7 +29,12 @@ impl Wave {
             position: position,
             vector: vector,
             radius: 30.0,
-            angle_segments: vec![[TAU * 1./6., TAU * 1./3.]],
+            angle_segments: vec![
+                [TAU * 1./8., TAU * 2./8.],
+                [TAU * 3./8., TAU * 4./8.],
+                [TAU * 5./8., TAU * 6./8.],
+                [TAU * 7./8., TAU * 8./8.]
+            ],
         }
     }
 

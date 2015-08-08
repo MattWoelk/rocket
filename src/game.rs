@@ -183,6 +183,7 @@ impl Game {
         { // Shorten the lifetime of size
         let size = &self.world.size;
         self.world.bullets.retain(|b| size.contains(b.position()));
+        self.world.waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
         }
 
         // Spawn enemies at random locations
