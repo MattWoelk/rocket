@@ -1,7 +1,5 @@
-== GOALS for car-fighter port ==
+== GOALS for Wave Game ==
 [] read through entire rocket program and make sure I understand EVERYTHING about it.
-To hold entities and render them to the screen
-    all of them are rectangles
 User Input
     [done] Keyboard
     [] Controller
@@ -11,6 +9,7 @@ User Input
             Yup, for each poll_iter, perfect.
         [] decrease the dead-zone size for more accuracy
             OR keep it, but make it a better equation
+            OR make it take into account both axes when figuring out the threshold.
         [] register new controllers when they're plugged in after the game starts.
 Dot Physics
     [] change angle_radians to "turns", which I like better for angles.
@@ -73,3 +72,5 @@ Tools
     [] Make functions to allow the use of hsl and other non-RGB colour types.
         Use these? https://github.com/servo/rust-css/blob/master/color.rs
         Maybe build these into drawing::color if it's not already there?
+    [] Make a VERY EASY way to show a text overlay of things as they happen.
+        A scrolling list, like a terminal where messages are popping up.
