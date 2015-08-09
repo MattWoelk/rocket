@@ -48,8 +48,9 @@ Rings
             [done] thicken the lines.
     [] make rings destroy enemies when touching.
         Treat them as a series of rectangles
-            [] Make the ring thickness a property of the wave
-            [] and the colour
+            [done] Make the ring thickness a property of the wave
+            [done] and the colour
+    [] remove old bullet system
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
 Draw images to the screen

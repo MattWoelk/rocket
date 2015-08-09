@@ -17,6 +17,8 @@ pub struct Wave {
     vector: Pose,
     pub radius: f64,
     angle_segments: Vec<[f64; 2]>,
+    colour: [f32; 4],
+    line_width: f64,
 }
 
 derive_position_direction!(Wave);
@@ -35,6 +37,8 @@ impl Wave {
                 [TAU * 5./8., TAU * 6./8.],
                 [TAU * 7./8., TAU * 8./8.]
             ],
+            colour: [0.5, 1.0, 0.0, 1.0],
+            line_width: 8.0,
         }
     }
 
@@ -56,11 +60,9 @@ impl Wave {
                 .map(|p| Vec2d::from(p))
                 .collect::<Vec<Vec2d>>();
 
-            let line_colour = [0.5, 1.0, 0.0, 1.0];
-            let line_width = 8.0;
             for pair in vertices.windows(2) {
                 let line = [pair[0][0], pair[0][1], pair[1][0], pair[1][1]];
-                Line::new(line_colour, line_width)
+                Line::new(self.colour, self.line_width)
                     .draw(line,
                           &c.draw_state,
                           c.transform,
