@@ -11,6 +11,7 @@ User Input
             Yup, for each poll_iter, perfect.
         [] decrease the dead-zone size for more accuracy
             OR keep it, but make it a better equation
+        [] register new controllers when they're plugged in after the game starts.
 Dot Physics
     [] change angle_radians to "turns", which I like better for angles.
         or "angle_turns"
@@ -50,9 +51,14 @@ Rings
         Treat them as a series of rectangles
             [done] Make the ring thickness a property of the wave
             [done] and the colour
+            [] make a rectangle hitbox type
     [] remove old bullet system
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
+    Some resources:
+        http://www.gdcvault.com/play/1022194/Physics-for-Game-Programmers-Robust
+        Bonus points if it's integer only
+            but the we have to choose between having nice 0 to 1 floats or 0-? integers
 Draw images to the screen
     with transparency in backgrounds
 Lasers
@@ -60,3 +66,10 @@ Lasers
     Set up targets to shoot
 Multiple Players
 Resetting the level
+Builds
+    [] Set up TravisCI to build the project on stable, beta, and nightly each night.
+    [] See if it's possible for different versions of major libraries in use, too.
+Tools
+    [] Make functions to allow the use of hsl and other non-RGB colour types.
+        Use these? https://github.com/servo/rust-css/blob/master/color.rs
+        Maybe build these into drawing::color if it's not already there?
