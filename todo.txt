@@ -30,7 +30,7 @@ Dot Physics
         [done] get keyboard working for this, too
 Rings
     [done] make circle grow out of player
-    [] change circle colour depending on which button was pressed
+    [done] change circle colour depending on which button was pressed
     [] change circle to be an "arc", which is a polygon.
         Needs to be a list of arc sections that wrap around 0 properly.
         [done] draw a polygon

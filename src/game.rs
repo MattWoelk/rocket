@@ -14,7 +14,7 @@ use drawing::{color, Point, Size};
 use models::{Bullet, Wave, Enemy, Particle, Pose, World};
 use traits::{Advance, Collide, Position};
 
-use sdl2::controller::Axis;
+use sdl2::controller::{Axis, Button};
 
 const BULLET_RATE: f64 = 0.3;
 
@@ -39,7 +39,10 @@ pub struct Game {
 struct Actions {
     player_velocity: Point,
     boost: bool,
-    shoot: bool
+    shoot: bool,
+    grass: bool,
+    water: bool,
+    fire: bool,
 }
 
 /// Timers to handle creation of bullets, enemies and particles
@@ -98,6 +101,23 @@ impl Game {
             Key::Up => self.actions.player_velocity.y = if pressed {-32768.} else {0.},
             Key::Down => self.actions.player_velocity.y = if pressed {32768.} else {0.},
             Key::Space => self.actions.shoot = pressed,
+            _ => ()
+        }
+    }
+
+    pub fn button_press(&mut self, button: Button) {
+        self.handle_button(button, true);
+    }
+
+    pub fn button_release(&mut self, button: Button) {
+        self.handle_button(button, false);
+    }
+
+    fn handle_button(&mut self, button: Button, pressed: bool) {
+        match button {
+            Button::A => self.actions.grass = pressed,
+            Button::B => self.actions.fire = pressed,
+            Button::X => self.actions.water = pressed,
             _ => ()
         }
     }
@@ -168,6 +188,21 @@ impl Game {
             let bullet_angle = if self.actions.boost {self.rng.gen::<f64>() - 0.5} else {0.};
             self.world.bullets.push(Bullet::new(Pose::new(self.world.player.nose(), self.world.player.angle_radians() + bullet_angle)));
             self.world.waves.push(Wave::new(self.world.player.position().clone()));
+        }
+
+        if self.actions.grass && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
+            self.timers.last_shoot = self.timers.current_time;
+            self.world.waves.push(Wave::new_grass(self.world.player.position().clone()));
+        }
+
+        if self.actions.fire && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
+            self.timers.last_shoot = self.timers.current_time;
+            self.world.waves.push(Wave::new_fire(self.world.player.position().clone()));
+        }
+
+        if self.actions.water && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
+            self.timers.last_shoot = self.timers.current_time;
+            self.world.waves.push(Wave::new_water(self.world.player.position().clone()));
         }
 
         // Advance bullets

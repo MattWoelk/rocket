@@ -42,6 +42,24 @@ impl Wave {
         }
     }
 
+    pub fn new_grass(position: Point) -> Wave {
+        let mut wave = Wave::new(position);
+        wave.colour = [0.5, 1.0, 0.0, 1.0];
+        wave
+    }
+
+    pub fn new_fire(position: Point) -> Wave {
+        let mut wave = Wave::new(position);
+        wave.colour = [1.0, 0.0, 0.5, 1.0];
+        wave
+    }
+
+    pub fn new_water(position: Point) -> Wave {
+        let mut wave = Wave::new(position);
+        wave.colour = [0.0, 0.5, 1.0, 1.0];
+        wave
+    }
+
     /// Draw the wave
     pub fn draw(&self, c: &Context, gl: &mut GlGraphics) {
         let sides_per_one_radian = 128. / TAU;

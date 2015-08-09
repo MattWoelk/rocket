@@ -102,36 +102,10 @@ fn main() {
                             game.handle_axis(axis, val as i32);
                         }
                         SDL2Event::ControllerButtonDown{ button, .. } => {
-                            match button {
-                                sdl2::controller::Button::A => {
-                                    game.key_press(piston::input::Key::Space);
-                                }
-                                sdl2::controller::Button::RightShoulder => {
-                                    game.key_press(piston::input::Key::Up);
-                                }
-                                sdl2::controller::Button::LeftShoulder => {
-                                    game.key_press(piston::input::Key::Up);
-                                }
-                                _ => {
-                                    println!("Button {:?} down", button)
-                                }
-                            }
+                            game.button_press(button);
                         },
                         SDL2Event::ControllerButtonUp{ button, .. } => {
-                            match button {
-                                sdl2::controller::Button::A => {
-                                    game.key_release(piston::input::Key::Space);
-                                }
-                                sdl2::controller::Button::RightShoulder => {
-                                    game.key_release(piston::input::Key::Up);
-                                }
-                                sdl2::controller::Button::LeftShoulder => {
-                                    game.key_release(piston::input::Key::Up);
-                                }
-                                _ => {
-                                    println!("Button {:?} down", button)
-                                }
-                            }
+                            game.button_release(button);
                         }
                         SDL2Event::Quit{..} => break,
                         _ => (),
