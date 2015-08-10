@@ -66,8 +66,12 @@ Lasers
 Multiple Players
 Resetting the level
 Builds
-    [] Set up TravisCI to build the project on stable, beta, and nightly each night.
+    [done] Set up TravisCI to build the project on stable, beta, and nightly each night.
     [] See if it's possible for different versions of major libraries in use, too.
+    [] set up multiple binaries in cargo, so we can test different levels
+        So we can make test levels dedicated to things like collisions.
+        OR maybe there's a better way?
+            I just want to be able to give one command to build and run a certain level.
 Tools
     [] Make functions to allow the use of hsl and other non-RGB colour types.
         Use these? https://github.com/servo/rust-css/blob/master/color.rs
