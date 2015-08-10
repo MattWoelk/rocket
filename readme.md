@@ -1,6 +1,8 @@
 Rocket
 ======
 
+[![Build Status](https://travis-ci.org/MattWoelk/rocket.svg?branch=wave_game)](https://travis-ci.org/MattWoelk/rocket)
+
 > Rocket is a toy game written in Rust, using the Piston library. The code is thoroughly commented in order to help people to follow it easily.
 
 ## Screenshots
