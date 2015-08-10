@@ -3,6 +3,11 @@ rust:
   - stable
   - beta
   - nightly
+before_install:
+  - sudo add-apt-repository ppa:team-xbmc/ppa -y
+  - sudo apt-get update -qq
+install:
+  - sudo apt-get install libsdl2-dev
 matrix:
   allow_failure:
     - rust: nightly
