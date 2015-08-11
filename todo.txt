@@ -1,5 +1,10 @@
 == GOALS for Wave Game ==
 [] read through entire rocket program and make sure I understand EVERYTHING about it.
+[] reconfigure the repo as I like
+    [] rename "Size" to something that makes more sense, like "Location" or "Area".
+        but it's not really an area, as it's just a vector (2 data points)
+        so size does make sense, but it's too vague.
+[] make rocket its own repository
 User Input
     [done] Keyboard
     [] Controller

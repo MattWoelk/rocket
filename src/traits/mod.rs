@@ -24,7 +24,7 @@ pub trait Position {
     }
 }
 
-/// A trait for objects that have can move in a given direction
+/// A trait for objects that can move in a given direction
 pub trait Advance: Position {
     /// Returns the direction of the object
     fn angle_radians(&self) -> f64;
