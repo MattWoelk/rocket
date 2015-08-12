@@ -9,6 +9,7 @@ mod drawing;
 mod game;
 mod models;
 mod traits;
+mod collision;
 
 use glutin_window::GlutinWindow;
 use opengl_graphics::{GlGraphics, OpenGL};
