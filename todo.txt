@@ -63,6 +63,8 @@ Collisions being detected between objects
         http://www.gdcvault.com/play/1022194/Physics-for-Game-Programmers-Robust
         Bonus points if it's integer only
             but the we have to choose between having nice 0 to 1 floats or 0-? integers
+    [] Make a Graham Scan algorithm to produce 2D convex hulls for lists of points
+        https://en.wikipedia.org/wiki/Graham_scan
 Draw images to the screen
     with transparency in backgrounds
 Lasers
