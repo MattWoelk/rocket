@@ -37,6 +37,10 @@ impl Point {
         + (self.y - target.y) * (self.y - target.y)
     }
 
+    pub fn distance_to_point(&self, point: &Point) -> f64 {
+        point.squared_distance_to(point).sqrt()
+    }
+
     /// Rotates the point through the origin in the given angle (radians)
     pub fn rotate(mut self, radians: f64) -> Point {
         let radius = (self.x * self.x + self.y * self.y).sqrt();
