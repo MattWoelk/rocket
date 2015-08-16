@@ -17,29 +17,20 @@ struct ContactManifold {
     normal: Vec2d,
 }
 
-// TODO: figure out if all the combinations of collisions
-//       should be in an enum, or trait, or something different?
-//       - an enum with structs in it!
-enum Collidable {
-    Circle { radius: f64, centre: Point },
-//    Capsule2D,
-//    Hull2D,
-//    Mesh2D,
+
+
+trait Collidable {
+    fn collide_with_circle(&self, &Circle) -> bool;
+    // TODO: add each new type here, and then all will be enforced.
 }
 
-//struct CircleHitbox {
-//    radius: f64,
-//    centre: Point,
-//}
+struct Circle {
+    radius: f64,
+    centre: Point,
+}
 
-fn collides(a: Collidable, b: Collidable) -> bool {
-    match a {
-        Collidable::Circle {radius:r, centre:c} => {
-            match b {
-                Collidable::Circle {radius:r2, centre:c2} => {
-                    c.distance_to_point(&c2) < r + r2
-                }
-            }
-        }
+impl Collidable for Circle {
+    fn collide_with_circle(&self, circle: &Circle) -> bool {
+        self.centre.distance_to_point(&circle.centre) < self.radius + circle.radius
     }
 }
