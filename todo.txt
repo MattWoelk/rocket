@@ -64,7 +64,12 @@ Collisions being detected between objects
         Bonus points if it's integer only
             but the we have to choose between having nice 0 to 1 floats or 0-? integers
     [] do basic intersection detection for some basic types
-        like "are these rectangles intersection?"
+        [] point in circle
+        [] circle in circle
+        [] point in rectangle
+        [] circle in rectangle
+        [] make tests where two shapes run at each other,
+           and change colour when they are intersecting
     [] Make a Graham Scan algorithm to produce 2D convex hulls for lists of points
         https://en.wikipedia.org/wiki/Graham_scan
 Draw images to the screen

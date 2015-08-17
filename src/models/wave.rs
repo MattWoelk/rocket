@@ -71,7 +71,7 @@ impl Wave {
 
             let points = angles.map(
                 |angle| {
-                    Point::new_by_radius_angle(self.radius, angle).translate(&self.position)
+                    Point::new_by_radius_angle(self.radius, angle).translate(self.position)
                 });
 
             let vertices = points

@@ -48,7 +48,7 @@ impl Player {
     pub fn nose(&self) -> Point {
         Point::new(POLYGON[1][0], POLYGON[1][1])
             .rotate(self.angle_radians())
-            .translate(&self.position())
+            .translate(self.position())
     }
 }
 

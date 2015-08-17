@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::ops::{Add, Sub};
 
 use super::Size;
 use graphics::math::Vec2d;
@@ -32,12 +33,12 @@ impl Point {
     }
 
     /// Returns the squared distance from this point to the given one
-    pub fn squared_distance_to(&self, target: &Point) -> f64 {
+    pub fn squared_distance_to(&self, target: Point) -> f64 {
         (self.x - target.x) * (self.x - target.x)
         + (self.y - target.y) * (self.y - target.y)
     }
 
-    pub fn distance_to_point(&self, point: &Point) -> f64 {
+    pub fn distance_to_point(&self, point: Point) -> f64 {
         point.squared_distance_to(point).sqrt()
     }
 
@@ -52,7 +53,7 @@ impl Point {
     }
 
     /// Translates the point by another point
-    pub fn translate(mut self, other: &Point) -> Point {
+    pub fn translate(mut self, other: Point) -> Point {
         self.x += other.x;
         self.y += other.y;
         self
@@ -61,10 +62,44 @@ impl Point {
     pub fn radians(self) -> f64 {
         self.y.atan2(self.x)
     }
+
+    pub fn dot(&self, p: Point) -> f64 {
+        (self.x * p.x) + (self.y * p.y)
+    }
+
+    pub fn cross(&self, p: Point) -> f64 {
+        (self.x * p.y) - (self.y * p.x)
+    }
+
+    pub fn abs(&self) -> f64 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
 }
 
 impl From<Point> for Vec2d {
     fn from(p: Point) -> Self {
         [p.x, p.y]
+    }
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, other: Point) -> Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
+impl Sub for Point {
+    type Output = Point;
+
+    fn sub(self, other: Point) -> Point {
+        Point {
+            x: self.x - other.x,
+            y: self.y - other.y,
+        }
     }
 }
