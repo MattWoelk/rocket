@@ -1,6 +1,6 @@
 //! Collision detection tools
 
-#![allow(dead_code)]
+#![allow(dead_code, unused_variables)]
 // TODO: ^ get rid of this
 
 use std::f64;
@@ -42,16 +42,27 @@ struct LineSegment {
 }
 
 impl LineSegment {
-    fn point_is_to_the_left(&self, p: Point) -> bool {
+    fn new(p1: Point, p2: Point) -> LineSegment {
+        LineSegment {
+            a: p1,
+            b: p2,
+        }
+    }
+
+    fn point_is_on_side(&self, p: Point) -> f64 {
         let v1 = self.b - self.a;
         let v2 = p - self.a;
-        v1.cross(v2) > 0.
-            // TODO: verify if this is backward or not
 
-        // TODO: Could this be done with dot product itself?
-        //let line_to_point = LineSegment{a: self.a, b: p};
-        //let angle = self.angle_to_line(line_to_point);
-        //angle < TAU/2.
+        let p1 = self.a;
+        let p2 = self.b;
+        let p3 = p;
+
+        v1.cross(v2)
+
+        // TODO: New algorithm: dot product of the NORMAL line to the line,
+        // and a line from any point on the line to the p Point.
+        // This will return an f64 whose sign is useful to determine the side.
+        // This should help resolve the problem where this is used below.
     }
 
     fn angle_to_line(&self, line: LineSegment) -> f64 {
@@ -110,6 +121,31 @@ impl AABB {
     }
 }
 
+struct IsoscelesTriangle {
+    peak: Point,
+    middle_of_base: Point,
+    width: f64,
+}
+
+impl IsoscelesTriangle {
+    fn three_points(&self) -> (Point, Point, Point) {
+        let centre_vector = self.middle_of_base - self.peak;
+        let perpendicular_line = centre_vector.normal();
+        let p1 = self.middle_of_base.translated(perpendicular_line.unit_vector().multiply_by_scalar(self.width / 2.));
+        let p2 = self.middle_of_base.translated(perpendicular_line.unit_vector().multiply_by_scalar(self.width / -2.));
+
+        (
+            self.peak,
+            p1,
+            p2,
+        )
+    }
+
+    fn new_from_angle_peak_and_height(angle: f64, peak: Point, height: f64) -> IsoscelesTriangle {
+        unimplemented!()
+    }
+}
+
 impl Collidable for Circle {
     fn collide_with_circle(&self, circle: &Circle) -> bool {
         self.centre.distance_to_point(circle.centre) < self.radius + circle.radius
@@ -127,11 +163,29 @@ impl Collidable for AABB {
 
     fn collide_with_point(&self, point: Point) -> bool {
         unimplemented!()
-        // TODO: use the new point_is_to_the_left() one each line
+        // TODO: use the new point_is_on_side() one each line
         //       of the rectangle to see if the point lies within
         // TODO: !!!! May run into problems with equality,
         //       because if one is on the line, but the rest are in or out,
         //       then it might not register them as all being the same...
 
+    }
+}
+
+impl Collidable for IsoscelesTriangle {
+    fn collide_with_circle(&self, circle: &Circle) -> bool {
+        unimplemented!()
+    }
+
+    fn collide_with_point(&self, point: Point) -> bool {
+        // TODO: This should be rewritten generically
+        //       so it can be reused for any polygon.
+        let (p1, p2, p3) = self.three_points();
+        let winding_1 = LineSegment::new(p1, p2).point_is_on_side(point);
+        let winding_2 = LineSegment::new(p2, p3).point_is_on_side(point);
+        let winding_3 = LineSegment::new(p3, p1).point_is_on_side(point);
+
+        (winding_1 >= 0. && winding_2 >= 0. && winding_3 >= 0.) ||
+        (winding_1 <= 0. && winding_2 <= 0. && winding_3 <= 0.)
     }
 }
