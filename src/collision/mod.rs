@@ -49,6 +49,7 @@ impl LineSegment {
         }
     }
 
+    /// TODO: document which side >0 is, etc.
     fn point_is_on_side(&self, p: Point) -> f64 {
         let v1 = self.b - self.a;
         let v2 = p - self.a;

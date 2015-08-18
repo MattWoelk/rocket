@@ -64,7 +64,18 @@ Collisions being detected between objects
         Bonus points if it's integer only
             but the we have to choose between having nice 0 to 1 floats or 0-? integers
     [] do basic intersection detection for some basic types
-        [] point in circle
+        [done] point in circle
+        [done] point in triangle
+        [] point in arc
+            http://stackoverflow.com/questions/6307114/android-2d-arc-collision-detection
+                may not work 100% because of the case where the angle is TAU/2.
+                [] angle < TAU/2
+                    use the method above
+                [] angle = TAU/2
+                    check to-the-right of a line made through the circle
+                [] angle > TAU/2
+                    use the 1st method, but invert the check
+                    (so we check if it is NOT within the triangle)
         [] circle in circle
         [] point in rectangle
         [] circle in rectangle
