@@ -76,6 +76,12 @@ Collisions being detected between objects
                 [] angle > TAU/2
                     use the 1st method, but invert the check
                     (so we check if it is NOT within the triangle)
+                OR we can simplify it!!!! by checking "to the right" of lines.
+                lines A and B go from circle origin out, angle distance apart
+                if angle <= TAU/2
+                    inside if left of A AND right of B
+                if angle > TAU/2
+                    inside if left of A OR right of B
         [] circle in circle
         [] point in rectangle
         [] circle in rectangle

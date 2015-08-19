@@ -49,7 +49,14 @@ impl LineSegment {
         }
     }
 
-    /// TODO: document which side >0 is, etc.
+    fn new_from_xy_xy(x1: f64, y1: f64, x2: f64, y2: f64) -> LineSegment {
+        LineSegment {
+            a: Point{x:x1, y:y1},
+            b: Point{x:x2, y:y2},
+        }
+    }
+
+    /// If left of line, > 0, if right of line, < 0, if on lone, == 0.
     fn point_is_on_side(&self, p: Point) -> f64 {
         let v1 = self.b - self.a;
         let v2 = p - self.a;
@@ -189,4 +196,17 @@ impl Collidable for IsoscelesTriangle {
         (winding_1 >= 0. && winding_2 >= 0. && winding_3 >= 0.) ||
         (winding_1 <= 0. && winding_2 <= 0. && winding_3 <= 0.)
     }
+}
+
+#[test]
+fn test_sides() {
+    let line = LineSegment::new_from_xy_xy(0., 0., 5., 5.);
+    let point_left_of_line = Point::new(1., 9.);
+    assert_eq!(line.point_is_on_side(point_left_of_line), 40.);
+
+    let point_right_of_line = Point::new(9., 1.);
+    assert_eq!(line.point_is_on_side(point_right_of_line), -40.);
+
+    let point_on_line = Point::new(5., 5.);
+    assert_eq!(line.point_is_on_side(point_on_line), 0.);
 }
