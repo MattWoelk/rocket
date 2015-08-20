@@ -56,7 +56,7 @@ impl LineSegment {
         }
     }
 
-    /// If left of line, > 0, if right of line, < 0, if on lone, == 0.
+    /// If left of line: > 0, if right of line: < 0, if on line: == 0.
     fn point_is_on_side(&self, p: Point) -> f64 {
         let v1 = self.b - self.a;
         let v2 = p - self.a;
@@ -92,6 +92,8 @@ impl LineSegment {
     }
 }
 
+/// TODO: This may not be required, as the general equation for a polygon
+/// should do the job just fine.
 #[derive(Clone, Copy, Default, Debug)]
 struct AABB {
     centre: Point,
@@ -129,6 +131,8 @@ impl AABB {
     }
 }
 
+/// TODO: This is no longer required, as I've found a better way
+/// to check for a point in an arc
 struct IsoscelesTriangle {
     peak: Point,
     middle_of_base: Point,
@@ -164,6 +168,8 @@ impl Collidable for Circle {
     }
 }
 
+/// TODO: This may not be required, as the general equation for a polygon
+/// should do the job just fine.
 impl Collidable for AABB {
     fn collide_with_circle(&self, circle: &Circle) -> bool {
         unimplemented!()
@@ -180,6 +186,8 @@ impl Collidable for AABB {
     }
 }
 
+/// TODO: This is no longer required, as I've found a better way
+/// to check for a point in an arc
 impl Collidable for IsoscelesTriangle {
     fn collide_with_circle(&self, circle: &Circle) -> bool {
         unimplemented!()
