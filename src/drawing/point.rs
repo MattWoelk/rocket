@@ -41,7 +41,7 @@ impl Point {
     }
 
     pub fn distance_to_point(&self, point: Point) -> f64 {
-        point.squared_distance_to(point).sqrt()
+        self.squared_distance_to(point).sqrt()
     }
 
     /// Rotates the point through the origin in the given angle (radians)
@@ -146,5 +146,23 @@ impl Sub for Point {
             x: self.x - other.x,
             y: self.y - other.y,
         }
+    }
+}
+
+#[test]
+fn test_point_distances() {
+    let p1 = Point::new(0., 0.);
+    let p2 = Point::new(0., 4.);
+    assert_eq!(p1.squared_distance_to(p2), 16.);
+    assert_eq!(p1.distance_to_point(p2), 4.);
+
+    let p1 = Point::new(0., 3.);
+    let p2 = Point::new(4., 0.);
+    assert_eq!(p1.distance_to_point(p2), 5.);
+}
+
+impl Into<Point> for (f64, f64) {
+    fn into(self) -> Point {
+        Point { x: self.0, y: self.1 }
     }
 }
