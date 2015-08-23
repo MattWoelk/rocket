@@ -76,6 +76,18 @@ impl Into<LineSegment> for (f64, f64, f64, f64) {
     }
 }
 
+pub struct Polygon<'a> {
+    points: &'a Vec<Point>,
+}
+
+//impl Polygon {
+//    fn new(points: &Vec<Point>) -> Self {
+//        return Polygon {
+//            points: points,
+//        }
+//    }
+//}
+
 impl Collidable for Circle {
     fn collide_with_circle(&self, circle: &Circle) -> bool {
         self.centre.distance_to_point(circle.centre) < self.radius + circle.radius
