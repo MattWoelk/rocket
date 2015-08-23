@@ -42,10 +42,12 @@ pub struct LineSegment {
 }
 
 impl LineSegment {
-    fn new(p1: Point, p2: Point) -> LineSegment {
+    fn new<A>(p1: A, p2: A) -> LineSegment
+        where A: Into<Point>
+    {
         LineSegment {
-            a: p1,
-            b: p2,
+            a: p1.into(),
+            b: p2.into(),
         }
     }
 
@@ -76,17 +78,22 @@ impl Into<LineSegment> for (f64, f64, f64, f64) {
     }
 }
 
-pub struct Polygon<'a> {
-    points: &'a Vec<Point>,
+pub struct Polygon {
+    points: Box<Vec<Point>>,
 }
 
-//impl Polygon {
-//    fn new(points: &Vec<Point>) -> Self {
-//        return Polygon {
-//            points: points,
-//        }
-//    }
-//}
+impl Polygon {
+    fn new<A>(points: Vec<A>) -> Self
+        where A: Into<Point>
+    {
+        Polygon {
+            points: Box::new(points.into_iter().map(|x| {
+                let b: Point = x.into();
+                b
+            }).collect()),
+        }
+    }
+}
 
 impl Collidable for Circle {
     fn collide_with_circle(&self, circle: &Circle) -> bool {
@@ -94,7 +101,7 @@ impl Collidable for Circle {
     }
 
     fn collide_with_point(&self, point: Point) -> bool {
-        return self.centre.distance_to_point(point) < self.radius
+        self.centre.distance_to_point(point) < self.radius
     }
 }
 
@@ -117,4 +124,9 @@ fn test_point_in_circle() {
 
     assert_eq!(circle.collide_with_point(Point::new(1., 1.)), true);
     assert_eq!(circle.collide_with_point(Point::new(5., -5.)), false);
+}
+
+#[test]
+fn test_polygon() {
+    let polygon = Polygon::new(vec![(1., 2.), (3., 4.)]);
 }
