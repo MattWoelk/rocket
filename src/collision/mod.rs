@@ -93,6 +93,13 @@ impl Polygon {
             }).collect()),
         }
     }
+
+    //fn lines(&self) -> Vec<&[&Point]> {
+    //    let len = self.points.len();
+    //    let points_with_extra: Vec<&Point> = self.points.iter().cycle().take(len + 1).collect();
+    //    let lines = points_with_extra.clone().windows(2).into_iter();
+    //    lines.collect()
+    //}
 }
 
 impl Collidable for Circle {
@@ -102,6 +109,25 @@ impl Collidable for Circle {
 
     fn collide_with_point(&self, point: Point) -> bool {
         self.centre.distance_to_point(point) < self.radius
+    }
+}
+
+impl Collidable for Polygon {
+    fn collide_with_circle(&self, circle: &Circle) -> bool {
+        unimplemented!()
+    }
+
+    fn collide_with_point(&self, point: Point) -> bool {
+        let len = self.points.len();
+        let points_with_extra: Vec<&Point> = self.points.iter().cycle().take(len + 1).collect();
+        let lines = points_with_extra.windows(2);
+
+        let lrns: Vec<&[&Point]> = lines.collect();
+
+        println!("{:#?}", lrns);
+
+        // TODO: make sure that the point is on the same side of every line segment
+        unimplemented!()
     }
 }
 
@@ -128,5 +154,8 @@ fn test_point_in_circle() {
 
 #[test]
 fn test_polygon() {
-    let polygon = Polygon::new(vec![(1., 2.), (3., 4.)]);
+    let polygon = Polygon::new(vec![(0., 0.), (4., 0.), (4., 4.)]);
+    let point = Point::new(2., 1.);
+
+    assert_eq!(polygon.collide_with_point(point), true);
 }
