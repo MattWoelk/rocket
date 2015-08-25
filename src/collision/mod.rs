@@ -119,15 +119,16 @@ impl Collidable for Polygon {
 
     fn collide_with_point(&self, point: Point) -> bool {
         let len = self.points.len();
+
+        // TODO: make a Polygon method that gives lines using this method.
         let points_with_extra: Vec<&Point> = self.points.iter().cycle().take(len + 1).collect();
-        let lines = points_with_extra.windows(2);
+        let lines: Vec<LineSegment> = points_with_extra.windows(2).map(|x| LineSegment::new(x[0].clone(), x[1].clone())).collect();
 
-        let lrns: Vec<&[&Point]> = lines.collect();
+        let sides: Vec<f64> = lines.iter().map(|x| x.point_is_on_side(point)).collect();
 
-        println!("{:#?}", lrns);
-
-        // TODO: make sure that the point is on the same side of every line segment
-        unimplemented!()
+        // TODO: optimize this to make a decision as we go using .fold() or similar
+        // though this may be pretty quick already....
+        sides.iter().all(|&x| x <= 0.) || sides.iter().all(|&x| x >= 0.)
     }
 }
 
