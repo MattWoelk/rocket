@@ -25,7 +25,7 @@ struct ContactManifold {
 
 trait Collidable {
     fn collide_with_circle(&self, &Circle) -> bool;
-    fn collide_with_point(&self, Point) -> bool;
+    fn collide_with_point<A>(&self, point: A) -> bool where A: Into<Point>;
     // TODO: add each new type here, and then all will be enforced.
 }
 
@@ -107,8 +107,10 @@ impl Collidable for Circle {
         self.centre.distance_to_point(circle.centre) < self.radius + circle.radius
     }
 
-    fn collide_with_point(&self, point: Point) -> bool {
-        self.centre.distance_to_point(point) < self.radius
+    fn collide_with_point<A>(&self, point: A) -> bool
+        where A: Into<Point>
+    {
+        self.centre.distance_to_point(point.into()) < self.radius
     }
 }
 
@@ -117,14 +119,17 @@ impl Collidable for Polygon {
         unimplemented!()
     }
 
-    fn collide_with_point(&self, point: Point) -> bool {
+    fn collide_with_point<A>(&self, point: A) -> bool
+        where A: Into<Point>
+    {
         let len = self.points.len();
+        let pt = point.into();
 
         // TODO: make a Polygon method that gives lines using this method.
         let points_with_extra: Vec<&Point> = self.points.iter().cycle().take(len + 1).collect();
         let lines: Vec<LineSegment> = points_with_extra.windows(2).map(|x| LineSegment::new(x[0].clone(), x[1].clone())).collect();
 
-        let sides: Vec<f64> = lines.iter().map(|x| x.point_is_on_side(point)).collect();
+        let sides: Vec<f64> = lines.iter().map(|x| x.point_is_on_side(pt)).collect();
 
         // TODO: optimize this to make a decision as we go using .fold() or similar
         // though this may be pretty quick already....
@@ -156,7 +161,7 @@ fn test_point_in_circle() {
 #[test]
 fn test_polygon() {
     let polygon = Polygon::new(vec![(0., 0.), (4., 0.), (4., 4.)]);
-    let point = Point::new(2., 1.);
 
-    assert_eq!(polygon.collide_with_point(point), true);
+    assert_eq!(polygon.collide_with_point((2., 1.)), true);
+    assert_eq!(polygon.collide_with_point((1., 1.)), true);
 }
