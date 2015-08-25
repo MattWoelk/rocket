@@ -164,4 +164,6 @@ fn test_polygon() {
 
     assert_eq!(polygon.collide_with_point((2., 1.)), true);
     assert_eq!(polygon.collide_with_point((1., 1.)), true);
+    assert_eq!(polygon.collide_with_point((-1., -1.)), false);
+    assert_eq!(polygon.collide_with_point((0.5, 0.)), true);
 }
