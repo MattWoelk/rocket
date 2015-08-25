@@ -52,6 +52,8 @@ impl LineSegment {
     }
 
     /// If left of line: > 0, if right of line: < 0, if on line: == 0.
+    // TODO: make this return an enum, rather than cryptic numbers.
+    // Can I get fancy with generics so I can say == left_or_within ?
     fn point_is_on_side(&self, p: Point) -> f64 {
         let v1 = self.b - self.a;
         let v2 = p - self.a;
@@ -102,6 +104,26 @@ impl Polygon {
     //}
 }
 
+pub struct Arc {
+    angle_start: f64,
+    angle_end: f64,
+    thickness: f64,
+    inner_circle: Circle,
+}
+
+impl Arc {
+    fn new<A>(angle_start: f64, angle_end: f64, thickness: f64, circle: A) -> Arc
+        where A: Into<Circle>
+    {
+        Arc {
+            angle_start: angle_start,
+            angle_end: angle_end,
+            thickness: thickness,
+            inner_circle: circle.into(),
+        }
+    }
+}
+
 impl Collidable for Circle {
     fn collide_with_circle(&self, circle: &Circle) -> bool {
         self.centre.distance_to_point(circle.centre) < self.radius + circle.radius
@@ -137,6 +159,44 @@ impl Collidable for Polygon {
     }
 }
 
+impl Collidable for Arc {
+    fn collide_with_circle(&self, circle: &Circle) -> bool {
+        unimplemented!()
+    }
+
+    fn collide_with_point<A>(&self, point: A) -> bool
+        where A: Into<Point>
+    {
+        let pt = point.into();
+        let outer_circle = Circle {
+            radius: self.inner_circle.radius + self.thickness,
+            centre: self.inner_circle.centre
+        };
+
+        let angle_difference = (self.angle_end + TAU) - (self.angle_end + TAU);
+        let line_start = LineSegment::new(
+            Point::new(self.angle_start.cos(), self.angle_start.sin()),
+            self.inner_circle.centre
+        );
+        let line_end = LineSegment::new(
+            Point::new(self.angle_end.cos(), self.angle_end.sin()),
+            self.inner_circle.centre
+        );
+
+        let within_angles = if angle_difference > TAU/2. {
+            line_start.point_is_on_side(pt) <= 0. ||
+                line_end.point_is_on_side(pt) >= 0.
+        } else {
+            line_start.point_is_on_side(pt) <= 0. &&
+                line_end.point_is_on_side(pt) >= 0.
+        };
+
+        !self.inner_circle.collide_with_point(pt) &&
+            outer_circle.collide_with_point(pt) &&
+            within_angles
+    }
+}
+
 #[test]
 fn test_sides() {
     let line: LineSegment = (0., 0., 5., 5.).into();
@@ -166,4 +226,15 @@ fn test_polygon() {
     assert_eq!(polygon.collide_with_point((1., 1.)), true);
     assert_eq!(polygon.collide_with_point((-1., -1.)), false);
     assert_eq!(polygon.collide_with_point((0.5, 0.)), true);
+}
+
+#[test]
+fn test_point_in_arc() {
+    let arc = Arc::new(0., TAU/4., 5., Circle {
+        radius: 5.,
+        centre: Point::new(0., 0.),
+    });
+
+    assert_eq!(arc.collide_with_point((5.1, 0.)), true);
+    assert_eq!(arc.collide_with_point((10.1, 0.)), false);
 }
