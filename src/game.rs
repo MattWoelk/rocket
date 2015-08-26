@@ -158,10 +158,6 @@ impl Game {
     pub fn update(&mut self, dt: f64) {
         self.timers.current_time += dt;
 
-        // Update rocket rotation
-        let direction = self.actions.player_velocity.clone().radians();
-        *self.world.player.direction_mut() = direction;
-
         let displacement = Point {
             x: dt * self.actions.player_velocity.x / 32000.0 * 400.0,
             y: dt * self.actions.player_velocity.y / 32000.0 * 400.0,
@@ -309,5 +305,26 @@ impl Game {
                 particles.push(Particle::new(Pose::new(position.clone(), rotation), ttl));
             }
         }
+    }
+
+    pub fn spawn_circle_with_collision_colouring(&mut self, position: Point) {
+        println!("{:#?}", position);
+        // TODO
+        //let player_position = self.world.player.position();
+        //let circle = Circle {
+        //    radius: 5.,
+        //    centre: position,
+        //};
+
+        // TODO: This rendering needs to be in another place.
+        //let colour = if circle.collide_with_point(player_position) {
+        //    color::BLUE
+        //} else {
+        //    color::RED
+        //};
+
+        //Ellipse::new(colour).draw(
+        //    [circle.centre.x - circle.radius, circle.centre.y - circle.radius, 0., 0.],
+        //    &c.draw_state, c.transform, gl);
     }
 }

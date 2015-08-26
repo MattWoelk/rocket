@@ -101,6 +101,9 @@ fn main() {
         match e {
             Event::Input(Input::Press(Button::Keyboard(key))) => {
                 game.key_press(key);
+                game.spawn_circle_with_collision_colouring(
+                    Point::new(55., 55.),
+                );
             }
 
             Event::Input(Input::Release(Button::Keyboard(key))) => {
