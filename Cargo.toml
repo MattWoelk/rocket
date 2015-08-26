@@ -3,6 +3,13 @@ name = "rocket"
 version = "0.1.0"
 authors = ["Adolfo Ochagavía <aochagavia92@gmail.com>"]
 
+[[bin]]
+name = "main"
+
+[[bin]]
+name = "collision_test"
+path = "src/collision_tests.rs"
+
 [dependencies]
 itertools = "0.3"
 piston = "0.3"

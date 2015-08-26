@@ -23,7 +23,7 @@ struct ContactManifold {
 
 
 
-trait Collidable {
+pub trait Collidable {
     fn collide_with_circle(&self, &Circle) -> bool;
     fn collide_with_point<A>(&self, point: A) -> bool where A: Into<Point>;
     // TODO: add each new type here, and then all will be enforced.
@@ -31,8 +31,8 @@ trait Collidable {
 
 #[derive(Clone, Copy, Default, Debug)]
 pub struct Circle {
-    radius: f64,
-    centre: Point,
+    pub radius: f64,
+    pub centre: Point,
 }
 
 #[derive(Clone, Copy, Default, Debug)]
@@ -42,7 +42,7 @@ pub struct LineSegment {
 }
 
 impl LineSegment {
-    fn new<A>(p1: A, p2: A) -> LineSegment
+    pub fn new<A>(p1: A, p2: A) -> LineSegment
         where A: Into<Point>
     {
         LineSegment {
@@ -80,15 +80,15 @@ impl Into<LineSegment> for (f64, f64, f64, f64) {
     }
 }
 
-pub struct Polygon {
+pub struct ConvexPolygon {
     points: Box<Vec<Point>>,
 }
 
-impl Polygon {
-    fn new<A>(points: Vec<A>) -> Self
+impl ConvexPolygon {
+    pub fn new<A>(points: Vec<A>) -> Self
         where A: Into<Point>
     {
-        Polygon {
+        ConvexPolygon {
             points: Box::new(points.into_iter().map(|x| {
                 let b: Point = x.into();
                 b
@@ -112,7 +112,7 @@ pub struct Arc {
 }
 
 impl Arc {
-    fn new<A>(angle_start: f64, angle_end: f64, thickness: f64, circle: A) -> Arc
+    pub fn new<A>(angle_start: f64, angle_end: f64, thickness: f64, circle: A) -> Arc
         where A: Into<Circle>
     {
         Arc {
@@ -136,7 +136,7 @@ impl Collidable for Circle {
     }
 }
 
-impl Collidable for Polygon {
+impl Collidable for ConvexPolygon {
     fn collide_with_circle(&self, circle: &Circle) -> bool {
         unimplemented!()
     }
@@ -147,7 +147,7 @@ impl Collidable for Polygon {
         let len = self.points.len();
         let pt = point.into();
 
-        // TODO: make a Polygon method that gives lines using this method.
+        // TODO: make a ConvexPolygon method that gives lines using this method.
         let points_with_extra: Vec<&Point> = self.points.iter().cycle().take(len + 1).collect();
         let lines: Vec<LineSegment> = points_with_extra.windows(2).map(|x| LineSegment::new(x[0].clone(), x[1].clone())).collect();
 
@@ -175,7 +175,7 @@ impl Collidable for Arc {
 
         let angle_difference = (self.angle_end + TAU) - (self.angle_end + TAU);
         let line_start = LineSegment::new(
-            Point::new(self.angle_start.cos(), self.angle_start.sin()),
+            Point::new(self.angle_start.cos() + self.inner_circle.centre.x, self.angle_start.sin() + self.inner_circle.centre.y),
             self.inner_circle.centre
         );
         let line_end = LineSegment::new(
@@ -219,13 +219,13 @@ fn test_point_in_circle() {
 }
 
 #[test]
-fn test_polygon() {
-    let polygon = Polygon::new(vec![(0., 0.), (4., 0.), (4., 4.)]);
+fn test_contex_polygon() {
+    let contex_polygon = ConvexPolygon::new(vec![(0., 0.), (4., 0.), (4., 4.)]);
 
-    assert_eq!(polygon.collide_with_point((2., 1.)), true);
-    assert_eq!(polygon.collide_with_point((1., 1.)), true);
-    assert_eq!(polygon.collide_with_point((-1., -1.)), false);
-    assert_eq!(polygon.collide_with_point((0.5, 0.)), true);
+    assert_eq!(contex_polygon.collide_with_point((2., 1.)), true);
+    assert_eq!(contex_polygon.collide_with_point((1., 1.)), true);
+    assert_eq!(contex_polygon.collide_with_point((-1., -1.)), false);
+    assert_eq!(contex_polygon.collide_with_point((0.5, 0.)), true);
 }
 
 #[test]

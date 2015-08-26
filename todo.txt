@@ -84,12 +84,13 @@ Collisions being detected between objects
         [] circle in arc
             http://gamedev.stackexchange.com/a/7737
         [done] circle in circle
-        [done] point in polygon
+        [done] point in convex polygon
         [] circle in rectangle
-        [] make tests where two shapes run at each other,
-           and change colour when they are intersecting
         [] move tests to a "tests" folder.
             This is apparently a standard thing to do, and will reduce warnings when running tests.
+        [] make tests where two shapes run at each other,
+           and change colour when they are intersecting
+           first, set up multiple binaries for cargo
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.
                 Or have the tests in the same file ???
