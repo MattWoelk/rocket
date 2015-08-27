@@ -86,8 +86,11 @@ Collisions being detected between objects
         [done] circle in circle
         [done] point in convex polygon
         [] circle in rectangle
-        [] move tests to a "tests" folder.
+            [] distance to line segment
+            [] circle in rectangle
+        [done] move tests to a "tests" folder.
             This is apparently a standard thing to do, and will reduce warnings when running tests.
+            [done] move tests into mod test {} instead.
         [] make tests where two shapes run at each other,
            and change colour when they are intersecting
            [done] first, set up multiple binaries for cargo

@@ -197,44 +197,50 @@ impl Collidable for Arc {
     }
 }
 
-#[test]
-fn test_sides() {
-    let line: LineSegment = (0., 0., 5., 5.).into();
-    let point_left_of_line: Point = (1., 9.).into();
-    assert_eq!(line.point_is_on_side(point_left_of_line), 40.);
+#[cfg(test)]
+mod test {
+    use super::{LineSegment, ConvexPolygon, Arc, Circle, TAU, Collidable};
+    use drawing::Point;
 
-    let point_right_of_line: Point = (9., 1.).into();
-    assert_eq!(line.point_is_on_side(point_right_of_line), -40.);
+    #[test]
+    fn test_sides() {
+        let line: LineSegment = (0., 0., 5., 5.).into();
+        let point_left_of_line: Point = (1., 9.).into();
+        assert_eq!(line.point_is_on_side(point_left_of_line), 40.);
 
-    let point_on_line: Point = (5., 5.).into();
-    assert_eq!(line.point_is_on_side(point_on_line), 0.);
-}
+        let point_right_of_line: Point = (9., 1.).into();
+        assert_eq!(line.point_is_on_side(point_right_of_line), -40.);
 
-#[test]
-fn test_point_in_circle() {
-    let circle = Circle { radius: 5., centre: Point::new(0., 0.) };
+        let point_on_line: Point = (5., 5.).into();
+        assert_eq!(line.point_is_on_side(point_on_line), 0.);
+    }
 
-    assert_eq!(circle.collide_with_point(Point::new(1., 1.)), true);
-    assert_eq!(circle.collide_with_point(Point::new(5., -5.)), false);
-}
+    #[test]
+    fn test_point_in_circle() {
+        let circle = Circle { radius: 5., centre: Point::new(0., 0.) };
 
-#[test]
-fn test_contex_polygon() {
-    let contex_polygon = ConvexPolygon::new(vec![(0., 0.), (4., 0.), (4., 4.)]);
+        assert_eq!(circle.collide_with_point(Point::new(1., 1.)), true);
+        assert_eq!(circle.collide_with_point(Point::new(5., -5.)), false);
+    }
 
-    assert_eq!(contex_polygon.collide_with_point((2., 1.)), true);
-    assert_eq!(contex_polygon.collide_with_point((1., 1.)), true);
-    assert_eq!(contex_polygon.collide_with_point((-1., -1.)), false);
-    assert_eq!(contex_polygon.collide_with_point((0.5, 0.)), true);
-}
+    #[test]
+    fn test_contex_polygon() {
+        let contex_polygon = ConvexPolygon::new(vec![(0., 0.), (4., 0.), (4., 4.)]);
 
-#[test]
-fn test_point_in_arc() {
-    let arc = Arc::new(0., TAU/4., 5., Circle {
-        radius: 5.,
-        centre: Point::new(0., 0.),
-    });
+        assert_eq!(contex_polygon.collide_with_point((2., 1.)), true);
+        assert_eq!(contex_polygon.collide_with_point((1., 1.)), true);
+        assert_eq!(contex_polygon.collide_with_point((-1., -1.)), false);
+        assert_eq!(contex_polygon.collide_with_point((0.5, 0.)), true);
+    }
 
-    assert_eq!(arc.collide_with_point((5.1, 0.)), true);
-    assert_eq!(arc.collide_with_point((10.1, 0.)), false);
+    #[test]
+    fn test_point_in_arc() {
+        let arc = Arc::new(0., TAU/4., 5., Circle {
+            radius: 5.,
+            centre: Point::new(0., 0.),
+        });
+
+        assert_eq!(arc.collide_with_point((5.1, 0.)), true);
+        assert_eq!(arc.collide_with_point((10.1, 0.)), false);
+    }
 }
