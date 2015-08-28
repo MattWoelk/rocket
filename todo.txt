@@ -98,6 +98,7 @@ Collisions being detected between objects
            [] draw a dot where the mouse cursor points
            [] make a way to rig entities to do things when stuff happens
                Make/use FRP?
+               Callbacks?
                Make a broadcast/listen system?
                Hard-code it?
            [] make entity change colours when it's collided.
@@ -130,3 +131,59 @@ Tools
         Maybe build these into drawing::color if it's not already there?
     [] Make a VERY EASY way to show a text overlay of things as they happen.
         A scrolling list, like a terminal where messages are popping up.
+
+Explanation of Rust's module system:
+    https://gist.github.com/DanielKeep/470f4e114d28cd0c8d43
+    modules and files:
+        // some file
+        mod stuff {
+            pub fn bla ...
+        }
+
+        ^^^ is equivalent to vvv
+
+        //src/lib.rs
+        mod stuff;
+
+        //src/stuff.rs
+        pub fn bla ...
+    modules have their own symbol tables (scope):
+        pub fn one() {}
+
+        mod a {
+            use one;  // doesn't work without this line
+            fn two() { one() }
+
+            //or do it this way:
+            fn three() { ::one() }
+        }
+    The supreme example:
+        pub fn f1() {}
+
+        mod a {
+            use f1;     // use, by default, is relative to root module of the crate
+            use b::f4;  // use cannot begin with "::"
+                        // use self:: is relative to the current module
+                        // use super:: is relative to the parent of the current module
+            pub fn f2() { f1() }
+            fn f3() { f4() }
+        }
+
+        mod b {
+            pub fn f4() { ::f1() }  // relative to root module of crate (because of "::" at start)
+            fn f5() { super::f1() } // relative to parent of current module (because of "super::")
+            fn f6() { ::a::f2() }
+            fn f7() { super::a::f2() }
+            fn f8() { self::f4() }  // relative to current module (because of "self::")
+            fn f9() { self::f5() }
+        }
+
+        fn f10() {
+            a::f2();          // non-use are relative to the current module
+            self::a::f2();
+            // a::f3();       // error: function `f3` is private
+            b::f4();
+            // b::f5();       // error: function `f5` is private
+        }
+
+        fn main() {}
