@@ -104,6 +104,12 @@ Collisions being detected between objects
                Hard-code it?
                 Yup. A new type for each behaviour for now.
                 [] do it
+           [done] figure out how to have a hitbox for each element,
+              but still have that element be cloneable.
+                The problem is that Collidable could have any size.
+                [done] try using an enum instead of a trait?????????
+                    that way all hitboxes have the same size.
+                [nope] try doing a manual clone?
            [] make entity change colours when it's collided.
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.

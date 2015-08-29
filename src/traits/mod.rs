@@ -1,8 +1,11 @@
 //! Traits used by the models
 
-use std::f64;
+extern crate graphics;
 
+use std::f64;
 use drawing::{Point, Size};
+use opengl_graphics::GlGraphics;
+use models::Entity;
 
 /// A trait for objects that occupy a position in space
 pub trait Position {
@@ -100,4 +103,10 @@ pub trait Collide: Position {
         let radii = self.radius() + other.radius();
         self.position().squared_distance_to(other.position()) < radii * radii
     }
+}
+
+
+pub trait Renderable {
+    fn draw(&self, c: &graphics::context::Context, gl: &mut GlGraphics);
+    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_number: i64);
 }

@@ -23,6 +23,13 @@ struct ContactManifold {
 
 
 
+#[derive(Clone)]
+pub enum HitBoxes {
+    Polygon(Box<ConvexPolygon>),
+    Circle(Circle),
+    Arc(Arc),
+}
+
 pub trait Collidable {
     fn collide_with_circle(&self, &Circle) -> bool;
     fn collide_with_point<A>(&self, point: A) -> bool where A: Into<Point>;
@@ -80,6 +87,7 @@ impl Into<LineSegment> for (f64, f64, f64, f64) {
     }
 }
 
+#[derive(Clone)]
 pub struct ConvexPolygon {
     points: Box<Vec<Point>>,
 }
@@ -104,6 +112,7 @@ impl ConvexPolygon {
     //}
 }
 
+#[derive(Clone, Copy, Default, Debug)]
 pub struct Arc {
     angle_start: f64,
     angle_end: f64,
