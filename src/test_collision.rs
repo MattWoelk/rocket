@@ -26,23 +26,9 @@ use sdl2::event::Event as SDL2Event;
 use sdl2::{joystick, controller};
 use sdl2::controller::GameController;
 
-use collision::Circle;
-use collision::Arc;
-use collision::Collidable;
 use drawing::Point;
 
-use std::f64;
-const TAU: f64 = f64::consts::PI * 2.;
-
 fn main() {
-    println!("MAIN!");
-    let arc = Arc::new(0., TAU/4., 5., Circle {
-        radius: 5.,
-        centre: Point::new(0., 0.),
-    });
-    assert_eq!(arc.collide_with_point((10.1, 0.)), false);
-
-
     // Initialization stuff
 
     let mut sdl_context = sdl2::init().game_controller().unwrap();

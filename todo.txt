@@ -110,7 +110,9 @@ Collisions being detected between objects
                 [done] try using an enum instead of a trait?????????
                     that way all hitboxes have the same size.
                 [nope] try doing a manual clone?
-           [] make entity change colours when it's collided.
+           [done] make the new objects have a velocity
+           [done] make entity change colours when it's collided.
+           [] fix collision when there are multiple entities.
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.
                 Or have the tests in the same file ???

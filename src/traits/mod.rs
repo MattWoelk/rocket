@@ -108,5 +108,5 @@ pub trait Collide: Position {
 
 pub trait Renderable {
     fn draw(&self, c: &graphics::context::Context, gl: &mut GlGraphics);
-    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_number: i64);
+    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_number: i64, player_pos: Point);
 }

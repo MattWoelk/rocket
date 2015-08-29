@@ -310,7 +310,8 @@ impl Game {
 
     #[allow(unused_variables)]
     pub fn spawn_circle_with_collision_colouring(&mut self, position: Point) {
-        let entity = Entity::new();
+        let mut entity = Entity::new();
+        entity.velocity = Point::new(1., 1.);
         self.world.renderables.push(entity);
         // TODO
         //let player_position = self.world.player.position();

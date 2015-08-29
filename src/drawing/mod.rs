@@ -11,6 +11,8 @@ use opengl_graphics::GlGraphics;
 use graphics::{Context, Ellipse};
 use models::Entity;
 
+pub type Color = [f32; 4];
+
 pub mod color {
     pub const BLACK: [f32; 4] = [0.0, 0.0, 0.0, 1.0];
     pub const BLUE: [f32; 4] = [0.0, 0.0, 1.0, 1.0];
@@ -32,7 +34,7 @@ impl Renderable for Circle {
 
     //TODO: remove this allow
     #[allow(unused_variables)]
-    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_number: i64) {
+    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_index: i64, player_pos: Point) {
 
     }
 }

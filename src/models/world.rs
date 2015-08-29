@@ -51,9 +51,9 @@ impl World {
 
         let static_renderables = self.renderables.clone();
 
-        for renderable in &mut self.renderables {
+        for (i, renderable) in &mut self.renderables.iter_mut().enumerate() {
             renderable.draw(&c, g);
-            renderable.update_2(4., &static_renderables);
+            renderable.update_2(4., &static_renderables, i as i64, self.player.vector.position);
         }
 
         self.player.draw(&c, g);
