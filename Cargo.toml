@@ -7,8 +7,8 @@ authors = ["Adolfo Ochagavía <aochagavia92@gmail.com>"]
 name = "main"
 
 [[bin]]
-name = "collision_test"
-path = "src/collision_tests.rs"
+name = "collision"
+path = "src/test_collision.rs"
 
 [dependencies]
 itertools = "0.3"
