@@ -4,6 +4,7 @@ use rand::Rng;
 
 use drawing::Size;
 use models::{Bullet, Wave, Enemy, Particle, Player};
+use models::Entity;
 
 /// A model that contains the other models and renders them
 pub struct World {
@@ -12,7 +13,8 @@ pub struct World {
     pub bullets: Vec<Bullet>,
     pub waves: Vec<Wave>,
     pub enemies: Vec<Enemy>,
-    pub size: Size
+    pub renderables: Vec<Entity>,
+    pub size: Size,
 }
 
 impl World {
@@ -24,12 +26,13 @@ impl World {
             bullets: vec![],
             waves: vec![],
             enemies: vec![],
+            renderables: vec![],
             size: size
         }
     }
 
     /// Renders the world and everything in it
-    pub fn render(&self, c: graphics::context::Context, g: &mut GlGraphics) {
+    pub fn render(&mut self, c: graphics::context::Context, g: &mut GlGraphics) {
         for particle in &self.particles {
             particle.draw(&c, g);
         }
@@ -44,6 +47,13 @@ impl World {
 
         for enemy in &self.enemies {
             enemy.draw(&c, g);
+        }
+
+        let static_renderables = self.renderables.clone();
+
+        for renderable in &mut self.renderables {
+            renderable.draw(&c, g);
+            renderable.update_2(4., &static_renderables);
         }
 
         self.player.draw(&c, g);

@@ -99,8 +99,11 @@ Collisions being detected between objects
            [] make a way to rig entities to do things when stuff happens
                Make/use FRP?
                Callbacks?
+                Tricky to do with lifetimes/Copy-ing, etc.
                Make a broadcast/listen system?
                Hard-code it?
+                Yup. A new type for each behaviour for now.
+                [] do it
            [] make entity change colours when it's collided.
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.

@@ -8,6 +8,7 @@ mod enemy;
 mod particle;
 mod player;
 mod world;
+mod entity;
 
 pub use self::bullet::Bullet;
 pub use self::wave::Wave;
@@ -16,3 +17,4 @@ pub use self::particle::Particle;
 pub use self::player::Player;
 pub use self::vector::Pose;
 pub use self::world::World;
+pub use self::entity::Entity;

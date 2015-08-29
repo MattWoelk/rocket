@@ -13,6 +13,7 @@ use rand::{self, Rng, ThreadRng};
 use drawing::{color, Point, Size};
 use models::{Bullet, Wave, Enemy, Particle, Pose, World};
 use traits::{Advance, Collide, Position};
+use models::Entity;
 
 use sdl2::controller::{Axis, Button};
 
@@ -309,6 +310,8 @@ impl Game {
 
     pub fn spawn_circle_with_collision_colouring(&mut self, position: Point) {
         println!("{:#?}", position);
+        let entity = Entity::new();
+        self.world.renderables.push(entity);
         // TODO
         //let player_position = self.world.player.position();
         //let circle = Circle {
