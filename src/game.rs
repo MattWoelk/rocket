@@ -1,12 +1,12 @@
 //! This module contains the game logic
 
 use std::f64;
-use std::path::Path;
+//use std::path::Path;
 
-use graphics::{self, Transformed};
+use graphics::{self};
 use itertools;
 use opengl_graphics::GlGraphics;
-use opengl_graphics::glyph_cache::GlyphCache;
+//use opengl_graphics::glyph_cache::GlyphCache;
 use piston::input::Key;
 use rand::{self, Rng, ThreadRng};
 
@@ -28,10 +28,10 @@ pub struct Game {
     actions: Actions,
     /// Timers needed by the game
     timers: Timers,
+    /// Resources needed for drawing
+    //resources: Resources
     /// A random number generator
     rng: ThreadRng,
-    /// Resources needed for drawing
-    resources: Resources
 }
 
 /// Active actions (toggled by user input)
@@ -65,9 +65,9 @@ impl Timers {
 }
 
 /// Additional resources needed for the game
-struct Resources {
-    font: GlyphCache<'static>
-}
+//struct Resources {
+//    font: GlyphCache<'static>
+//}
 
 impl Game {
     /// Returns a new `Game` containing a `World` of the given `Size`
@@ -79,7 +79,7 @@ impl Game {
             actions: Actions::default(),
             timers: Timers::new(),
             rng: rng,
-            resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
+            //resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
         }
     }
 
@@ -145,11 +145,11 @@ impl Game {
         // Render the score
         let mut text = graphics::Text::new(22);
         text.color = color::ORANGE;
-        text.draw(&format!("Score: {}", self.score),
-                  &mut self.resources.font,
-                  &c.draw_state,
-                  c.trans(10.0, 20.0).transform,
-                  g);
+        //text.draw(&format!("Score: {}", self.score),
+        //          &mut self.resources.font,
+        //          &c.draw_state,
+        //          c.trans(10.0, 20.0).transform,
+        //          g);
     }
 
     /// Updates the game
