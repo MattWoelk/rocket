@@ -104,6 +104,7 @@ Collisions being detected between objects
                Hard-code it?
                 Yup. A new type for each behaviour for now.
                 [] do it
+                    [] Have a default implementation in the trait to make things easier.
            [done] figure out how to have a hitbox for each element,
               but still have that element be cloneable.
                 The problem is that Collidable could have any size.
@@ -112,7 +113,7 @@ Collisions being detected between objects
                 [nope] try doing a manual clone?
            [done] make the new objects have a velocity
            [done] make entity change colours when it's collided.
-           [] fix collision when there are multiple entities.
+           [done] fix collision when there are multiple entities.
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.
                 Or have the tests in the same file ???

@@ -72,8 +72,8 @@ impl Entity {
                     }
 
                     match entity.hitbox {
-                        HitBoxes::Circle(circ) => {
-                            if circ.collide_with_circle(&circ) {
+                        HitBoxes::Circle(other_circ) => {
+                            if circ.collide_with_circle(&other_circ) {
                                 self.color = color::RED;
                                 break;
                             }
