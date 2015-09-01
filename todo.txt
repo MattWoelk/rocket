@@ -105,6 +105,7 @@ Collisions being detected between objects
                 Yup. A new type for each behaviour for now.
                 [] do it
                     [] Have a default implementation in the trait to make things easier.
+                [] replace the bullets with the new "entities".
            [done] figure out how to have a hitbox for each element,
               but still have that element be cloneable.
                 The problem is that Collidable could have any size.
@@ -114,6 +115,10 @@ Collisions being detected between objects
            [done] make the new objects have a velocity
            [done] make entity change colours when it's collided.
            [done] fix collision when there are multiple entities.
+           [] figure out a way to separate "Game" from level.
+             Game should be a storage container for all the stuff in a level.
+             Game should contain a Level (trait) that holds all the state transitions.
+                and the current state.
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.
                 Or have the tests in the same file ???
