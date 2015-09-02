@@ -159,10 +159,8 @@ impl Game {
     pub fn update(&mut self, dt: f64) {
         self.timers.current_time += dt;
 
-        let displacement = Point {
-            x: dt * self.actions.player_velocity.x / 32000.0 * 400.0,
-            y: dt * self.actions.player_velocity.y / 32000.0 * 400.0,
-        };
+        let displacement = self.actions.player_velocity.multiply_by_scalar(dt / 32000.0 * 400.0);
+
         self.world.player.advance_with_wrapping(displacement, self.world.size.clone());
 
         // Update particles
