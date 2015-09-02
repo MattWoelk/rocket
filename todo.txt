@@ -106,6 +106,15 @@ Collisions being detected between objects
                 [] do it
                     [] Have a default implementation in the trait to make things easier.
                 [] replace the bullets with the new "entities".
+               Maybe I can have a const that is looked up by enum, so it's all static?
+                Is this really any different than hand-coding it?
+               I want to be able to add characteristics at runtime.
+                Example?
+               [] Use Components!
+                  http://gameprogrammingpatterns.com/component.html
+                  Maybe this isn't a good fit, as our codebase isn't big enough...
+                  Though this may be worth looking into:
+                    https://github.com/HeroesGrave/ecs-rs/blob/master/doc/tutorial.md
            [done] figure out how to have a hitbox for each element,
               but still have that element be cloneable.
                 The problem is that Collidable could have any size.

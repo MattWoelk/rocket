@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use rand::Rng;
-use std::ops::{Add, Sub};
+use std::ops::{Add, Sub, Mul, Div};
 
 use super::Size;
 use graphics::math::Vec2d;
@@ -145,6 +145,50 @@ impl Sub for Point {
         Point {
             x: self.x - other.x,
             y: self.y - other.y,
+        }
+    }
+}
+
+impl Mul<f64> for Point {
+    type Output = Point;
+
+    fn mul(self, _rhs: f64) -> Point {
+        Point {
+            x: _rhs * self.x,
+            y: _rhs * self.y,
+        }
+    }
+}
+
+impl Mul<Point> for f64 {
+    type Output = Point;
+
+    fn mul(self, _rhs: Point) -> Point {
+        Point {
+            x: _rhs.x * self,
+            y: _rhs.y * self,
+        }
+    }
+}
+
+impl Div<f64> for Point {
+    type Output = Point;
+
+    fn div(self, _rhs: f64) -> Point {
+        Point {
+            x: self.x / _rhs,
+            y: self.y / _rhs,
+        }
+    }
+}
+
+impl Div<Point> for f64 {
+    type Output = Point;
+
+    fn div(self, _rhs: Point) -> Point {
+        Point {
+            x: self / _rhs.x,
+            y: self / _rhs.y,
         }
     }
 }
