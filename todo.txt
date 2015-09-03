@@ -115,6 +115,10 @@ Collisions being detected between objects
                   Maybe this isn't a good fit, as our codebase isn't big enough...
                   Though this may be worth looking into:
                     https://github.com/HeroesGrave/ecs-rs/blob/master/doc/tutorial.md
+                [] change "Entity" to be a trait instead?
+                [] What if I did components completely through traits?
+                    Whenever I need a new behavior, I would make a new trait?
+                    HOW it implements a trait would give it behaviour.
            [done] figure out how to have a hitbox for each element,
               but still have that element be cloneable.
                 The problem is that Collidable could have any size.
@@ -138,7 +142,13 @@ Collisions being detected between objects
     [] Make a Graham Scan algorithm to produce 2D convex hulls for lists of points
         https://en.wikipedia.org/wiki/Graham_scan
 Draw images to the screen
-    with transparency in backgrounds
+    [] with transparency in backgrounds
+    [] make an animation system
+        May not be necessary for game #1.
+        [] make skeletons
+        [] make them adjustable
+        [] allow the setting of keypoints
+        [] allow tweening
 Lasers
     Death
     Set up targets to shoot
