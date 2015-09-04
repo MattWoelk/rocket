@@ -57,7 +57,7 @@ Rings
             [done] and the colour
             [nope] make a rectangle hitbox type
                 Instead, treat the arc like an arc
-        [] make arc - to - point collision detection
+        [] make arc - to - circle collision detection
     [done] remove old bullet system
     [] make the trail from the character, each dot in it have a velocity opposite of the character.
         It would be very satisfying if these interact with other objects or eachother.
@@ -88,6 +88,14 @@ Collisions being detected between objects
                     inside if left of A OR right of B
         [] circle in arc
             http://gamedev.stackexchange.com/a/7737
+                This is circle in polygon (convex OR concave)
+            [] distance from point to arc.
+                If either of the following 3 are true:
+                    - point within arc that is 2*d thicker
+                    - point within d of left line segment
+                    - point within d of right line segment
+                    If the arc angle is 0, both lines will be the same and it should work.
+                    If the width of the arc is 0, both lines will be dots, and that's fine.
         [done] circle in circle
         [done] point in convex polygon
         [] circle in rectangle
