@@ -52,11 +52,16 @@ Rings
             [done] draw it as thick lines instead of polygons
             [done] thicken the lines.
     [] make rings destroy enemies when touching.
-        Treat them as a series of rectangles
+        [nope] Treat them as a series of rectangles
             [done] Make the ring thickness a property of the wave
             [done] and the colour
-            [] make a rectangle hitbox type
-    [] remove old bullet system
+            [nope] make a rectangle hitbox type
+                Instead, treat the arc like an arc
+        [] make arc - to - point collision detection
+    [done] remove old bullet system
+    [] make the trail from the character, each dot in it have a velocity opposite of the character.
+        It would be very satisfying if these interact with other objects or eachother.
+        Giving them some randomness could be pretty nice as well.
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
     Some resources:

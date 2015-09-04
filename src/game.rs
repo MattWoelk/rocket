@@ -46,7 +46,7 @@ struct Actions {
     fire: bool,
 }
 
-/// Timers to handle creation of bullets, enemies and particles
+/// Timers to handle creation of enemies and particles
 struct Timers {
     current_time: f64,
     last_tail_particle: f64,
@@ -180,8 +180,6 @@ impl Game {
         // Add bullets
         if self.actions.shoot && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
             self.timers.last_shoot = self.timers.current_time;
-            let bullet_angle = if self.actions.boost {self.rng.gen::<f64>() - 0.5} else {0.};
-            self.world.bullets.push(Bullet::new(Pose::new(self.world.player.nose(), self.world.player.angle_radians() + bullet_angle)));
             self.world.waves.push(Wave::new(self.world.player.position().clone()));
         }
 
@@ -200,20 +198,13 @@ impl Game {
             self.world.waves.push(Wave::new_water(self.world.player.position().clone()));
         }
 
-        // Advance bullets
-        for bullet in &mut self.world.bullets {
-            bullet.update(dt * 500.0);
-        }
-
         for wave in &mut self.world.waves {
             wave.update(dt);
         }
 
-        // Remove bullets outside the viewport
         { // Shorten the lifetime of size
-        let size = &self.world.size;
-        self.world.bullets.retain(|b| size.contains(b.position()));
-        self.world.waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
+            let size = &self.world.size;
+            self.world.waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
         }
 
         // Spawn enemies at random locations
@@ -235,37 +226,34 @@ impl Game {
         }
 
         self.handle_player_collisions();
-        self.handle_bullet_collisions();
     }
 
-    /// Handles collisions between the bullets and the enemies
-    ///
-    /// When an enemy is reached by a bullet, both the enemy and the bullet
-    /// will be removed. Additionally, the score will be increased by 10
+    // TODO: to be removed
     fn handle_bullet_collisions(&mut self) {
         let old_enemy_count = self.world.enemies.len();
 
-        { // We introduce a scope to shorten the lifetime of the borrows below
-        // The references are to avoid using self in the closure
-        // (the borrow checker doesn't like that)
-        let bullets = &mut self.world.bullets;
-        let enemies = &mut self.world.enemies;
-        let particles = &mut self.world.particles;
+        {
+            // We introduce a scope to shorten the lifetime of the borrows below
+            // The references are to avoid using self in the closure
+            // (the borrow checker doesn't like that)
+            let bullets = &mut self.world.bullets;
+            let enemies = &mut self.world.enemies;
+            let particles = &mut self.world.particles;
 
-        bullets.retain(|bullet| {
-            // Remove the first enemy that collides with a bullet (if any)
-            // Add an explosion on its place
-            if let Some((index, position)) = enemies.iter().enumerate()
-                .find(|&(_, enemy)| enemy.collides_with(bullet))
-                .map(|(index, enemy)| (index, enemy.position()))
-            {
-                Game::make_explosion(particles, position, 10);
-                enemies.remove(index);
-                false
-            } else {
-                true
-            }
-        });
+            bullets.retain(|bullet| {
+                // Remove the first enemy that collides with a bullet (if any)
+                // Add an explosion on its place
+                if let Some((index, position)) = enemies.iter().enumerate()
+                    .find(|&(_, enemy)| enemy.collides_with(bullet))
+                    .map(|(index, enemy)| (index, enemy.position()))
+                {
+                    Game::make_explosion(particles, position, 10);
+                    enemies.remove(index);
+                    false
+                } else {
+                    true
+                }
+            });
         }
 
         let killed_enemies = (old_enemy_count - self.world.enemies.len()) as u32;
@@ -281,8 +269,7 @@ impl Game {
         // Reset score
         self.score = 0;
 
-        // Remove all enemies and bullets
-        self.world.bullets.clear();
+        // Remove all enemies
         self.world.enemies.clear();
     }
 
