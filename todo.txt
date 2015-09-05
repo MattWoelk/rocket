@@ -95,7 +95,7 @@ Collisions being detected between objects
                     - point within d of left line segment
                     - point within d of right line segment
                     If the arc angle is 0, both lines will be the same and it should work.
-                    If the width of the arc is 0, both lines will be dots, and that's fine.
+                    If the width of the arc is 1, both lines will be dots, and that's fine.
         [done] circle in circle
         [done] point in convex polygon
         [] circle in rectangle
@@ -116,20 +116,24 @@ Collisions being detected between objects
                Make a broadcast/listen system?
                Hard-code it?
                 Yup. A new type for each behaviour for now.
-                [] do it
-                    [] Have a default implementation in the trait to make things easier.
+                [done] do it
+                    [nope] Have a default implementation in the trait to make things easier.
                 [] replace the bullets with the new "entities".
                Maybe I can have a const that is looked up by enum, so it's all static?
                 Is this really any different than hand-coding it?
                I want to be able to add characteristics at runtime.
                 Example?
-               [] Use Components!
+               [nope] Use Components!
                   http://gameprogrammingpatterns.com/component.html
                   Maybe this isn't a good fit, as our codebase isn't big enough...
                   Though this may be worth looking into:
                     https://github.com/HeroesGrave/ecs-rs/blob/master/doc/tutorial.md
-                [] change "Entity" to be a trait instead?
-                [] What if I did components completely through traits?
+                  We will not use components.
+                    Instead we will use traits.
+                [done] change "Entity" to be a trait instead?
+                    this trait is useful for iterators.
+                        so we can combine all our vectors and treat them the same
+                [done] What if I did components completely through traits?
                     Whenever I need a new behavior, I would make a new trait?
                     HOW it implements a trait would give it behaviour.
            [done] figure out how to have a hitbox for each element,
@@ -145,6 +149,7 @@ Collisions being detected between objects
              Game should be a storage container for all the stuff in a level.
              Game should contain a Level (trait) that holds all the state transitions.
                 and the current state.
+             Is this World?
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.
                 Or have the tests in the same file ???

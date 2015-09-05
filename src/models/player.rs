@@ -9,7 +9,7 @@ use traits::{Advance, Collide, Position};
 pub const PLAYER_DEFAULT_SPEED: f64 = 200.;
 
 /// The `Player` is the rocket controlled by the user
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct Player {
     // TODO: make this "position" and "velocity" instead.
     pub vector: Pose,

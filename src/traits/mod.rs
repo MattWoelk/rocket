@@ -110,3 +110,7 @@ pub trait Renderable {
     fn draw(&self, c: &graphics::context::Context, gl: &mut GlGraphics);
     fn update_2(&mut self, units: f64, entities: &Vec<CollisionTestBall>, my_entity_number: i64, player_pos: Point);
 }
+
+pub trait Entity {
+    fn get_position(&mut self) -> Point;
+}

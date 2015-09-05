@@ -5,6 +5,9 @@ use rand::Rng;
 use drawing::Size;
 use models::{Bullet, Wave, Enemy, Particle, Player};
 use models::CollisionTestBall;
+use traits::Entity;
+
+use std::iter::Iterator;
 
 /// A model that contains the other models and renders them
 pub struct World {
@@ -13,7 +16,7 @@ pub struct World {
     pub bullets: Vec<Bullet>,
     pub waves: Vec<Wave>,
     pub enemies: Vec<Enemy>,
-    pub renderables: Vec<CollisionTestBall>,
+    pub collision_test_balls: Vec<CollisionTestBall>,
     pub size: Size,
 }
 
@@ -26,7 +29,7 @@ impl World {
             bullets: vec![],
             waves: vec![],
             enemies: vec![],
-            renderables: vec![],
+            collision_test_balls: vec![],
             size: size
         }
     }
@@ -49,10 +52,32 @@ impl World {
             enemy.draw(&c, g);
         }
 
-        let static_renderables = self.renderables.clone();
+        let static_renderables = self.collision_test_balls.clone();
 
-        for (i, renderable) in &mut self.renderables.iter_mut().enumerate() {
+        for (i, renderable) in &mut self.collision_test_balls.iter_mut().enumerate() {
             renderable.draw(&c, g);
+        }
+
+        let bullets_static = self.bullets.clone();
+        let bullets_iter = bullets_static.iter().map(|x| x as &Entity);
+
+        let particles_static = self.particles.clone();
+        let particles_iter = particles_static.iter().map(|x| x as &Entity);
+
+        let waves_static = self.waves.clone();
+        let waves_iter = waves_static.iter().map(|x| x as &Entity);
+
+        let enemies_static = self.enemies.clone();
+        let enemies_iter = enemies_static.iter().map(|x| x as &Entity);
+
+        let collision_test_balls_static = self.collision_test_balls.clone().into_iter();
+
+        //let all_renderables_static = bullets_static
+        //    .chain(particles_static);
+
+        // TODO: Put this somewhere else
+        // COLLISION STUFF
+        for (i, renderable) in &mut self.collision_test_balls.iter_mut().enumerate() {
             renderable.update_2(4., &static_renderables, i as i64, self.player.vector.position);
         }
 

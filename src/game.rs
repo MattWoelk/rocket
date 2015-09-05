@@ -297,7 +297,7 @@ impl Game {
     pub fn spawn_circle_with_collision_colouring(&mut self, position: Point) {
         let mut entity = CollisionTestBall::new();
         entity.velocity = Point::new(1., 1.);
-        self.world.renderables.push(entity);
+        self.world.collision_test_balls.push(entity);
         // TODO
         //let player_position = self.world.player.position();
         //let circle = Circle {

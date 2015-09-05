@@ -4,8 +4,10 @@ use traits::{Advance, Collide, Position};
 
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;
+use traits::Entity;
 
 /// Enemies follow the player in order to cause a collision and let him explode
+#[derive(Clone)]
 pub struct Enemy {
     vector: Pose
 }
@@ -35,4 +37,10 @@ impl Enemy {
 
 impl Collide for Enemy {
     fn radius(&self) -> f64 { 10.0 }
+}
+
+impl Entity for Enemy {
+    fn get_position(&mut self) -> Point {
+        Point::new(1., 1.)
+    }
 }

@@ -4,12 +4,15 @@ use traits::{Advance, Position};
 
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;
+use traits::Entity;
+use drawing::Point;
 
 /// A model representing a particle
 ///
 /// Particles are visible objects that have a time to live and move around
 /// in a given direction until their time is up. They are spawned when the
 /// player or an enemy is killed
+#[derive(Default, Clone)]
 pub struct Particle {
     pub vector: Pose,
     pub ttl: f64
@@ -36,5 +39,11 @@ impl Particle {
         self.ttl -= elapsed_time;
         let speed = 500.0 * self.ttl * self.ttl;
         self.advance(elapsed_time * speed);
+    }
+}
+
+impl Entity for Particle {
+    fn get_position(&mut self) -> Point {
+        Point::new(1., 1.)
     }
 }

@@ -3,6 +3,7 @@ use std::f64;
 use drawing::Point;
 use super::Pose;
 use traits::{Advance, Collide, Position};
+use traits::Entity;
 
 use graphics::{Context, Line};
 use graphics::math::Vec2d;
@@ -12,6 +13,7 @@ const TAU: f64 = f64::consts::PI * 2.;
 const WAVE_SPEED_PER_SECOND: f64 = 500.;
 
 /// Enemies follow the player in order to cause a collision and let him explode
+#[derive(Clone)]
 pub struct Wave {
     position: Point,
     vector: Pose,
@@ -97,4 +99,10 @@ impl Wave {
 
 impl Collide for Wave {
     fn radius(&self) -> f64 { self.radius }
+}
+
+impl Entity for Wave {
+    fn get_position(&mut self) -> Point {
+        Point::new(1., 1.)
+    }
 }

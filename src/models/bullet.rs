@@ -1,6 +1,8 @@
 use drawing::color;
 use super::Pose;
 use traits::{Advance, Collide, Position};
+use traits::Entity;
+use drawing::Point;
 
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;
@@ -8,6 +10,7 @@ use opengl_graphics::GlGraphics;
 /// Bullets are spawned when the player shoots
 ///
 /// When an enemy is reached by a bullet, it will explode
+#[derive(Clone)]
 pub struct Bullet {
     vector: Pose
 }
@@ -35,4 +38,10 @@ impl Bullet {
 
 impl Collide for Bullet {
     fn radius(&self) -> f64 { 3.0 }
+}
+
+impl Entity for Bullet {
+    fn get_position(&mut self) -> Point {
+        Point::new(1., 1.)
+    }
 }
