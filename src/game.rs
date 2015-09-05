@@ -13,7 +13,7 @@ use rand::{self, Rng, ThreadRng};
 use drawing::{color, Point, Size};
 use models::{Bullet, Wave, Enemy, Particle, Pose, World};
 use traits::{Advance, Collide, Position};
-use models::Entity;
+use models::CollisionTestBall;
 
 use sdl2::controller::{Axis, Button};
 
@@ -295,7 +295,7 @@ impl Game {
 
     #[allow(unused_variables)]
     pub fn spawn_circle_with_collision_colouring(&mut self, position: Point) {
-        let mut entity = Entity::new();
+        let mut entity = CollisionTestBall::new();
         entity.velocity = Point::new(1., 1.);
         self.world.renderables.push(entity);
         // TODO

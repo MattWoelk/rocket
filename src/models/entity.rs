@@ -11,25 +11,25 @@ use opengl_graphics::GlGraphics;
 use drawing::Point;
 
 #[derive(Clone)]
-pub struct Entity {
+pub struct CollisionTestBall {
     pub position: Point,
     pub velocity: Point,
     pub hitbox: HitBoxes,
     pub color: Color,
 }
 
-impl fmt::Debug for Entity {
+impl fmt::Debug for CollisionTestBall {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Entity")
+        f.debug_struct("CollisionTestBall")
             .field("position", &self.position)
             .field("velocity", &self.velocity)
             .finish()
     }
 }
 
-impl Entity {
-    pub fn new() -> Entity {
-        Entity {
+impl CollisionTestBall {
+    pub fn new() -> CollisionTestBall {
+        CollisionTestBall {
             position: Point::new(50., 50.),
             velocity: Point::new(50., 50.),
             hitbox: HitBoxes::Circle(Circle {
@@ -54,7 +54,7 @@ impl Entity {
 
     // TODO: remove this allow
     #[allow(unused_variables)]
-    pub fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_index: i64, player_pos: Point) {
+    pub fn update_2(&mut self, units: f64, entities: &Vec<CollisionTestBall>, my_entity_index: i64, player_pos: Point) {
         //self.advance(units);
         self.position = self.position + self.velocity;
         match &mut self.hitbox {
@@ -81,14 +81,14 @@ impl Entity {
                         _ => {}
                     }
                     // TODO: if any are touching me, change my colour
-                    //println!("Entity: {:#?}", entity);
+                    //println!("CollisionTestBall: {:#?}", entity);
                 }
             },
             _ => {}
         }
         for entity in entities {
             // TODO: if any are touching me, change my colour
-            //println!("Entity: {:#?}", entity);
+            //println!("CollisionTestBall: {:#?}", entity);
         }
     }
 }

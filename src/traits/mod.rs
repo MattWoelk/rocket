@@ -5,7 +5,7 @@ extern crate graphics;
 use std::f64;
 use drawing::{Point, Size};
 use opengl_graphics::GlGraphics;
-use models::Entity;
+use models::CollisionTestBall;
 
 /// A trait for objects that occupy a position in space
 pub trait Position {
@@ -108,5 +108,5 @@ pub trait Collide: Position {
 
 pub trait Renderable {
     fn draw(&self, c: &graphics::context::Context, gl: &mut GlGraphics);
-    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_number: i64, player_pos: Point);
+    fn update_2(&mut self, units: f64, entities: &Vec<CollisionTestBall>, my_entity_number: i64, player_pos: Point);
 }

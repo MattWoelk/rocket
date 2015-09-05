@@ -9,7 +9,7 @@ use traits::Renderable;
 use collision::Circle;
 use opengl_graphics::GlGraphics;
 use graphics::{Context, Ellipse};
-use models::Entity;
+use models::CollisionTestBall;
 
 pub type Color = [f32; 4];
 
@@ -34,7 +34,7 @@ impl Renderable for Circle {
 
     //TODO: remove this allow
     #[allow(unused_variables)]
-    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_index: i64, player_pos: Point) {
+    fn update_2(&mut self, units: f64, entities: &Vec<CollisionTestBall>, my_entity_index: i64, player_pos: Point) {
 
     }
 }

@@ -4,7 +4,7 @@ use rand::Rng;
 
 use drawing::Size;
 use models::{Bullet, Wave, Enemy, Particle, Player};
-use models::Entity;
+use models::CollisionTestBall;
 
 /// A model that contains the other models and renders them
 pub struct World {
@@ -13,7 +13,7 @@ pub struct World {
     pub bullets: Vec<Bullet>,
     pub waves: Vec<Wave>,
     pub enemies: Vec<Enemy>,
-    pub renderables: Vec<Entity>,
+    pub renderables: Vec<CollisionTestBall>,
     pub size: Size,
 }
 
