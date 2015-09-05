@@ -7,7 +7,7 @@ mod wave;
 mod enemy;
 mod particle;
 mod player;
-mod world;
+mod level_0;
 mod entity;
 
 pub use self::bullet::Bullet;
@@ -16,5 +16,5 @@ pub use self::enemy::Enemy;
 pub use self::particle::Particle;
 pub use self::player::Player;
 pub use self::vector::Pose;
-pub use self::world::World;
+pub use self::level_0::Level_0;
 pub use self::entity::CollisionTestBall;

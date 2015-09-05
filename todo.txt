@@ -150,6 +150,15 @@ Collisions being detected between objects
              Game should contain a Level (trait) that holds all the state transitions.
                 and the current state.
              Is this World?
+             Main --[Inputs, Render, Update]--> Game
+             Game --[Render, Advance/Update (particles, waves, player), Shooting, trail, spawn enemies, collision handling, logic, spawning]--> World
+                There's a ton of self.world.enemies, which is BAD.
+             World [renders all the things, stores all the things]
+             [] have Game store all the elements, and have world (renamed level?)
+                control the logic.
+                    Including physics? Probably.
+                Should they be side-by-side? Or one controlled by the other?
+                    For now, game will store world (renamed level)
         [] move each piece in collisions/mod.rs into its own file.
             Each file should have an associated test file.
                 Or have the tests in the same file ???

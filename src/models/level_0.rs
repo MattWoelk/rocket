@@ -10,7 +10,7 @@ use traits::Entity;
 use std::iter::Iterator;
 
 /// A model that contains the other models and renders them
-pub struct World {
+pub struct Level_0 {
     pub player: Player,
     pub particles: Vec<Particle>,
     pub bullets: Vec<Bullet>,
@@ -20,10 +20,10 @@ pub struct World {
     pub size: Size,
 }
 
-impl World {
-    /// Returns a new world of the given size
-    pub fn new<R: Rng>(rng: &mut R, size: Size) -> World {
-        World {
+impl Level_0 {
+    /// Returns a new level of the given size
+    pub fn new<R: Rng>(rng: &mut R, size: Size) -> Level_0 {
+        Level_0 {
             player: Player::random(rng, size.clone()),
             particles: Vec::with_capacity(1000),
             bullets: vec![],
@@ -34,7 +34,7 @@ impl World {
         }
     }
 
-    /// Renders the world and everything in it
+    /// Renders the level and everything in it
     pub fn render(&mut self, c: graphics::context::Context, g: &mut GlGraphics) {
         for particle in &self.particles {
             particle.draw(&c, g);
