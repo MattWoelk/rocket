@@ -72,10 +72,10 @@ impl Timers {
 
 impl Game {
     /// Returns a new `Game` containing a `Level_0` of the given `Size`
-    pub fn new(size: Size) -> Game {
+    pub fn new(size: Size, level: Level_0) -> Game {
         let mut rng = rand::thread_rng();
         Game {
-            level: Level_0::new(&mut rng, size),
+            level: level,
             score: 0,
             actions: Actions::default(),
             timers: Timers::new(),

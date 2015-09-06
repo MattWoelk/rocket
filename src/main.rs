@@ -19,14 +19,27 @@ use piston::window::WindowSettings;
 
 use drawing::Size;
 use game::Game;
+use models::Level_0;
 
 extern crate sdl2;
 use sdl2::event::Event as SDL2Event;
 use sdl2::{joystick, controller};
 use sdl2::controller::GameController;
 
+use std::env::args;
+
 
 fn main() {
+    // Get command line args
+    let arguments = args().collect::<Vec<String>>();
+    let mut rng = rand::thread_rng();
+    let size = Size::new(1024.0, 600.0);
+
+    let level = match arguments.get(1).map(|x| x.as_ref()).unwrap_or("default") {
+            "l0" => Level_0::new(&mut rng, size),
+            _    => Level_0::new(&mut rng, size),
+    };
+
     // Initialization stuff
 
     let mut sdl_context = sdl2::init().game_controller().unwrap();
@@ -79,7 +92,9 @@ fn main() {
     let mut gl = GlGraphics::new(opengl);
 
     // The game object
-    let mut game = Game::new(Size::new(1024.0, 600.0));
+    let mut game = Game::new(
+        Size::new(1024.0, 600.0),
+        level);
 
     // Event handling
     for e in window.events().ups(60).max_fps(60) {
