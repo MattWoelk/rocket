@@ -38,9 +38,9 @@ fn main() {
     let mut rng = rand::thread_rng();
     let size = Size::new(1024.0, 600.0);
 
-    let level = match arguments.get(1).map(|x| x.as_ref()).unwrap_or("default") {
-            "l0" => Level_0::new(&mut rng, size),
-            _    => Level_0::new(&mut rng, size),
+    let level = match arguments.get(1).map(|x| x.as_ref()) {
+            Some("l0") => Level_0::new(&mut rng, size),
+            _          => Level_0::new(&mut rng, size),
     };
 
     // Initialization stuff
