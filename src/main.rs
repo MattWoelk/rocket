@@ -15,11 +15,14 @@ use glutin_window::GlutinWindow;
 use opengl_graphics::{GlGraphics, OpenGL};
 use piston::event::{Event, Events, EventLoop, RenderEvent};
 use piston::input::{Button, Input};
+use piston::input::Key;
 use piston::window::WindowSettings;
 
 use drawing::Size;
 use game::Game;
 use models::Level_0;
+
+use drawing::Point;
 
 extern crate sdl2;
 use sdl2::event::Event as SDL2Event;
@@ -101,6 +104,12 @@ fn main() {
         match e {
             Event::Input(Input::Press(Button::Keyboard(key))) => {
                 game.key_press(key);
+                if let Key::P = key {
+                    println!("P");
+                    game.spawn_circle_with_collision_colouring(
+                        Point::new(55., 55.),
+                    );
+                }
             }
 
             Event::Input(Input::Release(Button::Keyboard(key))) => {
