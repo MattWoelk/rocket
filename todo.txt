@@ -163,6 +163,7 @@ Collisions being detected between objects
              [done] make that work
                 [done] make Game take one of these levels
                 [done] make main pass in the level to Game
+             [done] remove the other binaries in cargo.toml.
              [] make a level trait
              [] change test_collision.rs to simply call main with Level_0.
                 If the previous thing works, don't do this
