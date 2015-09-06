@@ -13,7 +13,8 @@ mod collision;
 
 use glutin_window::GlutinWindow;
 use opengl_graphics::{GlGraphics, OpenGL};
-use piston::event::{Event, Events, EventLoop, RenderEvent};
+use piston::input::{Event, RenderEvent};
+use piston::event_loop::{Events, EventLoop};
 use piston::input::{Button, Input};
 use piston::input::Key;
 use piston::window::WindowSettings;
@@ -83,14 +84,14 @@ fn main() {
         println!("Couldn't open any controller");
     }
 
-    let opengl = OpenGL::_3_2;
+    let opengl = OpenGL::V3_2;
 
     let window: GlutinWindow =
         WindowSettings::new("Rocket", [1024, 600])
             .exit_on_esc(true)
             .opengl(opengl)
-            .samples(8)
-            .into();
+            .build()
+            .unwrap();
 
     let mut gl = GlGraphics::new(opengl);
 

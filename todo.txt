@@ -168,19 +168,15 @@ Collisions being detected between objects
                 [] first, change the function of level
                     so level controlls logic and physics
                 [] then make level a trait
-             [] change test_collision.rs to simply call main with Level_0.
-                If the previous thing works, don't do this
-                and instead get rid of multiple binaries
-                and do `cargo run level_0`
         [] move each piece in collisions/mod.rs into its own file.
-            Each file should have an associated test file.
-                Or have the tests in the same file ???
+            Have the tests in the same file
         [] move Point to be with the rest of the collision stuff?
             or is it more general?
             either way, it doesn't belong in drawing if it's used for more stuff.
                 the dependencies should not have cycles! (ideally...)
     [] Make a Graham Scan algorithm to produce 2D convex hulls for lists of points
         https://en.wikipedia.org/wiki/Graham_scan
+        May not be required for this first game.
 Draw images to the screen
     [] with transparency in backgrounds
     [] make an animation system
@@ -189,13 +185,15 @@ Draw images to the screen
         [] make them adjustable
         [] allow the setting of keypoints
         [] allow tweening
-Lasers
-    Death
-    Set up targets to shoot
 Multiple Players
+    [] have 2 players
+    [] have n players
 Resetting the level
+    [] make ability to reset the level
+    [] make ability to switch to a new level
 Builds
     [done] Set up TravisCI to build the project on stable, beta, and nightly each night.
+    [done] update to the latest version of piston (0.3 -> 0.10)
     [] See if it's possible for different versions of major libraries in use, too.
     [] set up multiple binaries in cargo, so we can test different levels
         So we can make test levels dedicated to things like collisions.
