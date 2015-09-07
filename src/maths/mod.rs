@@ -210,8 +210,8 @@ impl Collidable for Arc {
 
 #[cfg(test)]
 mod test {
-    use super::{LineSegment, ConvexPolygon, Arc, Circle, TAU, Collidable};
-    use drawing::Point;
+    use maths::{LineSegment, ConvexPolygon, Arc, Circle, TAU, Collidable};
+    use maths::Point;
 
     #[test]
     fn test_sides() {
