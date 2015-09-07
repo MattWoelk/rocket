@@ -1,4 +1,4 @@
-use drawing::Point;
+use maths::Point;
 use super::Pose;
 use traits::{Advance, Collide, Position};
 

@@ -16,6 +16,7 @@ User Input
         [] decrease the dead-zone size for more accuracy
             OR keep it, but make it a better equation
             OR make it take into account both axes when figuring out the threshold.
+                [] group similar inputs together before passing them to Game.
         [] register new controllers when they're plugged in after the game starts.
 
 Dot Physics
@@ -26,7 +27,16 @@ Dot Physics
         [done] add speed to Player
         [done] use Player speed to ramp stuff up!
         [done] match player movement to joystick
-    [] change all occurrences of PI to use TAU instead
+    [done] change all occurrences of PI to use TAU instead
+        [done] put TAU in a reusable place.
+            [done] move collision trait to traits file
+            [done] change name of collisions directory to maths
+            [done] move Point to this new directory
+            [done] put TAU in here
+            [done] include this everywhere.
+                So TAU is only defined in one place
+        [done] use it everywhere
+        [done] replace PI usage.
     [] Acceleration
         [] change the up button so that it is acceleration instead of
            a constant speed boost
@@ -105,7 +115,7 @@ Collisions being detected between objects
         [] circle in rectangle
             [] distance to line segment
             [] circle in rectangle
-        [done] move tests to a "tests" folder.
+        [done] move tests to a "tests" directory.
             This is apparently a standard thing to do, and will reduce warnings when running tests.
             [done] move tests into mod test {} instead.
         [] make tests where two shapes run at each other,

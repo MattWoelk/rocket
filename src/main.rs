@@ -9,7 +9,7 @@ mod drawing;
 mod game;
 mod models;
 mod traits;
-mod collision;
+mod maths;
 
 use glutin_window::GlutinWindow;
 use opengl_graphics::{GlGraphics, OpenGL};
@@ -23,7 +23,7 @@ use drawing::Size;
 use game::Game;
 use models::Level_0;
 
-use drawing::Point;
+use maths::Point;
 
 extern crate sdl2;
 use sdl2::event::Event as SDL2Event;

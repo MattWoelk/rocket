@@ -2,7 +2,7 @@ use drawing::color;
 use super::Pose;
 use traits::{Advance, Collide, Position};
 use traits::Entity;
-use drawing::Point;
+use maths::Point;
 
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;

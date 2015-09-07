@@ -5,9 +5,11 @@
 
 use std::f64;
 use graphics::math::Vec2d;
-use drawing::Point;
+pub use self::point::Point;
 
-const TAU: f64 = f64::consts::PI * 2.;
+mod point;
+
+pub const TAU: f64 = f64::consts::PI * 2.;
 
 
 struct ContactPoint {

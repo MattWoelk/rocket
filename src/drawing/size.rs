@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use super::Point;
+use maths::Point;
 
 /// A `Size` represents a region in space
 #[derive(Clone, Default)]

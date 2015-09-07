@@ -2,7 +2,8 @@ use graphics::{Context, Polygon, Transformed};
 use opengl_graphics::GlGraphics;
 use rand::Rng;
 
-use drawing::{color, Point, Size};
+use drawing::{color, Size};
+use maths::Point;
 use super::Pose;
 use traits::{Advance, Collide, Position};
 

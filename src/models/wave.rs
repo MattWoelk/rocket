@@ -1,6 +1,6 @@
 use std::f64;
 
-use drawing::Point;
+use maths::{TAU, Point};
 use super::Pose;
 use traits::{Advance, Collide, Position};
 use traits::Entity;
@@ -9,7 +9,6 @@ use graphics::{Context, Line};
 use graphics::math::Vec2d;
 use opengl_graphics::GlGraphics;
 
-const TAU: f64 = f64::consts::PI * 2.;
 const WAVE_SPEED_PER_SECOND: f64 = 500.;
 
 /// Enemies follow the player in order to cause a collision and let him explode

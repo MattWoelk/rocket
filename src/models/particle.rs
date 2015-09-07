@@ -5,7 +5,7 @@ use traits::{Advance, Position};
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;
 use traits::Entity;
-use drawing::Point;
+use maths::Point;
 
 /// A model representing a particle
 ///

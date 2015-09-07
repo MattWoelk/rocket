@@ -3,7 +3,6 @@
 use rand::Rng;
 use std::ops::{Add, Sub, Mul, Div};
 
-use super::Size;
 use graphics::math::Vec2d;
 
 /// A `Point` represents a position in space
@@ -23,14 +22,6 @@ impl Point {
         Point {
             x: radius * angle.sin(),
             y: radius * angle.cos(),
-        }
-    }
-
-    /// Returns a random `Point` within the given bounds (exclusive)
-    pub fn random<R: Rng>(rng: &mut R, bounds: Size) -> Point {
-        Point {
-            x: rng.gen_range(0.0, bounds.width),
-            y: rng.gen_range(0.0, bounds.height)
         }
     }
 

@@ -2,11 +2,11 @@
 
 extern crate graphics;
 
-mod point;
 mod size;
 
+use rand::Rng;
 use traits::Renderable;
-use collision::Circle;
+use maths::{Circle, Point};
 use opengl_graphics::GlGraphics;
 use graphics::{Context, Ellipse};
 use models::CollisionTestBall;
@@ -21,7 +21,6 @@ pub mod color {
     pub const VIOLET: [f32; 4] = [0.6, 0.0, 1.0, 1.0];
 }
 
-pub use self::point::Point;
 pub use self::size::Size;
 
 
@@ -36,5 +35,15 @@ impl Renderable for Circle {
     #[allow(unused_variables)]
     fn update_2(&mut self, units: f64, entities: &Vec<CollisionTestBall>, my_entity_index: i64, player_pos: Point) {
 
+    }
+}
+
+impl Point {
+    /// Returns a random `Point` within the given bounds (exclusive)
+    pub fn random<R: Rng>(rng: &mut R, bounds: Size) -> Point {
+        Point {
+            x: rng.gen_range(0.0, bounds.width),
+            y: rng.gen_range(0.0, bounds.height)
+        }
     }
 }

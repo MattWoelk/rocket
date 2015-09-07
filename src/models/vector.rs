@@ -2,7 +2,8 @@ use std::f64;
 
 use rand::Rng;
 
-use drawing::{Point, Size};
+use drawing::Size;
+use maths::{TAU, Point};
 
 /// A `Pose`
 #[derive(Clone, Default)]
@@ -32,7 +33,7 @@ impl Pose {
 
     /// Consumes the vector and returns a new one with inverted direction
     pub fn invert(mut self) -> Pose {
-        self.angle_radians -= f64::consts::PI;
+        self.angle_radians -= TAU / 2.;
         self
     }
 }

@@ -2,13 +2,13 @@ use std::fmt;
 use drawing::{color, Color};
 use traits::Position;
 use traits::Renderable;
-use collision::Circle;
-use collision::HitBoxes;
-use collision::Collidable;
+use maths::Circle;
+use maths::HitBoxes;
+use maths::Collidable;
+use maths::Point;
 
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;
-use drawing::Point;
 
 #[derive(Clone)]
 pub struct CollisionTestBall {

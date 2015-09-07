@@ -3,9 +3,12 @@
 extern crate graphics;
 
 use std::f64;
-use drawing::{Point, Size};
+use drawing::Size;
+use maths::{TAU, Point};
 use opengl_graphics::GlGraphics;
 use models::CollisionTestBall;
+
+use maths::{Circle};
 
 /// A trait for objects that occupy a position in space
 pub trait Position {
@@ -42,7 +45,7 @@ pub trait Advance: Position {
         *self.direction_mut() = if target.x > self.x() {
             m.atan()
         } else {
-            m.atan() + f64::consts::PI
+            m.atan() + (TAU / 2.)
         };
     }
 
@@ -114,3 +117,10 @@ pub trait Renderable {
 pub trait Entity {
     fn get_position(&mut self) -> Point;
 }
+
+pub trait Collidable {
+    fn collide_with_circle(&self, &Circle) -> bool;
+    fn collide_with_point<A>(&self, point: A) -> bool where A: Into<Point>;
+    // TODO: add each new type here, and then all will be enforced.
+}
+

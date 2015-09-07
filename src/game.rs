@@ -10,7 +10,8 @@ use opengl_graphics::GlGraphics;
 use piston::input::Key;
 use rand::{self, Rng, ThreadRng};
 
-use drawing::{color, Point, Size};
+use drawing::{color, Size};
+use maths::{TAU, Point};
 use models::{Bullet, Wave, Enemy, Particle, Pose, Level_0};
 use traits::{Advance, Collide, Position};
 use models::CollisionTestBall;
@@ -286,7 +287,7 @@ impl Game {
 
     // Generates a new explosion of the given intensity at the given position. This works best with values between 5 and 25
     fn make_explosion(particles: &mut Vec<Particle>, position: Point, intensity: u8) {
-        for rotation in itertools::linspace(0.0, 2.0 * f64::consts::PI, 30) {
+        for rotation in itertools::linspace(0.0, TAU, 30) {
             for ttl in (1..intensity).map(|x| (x as f64) / 10.0) {
                 particles.push(Particle::new(Pose::new(position.clone(), rotation), ttl));
             }
