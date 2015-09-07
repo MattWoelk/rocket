@@ -5,6 +5,7 @@
         but it's not really an area, as it's just a vector (2 data points)
         so size does make sense, but it's too vague.
 [] make rocket its own repository
+
 User Input
     [done] Keyboard
     [] Controller
@@ -16,6 +17,7 @@ User Input
             OR keep it, but make it a better equation
             OR make it take into account both axes when figuring out the threshold.
         [] register new controllers when they're plugged in after the game starts.
+
 Dot Physics
     [] change angle_radians to "turns", which I like better for angles.
         or "angle_turns"
@@ -33,6 +35,7 @@ Dot Physics
     [done] Rotate
         [done] More like, do exactly what the joystick does
         [done] get keyboard working for this, too
+
 Rings
     [done] make circle grow out of player
     [done] change circle colour depending on which button was pressed
@@ -62,6 +65,7 @@ Rings
     [] make the trail from the character, each dot in it have a velocity opposite of the character.
         It would be very satisfying if these interact with other objects or eachother.
         Giving them some randomness could be pretty nice as well.
+
 Collisions being detected between objects
     NOT AABB, but all rectangular bounding boxes
     Some resources:
@@ -177,6 +181,7 @@ Collisions being detected between objects
     [] Make a Graham Scan algorithm to produce 2D convex hulls for lists of points
         https://en.wikipedia.org/wiki/Graham_scan
         May not be required for this first game.
+
 Draw images to the screen
     [] with transparency in backgrounds
     [] make an animation system
@@ -185,20 +190,19 @@ Draw images to the screen
         [] make them adjustable
         [] allow the setting of keypoints
         [] allow tweening
+
 Multiple Players
     [] have 2 players
     [] have n players
+
 Resetting the level
     [] make ability to reset the level
     [] make ability to switch to a new level
+
 Builds
     [done] Set up TravisCI to build the project on stable, beta, and nightly each night.
     [done] update to the latest version of piston (0.3 -> 0.10)
-    [] See if it's possible for different versions of major libraries in use, too.
-    [] set up multiple binaries in cargo, so we can test different levels
-        So we can make test levels dedicated to things like collisions.
-        OR maybe there's a better way?
-            I just want to be able to give one command to build and run a certain level.
+
 Tools
     [] Make functions to allow the use of hsl and other non-RGB colour types.
         Use these? https://github.com/servo/rust-css/blob/master/color.rs
@@ -206,6 +210,7 @@ Tools
     [] Make a VERY EASY way to show a text overlay of things as they happen.
         A scrolling list, like a terminal where messages are popping up.
 
+=== Notes ===
 Explanation of Rust's module system:
     https://gist.github.com/DanielKeep/470f4e114d28cd0c8d43
     modules and files:
