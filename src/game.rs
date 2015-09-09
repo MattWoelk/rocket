@@ -12,8 +12,8 @@ use rand::{self, Rng, ThreadRng};
 
 use drawing::{color, Size};
 use maths::{TAU, Point};
-use models::{Bullet, Wave, Enemy, Particle, Pose, Level_0};
-use traits::{Advance, Collide, Position};
+use models::{Player, Bullet, Wave, Enemy, Particle, Pose, Level_0};
+use traits::{Advance, Collide, Position, Entity};
 use models::CollisionTestBall;
 
 use sdl2::controller::{Axis, Button};
@@ -23,47 +23,14 @@ const BULLET_RATE: f64 = 0.3;
 /// The data structure that drives the game
 pub struct Game {
     /// The level contains everything that needs to be drawn
-    level: Level_0,
-    /// The current score of the player
-    score: u32,
-    /// The active actions
-    actions: Actions,
-    /// Timers needed by the game
-    timers: Timers,
-    /// Resources needed for drawing
-    //resources: Resources
-    /// A random number generator
-    rng: ThreadRng,
-}
-
-/// Active actions (toggled by user input)
-#[derive(Default)]
-struct Actions {
-    player_velocity: Point,
-    boost: bool,
-    shoot: bool,
-    grass: bool,
-    water: bool,
-    fire: bool,
-}
-
-/// Timers to handle creation of enemies and particles
-struct Timers {
-    current_time: f64,
-    last_tail_particle: f64,
-    last_shoot: f64,
-    last_spawned_enemy: f64
-}
-
-impl Timers {
-    fn new() -> Self {
-        Timers {
-            current_time: 0.,
-            last_tail_particle: 0.,
-            last_shoot: 0.,
-            last_spawned_enemy: 0.,
-        }
-    }
+    pub level: Level_0,
+    pub player: Player,
+    pub particles: Vec<Particle>,
+    pub bullets: Vec<Bullet>,
+    pub waves: Vec<Wave>,
+    pub enemies: Vec<Enemy>,
+    pub collision_test_balls: Vec<CollisionTestBall>,
+    pub size: Size,
 }
 
 /// Additional resources needed for the game
@@ -77,10 +44,13 @@ impl Game {
         let mut rng = rand::thread_rng();
         Game {
             level: level,
-            score: 0,
-            actions: Actions::default(),
-            timers: Timers::new(),
-            rng: rng,
+            player: Player::random(&mut rng, size.clone()),
+            particles: vec![],
+            bullets: vec![],
+            waves: vec![],
+            enemies: vec![],
+            collision_test_balls: vec![],
+            size: size.clone(),
             //resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
         }
     }
@@ -98,11 +68,11 @@ impl Game {
     /// Handles a key press or release
     fn handle_key(&mut self, key: Key, pressed: bool) {
         match key {
-            Key::Left => self.actions.player_velocity.x = if pressed {-32768.} else {0.},
-            Key::Right => self.actions.player_velocity.x = if pressed {32768.} else {0.},
-            Key::Up => self.actions.player_velocity.y = if pressed {-32768.} else {0.},
-            Key::Down => self.actions.player_velocity.y = if pressed {32768.} else {0.},
-            Key::Space => self.actions.shoot = pressed,
+            Key::Left => self.level.actions.player_velocity.x = if pressed {-32768.} else {0.},
+            Key::Right => self.level.actions.player_velocity.x = if pressed {32768.} else {0.},
+            Key::Up => self.level.actions.player_velocity.y = if pressed {-32768.} else {0.},
+            Key::Down => self.level.actions.player_velocity.y = if pressed {32768.} else {0.},
+            Key::Space => self.level.actions.shoot = pressed,
             _ => ()
         }
     }
@@ -117,9 +87,9 @@ impl Game {
 
     fn handle_button(&mut self, button: Button, pressed: bool) {
         match button {
-            Button::A => self.actions.grass = pressed,
-            Button::B => self.actions.fire = pressed,
-            Button::X => self.actions.water = pressed,
+            Button::A => self.level.actions.grass = pressed,
+            Button::B => self.level.actions.fire = pressed,
+            Button::X => self.level.actions.water = pressed,
             _ => ()
         }
     }
@@ -130,100 +100,82 @@ impl Game {
         let dead_zoned_value = if value.abs() < 5000 {0} else {value - (5000 * value.signum())};
 
         match axis {
-            Axis::LeftX => self.actions.player_velocity.x = dead_zoned_value as f64,
-            Axis::LeftY => self.actions.player_velocity.y = dead_zoned_value as f64,
+            Axis::LeftX => self.level.actions.player_velocity.x = dead_zoned_value as f64,
+            Axis::LeftY => self.level.actions.player_velocity.y = dead_zoned_value as f64,
             _ => ()
         }
-    }
-
-    /// Renders the game to the screen
-    pub fn render(&mut self, c: graphics::context::Context, g: &mut GlGraphics) {
-        // Clear everything
-        graphics::clear(color::BLACK, g);
-
-        // Render the level
-        self.level.render(c, g);
-
-        // Render the score
-        let mut text = graphics::Text::new(22);
-        text.color = color::ORANGE;
-        //text.draw(&format!("Score: {}", self.score),
-        //          &mut self.resources.font,
-        //          &c.draw_state,
-        //          c.trans(10.0, 20.0).transform,
-        //          g);
     }
 
     /// Updates the game
     ///
     /// `dt` is the amount of seconds that have passed since the last update
     pub fn update(&mut self, dt: f64) {
-        self.timers.current_time += dt;
+        self.level.timers.current_time += dt;
 
-        let displacement = dt * self.actions.player_velocity / 32000.0 * 400.0;
+        let displacement = dt * self.level.actions.player_velocity / 32000.0 * 400.0;
 
-        self.level.player.advance_with_wrapping(displacement, self.level.size.clone());
+        self.player.advance_with_wrapping(displacement, self.size.clone());
 
         // Update particles
-        for particle in &mut self.level.particles {
+        for particle in &mut self.particles {
             particle.update(dt);
         }
 
         // Remove old particles
-        self.level.particles.retain(|p| p.ttl > 0.0);
+        self.particles.retain(|p| p.ttl > 0.0);
 
         // Add new particles at the player's position, to leave a trail
-        if self.timers.current_time - self.timers.last_tail_particle > 0.05 {
-            self.timers.last_tail_particle = self.timers.current_time;
-            self.level.particles.push(Particle::new(self.level.player.vector.clone().invert(), 0.5));
+        if self.level.timers.current_time - self.level.timers.last_tail_particle > 0.05 {
+            self.level.timers.last_tail_particle = self.level.timers.current_time;
+            self.particles.push(Particle::new(self.player.vector.clone().invert(), 0.5));
         }
 
         // Add bullets
-        if self.actions.shoot && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            self.level.waves.push(Wave::new(self.level.player.position().clone()));
+        if self.level.actions.shoot && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
+            self.level.timers.last_shoot = self.level.timers.current_time;
+            self.waves.push(Wave::new(self.player.position().clone()));
         }
 
-        if self.actions.grass && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            self.level.waves.push(Wave::new_grass(self.level.player.position().clone()));
+        if self.level.actions.grass && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
+            self.level.timers.last_shoot = self.level.timers.current_time;
+            self.waves.push(Wave::new_grass(self.player.position().clone()));
         }
 
-        if self.actions.fire && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            self.level.waves.push(Wave::new_fire(self.level.player.position().clone()));
+        if self.level.actions.fire && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
+            self.level.timers.last_shoot = self.level.timers.current_time;
+            self.waves.push(Wave::new_fire(self.player.position().clone()));
         }
 
-        if self.actions.water && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            self.level.waves.push(Wave::new_water(self.level.player.position().clone()));
+        if self.level.actions.water && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
+            self.level.timers.last_shoot = self.level.timers.current_time;
+            self.waves.push(Wave::new_water(self.player.position().clone()));
         }
 
-        for wave in &mut self.level.waves {
+        for wave in &mut self.waves {
             wave.update(dt);
         }
 
         { // Shorten the lifetime of size
-            let size = &self.level.size;
-            self.level.waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
+            let size = &self.size;
+            self.waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
         }
 
         // Spawn enemies at random locations
-        if self.timers.current_time - self.timers.last_spawned_enemy > 1.0 {
-            self.timers.last_spawned_enemy = self.timers.current_time;
+        if self.level.timers.current_time - self.level.timers.last_spawned_enemy > 1.0 {
+            self.level.timers.last_spawned_enemy = self.level.timers.current_time;
             let mut new_enemy: Enemy;
             loop {
-                new_enemy = Enemy::new(Pose::random(&mut self.rng, self.level.size.clone()));
-                if !self.level.player.collides_with(&new_enemy) {
+                new_enemy = Enemy::new(Pose::random(&mut self.level.rng, self.size.clone()));
+                if !self.player.collides_with(&new_enemy) {
                     break;
                 }
             }
-            self.level.enemies.push(new_enemy);
+            self.enemies.push(new_enemy);
         }
 
         // Move enemies in the player's direction
-        for enemy in &mut self.level.enemies {
-            enemy.update(dt * 100.0, self.level.player.position());
+        for enemy in &mut self.enemies {
+            enemy.update(dt * 100.0, self.player.position());
         }
 
         self.handle_player_collisions();
@@ -231,15 +183,15 @@ impl Game {
 
     // TODO: to be removed
     fn handle_bullet_collisions(&mut self) {
-        let old_enemy_count = self.level.enemies.len();
+        let old_enemy_count = self.enemies.len();
 
         {
             // We introduce a scope to shorten the lifetime of the borrows below
             // The references are to avoid using self in the closure
             // (the borrow checker doesn't like that)
-            let bullets = &mut self.level.bullets;
-            let enemies = &mut self.level.enemies;
-            let particles = &mut self.level.particles;
+            let bullets = &mut self.bullets;
+            let enemies = &mut self.enemies;
+            let particles = &mut self.particles;
 
             bullets.retain(|bullet| {
                 // Remove the first enemy that collides with a bullet (if any)
@@ -257,29 +209,29 @@ impl Game {
             });
         }
 
-        let killed_enemies = (old_enemy_count - self.level.enemies.len()) as u32;
-        self.score += 10 * killed_enemies;
+        let killed_enemies = (old_enemy_count - self.enemies.len()) as u32;
+        self.level.score += 10 * killed_enemies;
     }
 
     /// reset our game-state
     fn reset(&mut self) {
         // Reset player position
-        *self.level.player.x_mut() = self.level.size.random_x(&mut self.rng);
-        *self.level.player.y_mut() = self.level.size.random_y(&mut self.rng);
+        *self.player.x_mut() = self.size.random_x(&mut self.level.rng);
+        *self.player.y_mut() = self.size.random_y(&mut self.level.rng);
 
         // Reset score
-        self.score = 0;
+        self.level.score = 0;
 
         // Remove all enemies
-        self.level.enemies.clear();
+        self.enemies.clear();
     }
 
     /// Handles collisions between the player and the enemies
     fn handle_player_collisions(&mut self) {
-        if self.level.enemies.iter().any(|enemy| self.level.player.collides_with(enemy)) {
+        if self.enemies.iter().any(|enemy| self.player.collides_with(enemy)) {
             // Make an explosion where the player was
-            let ppos = self.level.player.position();
-            Game::make_explosion(&mut self.level.particles, ppos, 8);
+            let ppos = self.player.position();
+            Game::make_explosion(&mut self.particles, ppos, 8);
 
             self.reset();
         }
@@ -298,9 +250,9 @@ impl Game {
     pub fn spawn_circle_with_collision_colouring(&mut self, position: Point) {
         let mut entity = CollisionTestBall::new();
         entity.velocity = Point::new(1., 1.);
-        self.level.collision_test_balls.push(entity);
+        self.collision_test_balls.push(entity);
         // TODO
-        //let player_position = self.level.player.position();
+        //let player_position = self.player.position();
         //let circle = Circle {
         //    radius: 5.,
         //    centre: position,
@@ -316,5 +268,66 @@ impl Game {
         //Ellipse::new(colour).draw(
         //    [circle.centre.x - circle.radius, circle.centre.y - circle.radius, 0., 0.],
         //    &c.draw_state, c.transform, gl);
+    }
+
+    /// Renders the level and everything in it
+    pub fn render(&mut self, c: graphics::context::Context, g: &mut GlGraphics) {
+        graphics::clear(color::BLACK, g);
+
+        for particle in &self.particles {
+            particle.draw(&c, g);
+        }
+
+        for bullet in &self.bullets {
+            bullet.draw(&c, g);
+        }
+
+        for wave in &self.waves {
+            wave.draw(&c, g);
+        }
+
+        for enemy in &self.enemies {
+            enemy.draw(&c, g);
+        }
+
+        let static_renderables = self.collision_test_balls.clone();
+
+        for (i, renderable) in &mut self.collision_test_balls.iter_mut().enumerate() {
+            renderable.draw(&c, g);
+        }
+
+        let bullets_static = self.bullets.clone();
+        let bullets_iter = bullets_static.iter().map(|x| x as &Entity);
+
+        let particles_static = self.particles.clone();
+        let particles_iter = particles_static.iter().map(|x| x as &Entity);
+
+        let waves_static = self.waves.clone();
+        let waves_iter = waves_static.iter().map(|x| x as &Entity);
+
+        let enemies_static = self.enemies.clone();
+        let enemies_iter = enemies_static.iter().map(|x| x as &Entity);
+
+        let collision_test_balls_static = self.collision_test_balls.clone().into_iter();
+
+        //let all_renderables_static = bullets_static
+        //    .chain(particles_static);
+
+        // TODO: Put this somewhere else
+        // COLLISION STUFF
+        for (i, renderable) in &mut self.collision_test_balls.iter_mut().enumerate() {
+            renderable.update_2(4., &static_renderables, i as i64, self.player.vector.position);
+        }
+
+        self.player.draw(&c, g);
+
+        // Render the score
+        let mut text = graphics::Text::new(22);
+        text.color = color::ORANGE;
+        //text.draw(&format!("Score: {}", self.level.score),
+        //          &mut self.resources.font,
+        //          &c.draw_state,
+        //          c.trans(10.0, 20.0).transform,
+        //          g);
     }
 }

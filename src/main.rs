@@ -40,8 +40,8 @@ fn main() {
     let size = Size::new(1024.0, 600.0);
 
     let level = match arguments.get(1).map(|x| x.as_ref()) {
-            Some("l0") => Level_0::new(&mut rng, size),
-            _          => Level_0::new(&mut rng, size),
+            Some("l0") => Level_0::new(),
+            _          => Level_0::new(),
     };
 
     // Initialization stuff
