@@ -13,6 +13,7 @@ use rand::{self, Rng, ThreadRng};
 use drawing::{color, Size};
 use maths::{TAU, Point};
 use models::{Player, Bullet, Wave, Enemy, Particle, Pose, Level_0};
+use models::Controls;
 use traits::{Advance, Collide, Position, Entity};
 use models::CollisionTestBall;
 
@@ -67,14 +68,39 @@ impl Game {
 
     /// Handles a key press or release
     fn handle_key(&mut self, key: Key, pressed: bool) {
-        match key {
-            Key::Left => self.level.actions.player_velocity.x = if pressed {-32768.} else {0.},
-            Key::Right => self.level.actions.player_velocity.x = if pressed {32768.} else {0.},
-            Key::Up => self.level.actions.player_velocity.y = if pressed {-32768.} else {0.},
-            Key::Down => self.level.actions.player_velocity.y = if pressed {32768.} else {0.},
-            Key::Space => self.level.actions.shoot = pressed,
-            _ => ()
-        }
+        let control: Controls = match key {
+            Key::Left => {
+                if pressed {
+                    Controls::X1(-32768)
+                } else {
+                    Controls::X1(0)
+                }
+            },
+            Key::Right => {
+                if pressed {
+                    Controls::X1(32768)
+                } else {
+                    Controls::X1(0)
+                }
+            },
+            Key::Up => {
+                if pressed {
+                    Controls::Y1(-32768)
+                } else {
+                    Controls::Y1(0)
+                }
+            },
+            Key::Down => {
+                if pressed {
+                    Controls::Y1(32768)
+                } else {
+                    Controls::Y1(0)
+                }
+            },
+            Key::Space => Controls::X(pressed),
+            _ => Controls::None
+        };
+        self.level.handle_key(control);
     }
 
     pub fn button_press(&mut self, button: Button) {

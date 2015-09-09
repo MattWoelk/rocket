@@ -19,6 +19,22 @@ pub struct Level_0 {
     pub rng: ThreadRng,
 }
 
+pub enum Controls {
+    A(bool),
+    B(bool),
+    X(bool),
+    Y(bool),
+    LT(bool),
+    RT(bool),
+    LB(bool),
+    RB(bool),
+    X1(i64),
+    Y1(i64),
+    X2(i64),
+    Y2(i64),
+    None,
+}
+
 #[derive(Default)]
 pub struct Actions {
     pub player_velocity: Point,
@@ -61,4 +77,12 @@ impl Level_0 {
         }
     }
 
+    pub fn handle_key(&mut self, control: Controls) {
+        match control {
+            Controls::X1(val) => self.actions.player_velocity.x = val as f64,
+            Controls::Y1(val) => self.actions.player_velocity.y = val as f64,
+            Controls::X(pressed) => self.actions.shoot = pressed,
+            _ => ()
+        }
+    }
 }
