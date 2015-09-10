@@ -183,7 +183,8 @@ Collisions being detected between objects
                     so level controlls logic and physics
                 [] then make level a trait
                     [] make its pieces non-public, using methods instead.
-                        [] finish getting rid of "actions" within game.rs.
+                        [done] finish getting rid of "actions" within game.rs.
+                        [] rename handle_key to *_control
                     [] evaluate how this interface of methods works and maybe change it.
                     [] make level a trait using this new interface.
                 [] move the levels to their own folder called level

@@ -19,7 +19,7 @@ use models::CollisionTestBall;
 
 use sdl2::controller::{Axis, Button};
 
-const BULLET_RATE: f64 = 0.3;
+pub const BULLET_RATE: f64 = 0.3;
 
 /// The data structure that drives the game
 pub struct Game {
@@ -112,12 +112,13 @@ impl Game {
     }
 
     fn handle_button(&mut self, button: Button, pressed: bool) {
-        match button {
-            Button::A => self.level.actions.grass = pressed,
-            Button::B => self.level.actions.fire = pressed,
-            Button::X => self.level.actions.water = pressed,
-            _ => ()
-        }
+        let control = match button {
+            Button::A => Controls::A(pressed),
+            Button::B => Controls::B(pressed),
+            Button::X => Controls::X(pressed),
+            _ => Controls::None
+        };
+        self.level.handle_key(control);
     }
 
     pub fn handle_axis(&mut self, axis: Axis, value: i32) {
@@ -125,86 +126,28 @@ impl Game {
         // will require handling both axes at once.
         let dead_zoned_value = if value.abs() < 5000 {0} else {value - (5000 * value.signum())};
 
-        match axis {
-            Axis::LeftX => self.level.actions.player_velocity.x = dead_zoned_value as f64,
-            Axis::LeftY => self.level.actions.player_velocity.y = dead_zoned_value as f64,
-            _ => ()
-        }
+        let control = match axis {
+            Axis::LeftX => Controls::X1(dead_zoned_value as i64),
+            Axis::LeftY => Controls::Y1(dead_zoned_value as i64),
+            _ => Controls::None
+        };
+        self.level.handle_key(control);
     }
 
     /// Updates the game
     ///
     /// `dt` is the amount of seconds that have passed since the last update
+    // TODO: Portions or all of this should be in level_0.rs
+    //       Pass all the entities to level.update?
+    //       I want the entities stored here, but the logic elsewhere...
     pub fn update(&mut self, dt: f64) {
-        self.level.timers.current_time += dt;
-
-        let displacement = dt * self.level.actions.player_velocity / 32000.0 * 400.0;
-
-        self.player.advance_with_wrapping(displacement, self.size.clone());
-
-        // Update particles
-        for particle in &mut self.particles {
-            particle.update(dt);
-        }
-
-        // Remove old particles
-        self.particles.retain(|p| p.ttl > 0.0);
-
-        // Add new particles at the player's position, to leave a trail
-        if self.level.timers.current_time - self.level.timers.last_tail_particle > 0.05 {
-            self.level.timers.last_tail_particle = self.level.timers.current_time;
-            self.particles.push(Particle::new(self.player.vector.clone().invert(), 0.5));
-        }
-
-        // Add bullets
-        if self.level.actions.shoot && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
-            self.level.timers.last_shoot = self.level.timers.current_time;
-            self.waves.push(Wave::new(self.player.position().clone()));
-        }
-
-        if self.level.actions.grass && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
-            self.level.timers.last_shoot = self.level.timers.current_time;
-            self.waves.push(Wave::new_grass(self.player.position().clone()));
-        }
-
-        if self.level.actions.fire && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
-            self.level.timers.last_shoot = self.level.timers.current_time;
-            self.waves.push(Wave::new_fire(self.player.position().clone()));
-        }
-
-        if self.level.actions.water && self.level.timers.current_time - self.level.timers.last_shoot > BULLET_RATE {
-            self.level.timers.last_shoot = self.level.timers.current_time;
-            self.waves.push(Wave::new_water(self.player.position().clone()));
-        }
-
-        for wave in &mut self.waves {
-            wave.update(dt);
-        }
-
-        { // Shorten the lifetime of size
-            let size = &self.size;
-            self.waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
-        }
-
-        // Spawn enemies at random locations
-        if self.level.timers.current_time - self.level.timers.last_spawned_enemy > 1.0 {
-            self.level.timers.last_spawned_enemy = self.level.timers.current_time;
-            let mut new_enemy: Enemy;
-            loop {
-                new_enemy = Enemy::new(Pose::random(&mut self.level.rng, self.size.clone()));
-                if !self.player.collides_with(&new_enemy) {
-                    break;
-                }
-            }
-            self.enemies.push(new_enemy);
-        }
-
-        // Move enemies in the player's direction
-        for enemy in &mut self.enemies {
-            enemy.update(dt * 100.0, self.player.position());
-        }
-
-        self.handle_player_collisions();
+        self.level.update(
+            &mut self.particles,
+            &mut self.player,
+            &mut self.waves,
+            &mut self.enemies,
+            &self.size,
+            dt);
     }
 
     // TODO: to be removed
@@ -240,7 +183,7 @@ impl Game {
     }
 
     /// reset our game-state
-    fn reset(&mut self) {
+    pub fn reset(&mut self) {
         // Reset player position
         *self.player.x_mut() = self.size.random_x(&mut self.level.rng);
         *self.player.y_mut() = self.size.random_y(&mut self.level.rng);
@@ -264,7 +207,7 @@ impl Game {
     }
 
     // Generates a new explosion of the given intensity at the given position. This works best with values between 5 and 25
-    fn make_explosion(particles: &mut Vec<Particle>, position: Point, intensity: u8) {
+    pub fn make_explosion(particles: &mut Vec<Particle>, position: Point, intensity: u8) {
         for rotation in itertools::linspace(0.0, TAU, 30) {
             for ttl in (1..intensity).map(|x| (x as f64) / 10.0) {
                 particles.push(Particle::new(Pose::new(position.clone(), rotation), ttl));
