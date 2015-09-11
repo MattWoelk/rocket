@@ -78,7 +78,7 @@ impl Level_0 {
         }
     }
 
-    pub fn handle_key(&mut self, control: Controls) {
+    pub fn handle_control(&mut self, control: Controls) {
         match control {
             Controls::X1(val) => self.actions.player_velocity.x = val as f64,
             Controls::Y1(val) => self.actions.player_velocity.y = val as f64,

@@ -100,7 +100,7 @@ impl Game {
             Key::Space => Controls::X(pressed),
             _ => Controls::None
         };
-        self.level.handle_key(control);
+        self.level.handle_control(control);
     }
 
     pub fn button_press(&mut self, button: Button) {
@@ -118,7 +118,7 @@ impl Game {
             Button::X => Controls::X(pressed),
             _ => Controls::None
         };
-        self.level.handle_key(control);
+        self.level.handle_control(control);
     }
 
     pub fn handle_axis(&mut self, axis: Axis, value: i32) {
@@ -131,7 +131,7 @@ impl Game {
             Axis::LeftY => Controls::Y1(dead_zoned_value as i64),
             _ => Controls::None
         };
-        self.level.handle_key(control);
+        self.level.handle_control(control);
     }
 
     /// Updates the game
