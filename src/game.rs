@@ -182,30 +182,6 @@ impl Game {
         self.level.score += 10 * killed_enemies;
     }
 
-    /// reset our game-state
-    pub fn reset(&mut self) {
-        // Reset player position
-        *self.player.x_mut() = self.size.random_x(&mut self.level.rng);
-        *self.player.y_mut() = self.size.random_y(&mut self.level.rng);
-
-        // Reset score
-        self.level.score = 0;
-
-        // Remove all enemies
-        self.enemies.clear();
-    }
-
-    /// Handles collisions between the player and the enemies
-    fn handle_player_collisions(&mut self) {
-        if self.enemies.iter().any(|enemy| self.player.collides_with(enemy)) {
-            // Make an explosion where the player was
-            let ppos = self.player.position();
-            Game::make_explosion(&mut self.particles, ppos, 8);
-
-            self.reset();
-        }
-    }
-
     // Generates a new explosion of the given intensity at the given position. This works best with values between 5 and 25
     pub fn make_explosion(particles: &mut Vec<Particle>, position: Point, intensity: u8) {
         for rotation in itertools::linspace(0.0, TAU, 30) {
