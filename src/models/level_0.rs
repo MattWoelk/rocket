@@ -170,7 +170,7 @@ impl Level_0 {
     }
 
     /// reset our game-state
-    pub fn reset(&mut self, player: &mut Player, enemies: &mut Vec<Enemy>, size: &Size) {
+    fn reset(&mut self, player: &mut Player, enemies: &mut Vec<Enemy>, size: &Size) {
         // Reset player position
         *player.x_mut() = size.random_x(&mut self.rng);
         *player.y_mut() = size.random_y(&mut self.rng);

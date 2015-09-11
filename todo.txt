@@ -185,16 +185,18 @@ Collisions being detected between objects
                     [done] make its pieces non-public, using methods instead.
                         [done] finish getting rid of "actions" within game.rs.
                         [done] rename handle_key to *_control
-                    [] evaluate how this interface of methods works and maybe change it.
+                    [done] evaluate how this interface of methods works and maybe change it.
                         MVC?
                             It's like I want Game to be MV and level to be C.
                             Nono, more like Game is VC and level is M.
                                 This actually makes sense.
                         Game holds and renders entities.
                         Level chooses how everything behaves.
-                            handle_control
-                            update
-                            reset
+                            handle_control()
+                            update()
+                            reset()
+                            its only control is modifying the entities.
+                                maybe those functions will get outputs.
                     [] make level a trait using this new interface.
                 [] move the levels to their own folder called level
         [] move each piece in collisions/mod.rs into its own file.
