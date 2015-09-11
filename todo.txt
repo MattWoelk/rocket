@@ -181,7 +181,7 @@ Collisions being detected between objects
              [] make a level trait
                 [done] first, change the function of level
                     so level controlls logic and physics
-                [] then make level a trait
+                [done] then make level a trait
                     [done] make its pieces non-public, using methods instead.
                         [done] finish getting rid of "actions" within game.rs.
                         [done] rename handle_key to *_control
@@ -197,7 +197,7 @@ Collisions being detected between objects
                             reset()
                             its only control is modifying the entities.
                                 maybe those functions will get outputs.
-                    [] make level a trait using this new interface.
+                    [done] make level a trait using this new interface.
                 [] move the levels to their own folder called level
         [] move each piece in collisions/mod.rs into its own file.
             Have the tests in the same file

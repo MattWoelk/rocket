@@ -14,7 +14,7 @@ use drawing::{color, Size};
 use maths::{TAU, Point};
 use models::{Player, Bullet, Wave, Enemy, Particle, Pose, Level_0};
 use models::Controls;
-use traits::{Advance, Collide, Position, Entity};
+use traits::{Advance, Collide, Position, Entity, Level};
 use models::CollisionTestBall;
 
 use sdl2::controller::{Axis, Button};

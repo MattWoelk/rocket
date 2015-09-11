@@ -7,6 +7,8 @@ use drawing::Size;
 use maths::{TAU, Point};
 use opengl_graphics::GlGraphics;
 use models::CollisionTestBall;
+use models::Controls;
+use models::{Bullet, Wave, Enemy, Particle, Player, Pose};
 
 use maths::{Circle};
 
@@ -124,3 +126,13 @@ pub trait Collidable {
     // TODO: add each new type here, and then all will be enforced.
 }
 
+pub trait Level {
+    fn handle_control(&mut self, control: Controls);
+    fn update(&mut self,
+                  particles: &mut Vec<Particle>,
+                  player: &mut Player,
+                  waves: &mut Vec<Wave>,
+                  enemies: &mut Vec<Enemy>,
+                  size: &Size,
+                  dt: f64);
+}

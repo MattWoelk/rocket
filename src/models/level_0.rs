@@ -5,7 +5,7 @@ use rand::Rng;
 use drawing::Size;
 use models::{Bullet, Wave, Enemy, Particle, Player, Pose};
 use models::CollisionTestBall;
-use traits::{Advance, Position, Collide, Entity};
+use traits::{Advance, Position, Collide, Entity, Level};
 use rand::{self, ThreadRng};
 use maths::Point;
 use game::{Game, BULLET_RATE};
@@ -78,7 +78,22 @@ impl Level_0 {
         }
     }
 
-    pub fn handle_control(&mut self, control: Controls) {
+    /// reset our game-state
+    fn reset(&mut self, player: &mut Player, enemies: &mut Vec<Enemy>, size: &Size) {
+        // Reset player position
+        *player.x_mut() = size.random_x(&mut self.rng);
+        *player.y_mut() = size.random_y(&mut self.rng);
+
+        // Reset score
+        self.score = 0;
+
+        // Remove all enemies
+        enemies.clear();
+    }
+}
+
+impl Level for Level_0 {
+    fn handle_control(&mut self, control: Controls) {
         match control {
             Controls::X1(val) => self.actions.player_velocity.x = val as f64,
             Controls::Y1(val) => self.actions.player_velocity.y = val as f64,
@@ -87,13 +102,13 @@ impl Level_0 {
         }
     }
 
-    pub fn update(&mut self,
-                  particles: &mut Vec<Particle>,
-                  player: &mut Player,
-                  waves: &mut Vec<Wave>,
-                  enemies: &mut Vec<Enemy>,
-                  size: &Size,
-                  dt: f64) {
+    fn update(&mut self,
+              particles: &mut Vec<Particle>,
+              player: &mut Player,
+              waves: &mut Vec<Wave>,
+              enemies: &mut Vec<Enemy>,
+              size: &Size,
+              dt: f64) {
         self.timers.current_time += dt;
 
         let displacement = dt * self.actions.player_velocity / 32000.0 * 400.0;
@@ -167,18 +182,5 @@ impl Level_0 {
 
             self.reset(player, enemies, size);
         }
-    }
-
-    /// reset our game-state
-    fn reset(&mut self, player: &mut Player, enemies: &mut Vec<Enemy>, size: &Size) {
-        // Reset player position
-        *player.x_mut() = size.random_x(&mut self.rng);
-        *player.y_mut() = size.random_y(&mut self.rng);
-
-        // Reset score
-        self.score = 0;
-
-        // Remove all enemies
-        enemies.clear();
     }
 }
