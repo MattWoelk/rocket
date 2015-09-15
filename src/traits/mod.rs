@@ -126,7 +126,11 @@ pub trait Collidable {
     // TODO: add each new type here, and then all will be enforced.
 }
 
-pub trait Level {
+// TODO: I want to get around lifetimes by using clone
+// so everything that implements level must implement clone, too.
+// This notation means that Level requires its implementers to implement Clone
+//   pub trait Level : Clone {}
+pub trait Level : Sized {
     fn handle_control(&mut self, control: Controls);
     fn update(&mut self,
                   particles: &mut Vec<Particle>,

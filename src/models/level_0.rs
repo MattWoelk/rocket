@@ -13,6 +13,7 @@ use game::{Game, BULLET_RATE};
 use std::iter::Iterator;
 
 /// A model that contains the other models and renders them
+#[derive(Clone)]
 pub struct Level_0 {
     pub score: u32,
     pub actions: Actions,
@@ -36,7 +37,7 @@ pub enum Controls {
     None,
 }
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct Actions {
     pub player_velocity: Point,
     pub boost: bool,
@@ -47,6 +48,7 @@ pub struct Actions {
 }
 
 /// Timers to handle creation of enemies and particles
+#[derive(Clone)]
 pub struct Timers {
     pub current_time: f64,
     pub last_tail_particle: f64,

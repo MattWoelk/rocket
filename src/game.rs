@@ -13,6 +13,7 @@ use rand::{self, Rng, ThreadRng};
 use drawing::{color, Size};
 use maths::{TAU, Point};
 use models::{Player, Bullet, Wave, Enemy, Particle, Pose, Level_0};
+//use models::level_0::{Timers, Actions};
 use models::Controls;
 use traits::{Advance, Collide, Position, Entity, Level};
 use models::CollisionTestBall;
@@ -24,7 +25,7 @@ pub const BULLET_RATE: f64 = 0.3;
 /// The data structure that drives the game
 pub struct Game {
     /// The level contains everything that needs to be drawn
-    pub level: Level_0,
+    pub level: Box<Level_0>,
     pub player: Player,
     pub particles: Vec<Particle>,
     pub bullets: Vec<Bullet>,
@@ -44,7 +45,7 @@ impl Game {
     pub fn new(size: Size, level: Level_0) -> Game {
         let mut rng = rand::thread_rng();
         Game {
-            level: level,
+            level: Box::new(level),
             player: Player::random(&mut rng, size.clone()),
             particles: vec![],
             bullets: vec![],
@@ -137,9 +138,6 @@ impl Game {
     /// Updates the game
     ///
     /// `dt` is the amount of seconds that have passed since the last update
-    // TODO: Portions or all of this should be in level_0.rs
-    //       Pass all the entities to level.update?
-    //       I want the entities stored here, but the logic elsewhere...
     pub fn update(&mut self, dt: f64) {
         self.level.update(
             &mut self.particles,
