@@ -25,7 +25,7 @@ pub const BULLET_RATE: f64 = 0.3;
 /// The data structure that drives the game
 pub struct Game {
     /// The level contains everything that needs to be drawn
-    pub level: Box<Level_0>,
+    pub level: Box<Level + 'static>,
     pub player: Player,
     pub particles: Vec<Particle>,
     pub bullets: Vec<Bullet>,
@@ -177,7 +177,7 @@ impl Game {
         }
 
         let killed_enemies = (old_enemy_count - self.enemies.len()) as u32;
-        self.level.score += 10 * killed_enemies;
+        //self.level.score += 10 * killed_enemies;
     }
 
     // Generates a new explosion of the given intensity at the given position. This works best with values between 5 and 25

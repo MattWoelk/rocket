@@ -198,7 +198,10 @@ Collisions being detected between objects
                             its only control is modifying the entities.
                                 maybe those functions will get outputs.
                     [done] make level a trait using this new interface.
-                [] use the level trait
+                [done] use the level trait
+                    [done] try storing a box of the trait, and make it static.
+                        This, combined with having the trait not require Sized made it work.
+                            I HAVE NO IDEA WHY THIS WORKS.
                 [] move the levels to their own folder called level
         [] move each piece in collisions/mod.rs into its own file.
             Have the tests in the same file

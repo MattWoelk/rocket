@@ -130,7 +130,7 @@ pub trait Collidable {
 // so everything that implements level must implement clone, too.
 // This notation means that Level requires its implementers to implement Clone
 //   pub trait Level : Clone {}
-pub trait Level : Sized {
+pub trait Level {
     fn handle_control(&mut self, control: Controls);
     fn update(&mut self,
                   particles: &mut Vec<Particle>,
