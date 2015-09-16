@@ -42,7 +42,7 @@ pub struct Game {
 
 impl Game {
     /// Returns a new `Game` containing a `Level_0` of the given `Size`
-    pub fn new(size: Size, level: Level_0) -> Game {
+    pub fn new<L:Level + 'static>(size: Size, level: L) -> Game {
         let mut rng = rand::thread_rng();
         Game {
             level: Box::new(level),
