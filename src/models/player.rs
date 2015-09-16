@@ -46,6 +46,7 @@ impl Player {
     }
 
     /// Returns the nose of the rocket
+    #[allow(dead_code)]
     pub fn nose(&self) -> Point {
         Point::new(POLYGON[1][0], POLYGON[1][1])
             .rotate(self.angle_radians())

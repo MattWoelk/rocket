@@ -21,7 +21,7 @@ use piston::window::WindowSettings;
 
 use drawing::Size;
 use game::Game;
-use models::Level_0;
+use models::Level0;
 
 use maths::Point;
 
@@ -36,12 +36,11 @@ use std::env::args;
 fn main() {
     // Get command line args
     let arguments = args().collect::<Vec<String>>();
-    let mut rng = rand::thread_rng();
     let size = Size::new(1024.0, 600.0);
 
     let level = match arguments.get(1).map(|x| x.as_ref()) {
-            Some("l0") => Level_0::new(),
-            _          => Level_0::new(),
+            Some("l0") => Level0::new(),
+            _          => Level0::new(),
     };
 
     // Initialization stuff
@@ -97,7 +96,7 @@ fn main() {
 
     // The game object
     let mut game = Game::new(
-        Size::new(1024.0, 600.0),
+        size,
         level);
 
     // Event handling

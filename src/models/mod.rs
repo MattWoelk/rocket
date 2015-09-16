@@ -16,6 +16,6 @@ pub use self::enemy::Enemy;
 pub use self::particle::Particle;
 pub use self::player::Player;
 pub use self::vector::Pose;
-pub use self::level_0::Level_0;
+pub use self::level_0::Level0;
 pub use self::level_0::Controls;
 pub use self::entity::CollisionTestBall;

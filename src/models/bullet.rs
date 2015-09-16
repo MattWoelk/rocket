@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use drawing::color;
 use super::Pose;
 use traits::{Advance, Collide, Position};

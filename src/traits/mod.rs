@@ -2,13 +2,12 @@
 
 extern crate graphics;
 
-use std::f64;
 use drawing::Size;
 use maths::{TAU, Point};
 use opengl_graphics::GlGraphics;
 use models::CollisionTestBall;
 use models::Controls;
-use models::{Bullet, Wave, Enemy, Particle, Player, Pose};
+use models::{Wave, Enemy, Particle, Player};
 
 use maths::{Circle};
 

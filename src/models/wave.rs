@@ -1,5 +1,3 @@
-use std::f64;
-
 use maths::{TAU, Point};
 use super::Pose;
 use traits::{Advance, Collide, Position};

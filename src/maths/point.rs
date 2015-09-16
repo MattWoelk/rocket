@@ -1,6 +1,5 @@
 #![allow(dead_code)]
 
-use rand::Rng;
 use std::ops::{Add, Sub, Mul, Div};
 
 use graphics::math::Vec2d;

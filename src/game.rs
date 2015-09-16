@@ -1,21 +1,18 @@
 //! This module contains the game logic
 
-use std::f64;
-//use std::path::Path;
-
 use graphics::{self};
 use itertools;
 use opengl_graphics::GlGraphics;
 //use opengl_graphics::glyph_cache::GlyphCache;
 use piston::input::Key;
-use rand::{self, Rng, ThreadRng};
+use rand::{self};
 
 use drawing::{color, Size};
 use maths::{TAU, Point};
-use models::{Player, Bullet, Wave, Enemy, Particle, Pose, Level_0};
+use models::{Player, Bullet, Wave, Enemy, Particle, Pose};
 //use models::level_0::{Timers, Actions};
 use models::Controls;
-use traits::{Advance, Collide, Position, Entity, Level};
+use traits::{Collide, Position, Entity, Level};
 use models::CollisionTestBall;
 
 use sdl2::controller::{Axis, Button};
@@ -41,7 +38,7 @@ pub struct Game {
 //}
 
 impl Game {
-    /// Returns a new `Game` containing a `Level_0` of the given `Size`
+    /// Returns a new `Game` containing a `Level0` of the given `Size`
     pub fn new<L:Level + 'static>(size: Size, level: L) -> Game {
         let mut rng = rand::thread_rng();
         Game {
@@ -149,6 +146,7 @@ impl Game {
     }
 
     // TODO: to be removed
+    #[allow(dead_code, unused_variables)]
     fn handle_bullet_collisions(&mut self) {
         let old_enemy_count = self.enemies.len();
 
@@ -176,7 +174,7 @@ impl Game {
             });
         }
 
-        let killed_enemies = (old_enemy_count - self.enemies.len()) as u32;
+        //let killed_enemies = (old_enemy_count - self.enemies.len()) as u32;
         //self.level.score += 10 * killed_enemies;
     }
 
@@ -214,6 +212,7 @@ impl Game {
     }
 
     /// Renders the level and everything in it
+    #[allow(dead_code, unused_variables)]
     pub fn render(&mut self, c: graphics::context::Context, g: &mut GlGraphics) {
         graphics::clear(color::BLACK, g);
 

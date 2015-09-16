@@ -1,11 +1,6 @@
-use graphics;
-use opengl_graphics::GlGraphics;
-use rand::Rng;
-
 use drawing::Size;
-use models::{Bullet, Wave, Enemy, Particle, Player, Pose};
-use models::CollisionTestBall;
-use traits::{Advance, Position, Collide, Entity, Level};
+use models::{Wave, Enemy, Particle, Player, Pose};
+use traits::{Advance, Position, Collide, Level};
 use rand::{self, ThreadRng};
 use maths::Point;
 use game::{Game, BULLET_RATE};
@@ -14,7 +9,7 @@ use std::iter::Iterator;
 
 /// A model that contains the other models and renders them
 #[derive(Clone)]
-pub struct Level_0 {
+pub struct Level0 {
     pub score: u32,
     pub actions: Actions,
     pub timers: Timers,
@@ -67,12 +62,12 @@ impl Timers {
     }
 }
 
-impl Level_0 {
+impl Level0 {
     /// Returns a new level of the given size
-    pub fn new() -> Level_0 {
-        let mut rng = rand::thread_rng();
+    pub fn new() -> Level0 {
+        let rng = rand::thread_rng();
 
-        Level_0 {
+        Level0 {
             score: 0,
             actions: Actions::default(),
             timers: Timers::new(),
@@ -94,7 +89,7 @@ impl Level_0 {
     }
 }
 
-impl Level for Level_0 {
+impl Level for Level0 {
     fn handle_control(&mut self, control: Controls) {
         match control {
             Controls::X1(val) => self.actions.player_velocity.x = val as f64,

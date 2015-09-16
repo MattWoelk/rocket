@@ -1,5 +1,3 @@
-use std::f64;
-
 use rand::Rng;
 
 use drawing::Size;
