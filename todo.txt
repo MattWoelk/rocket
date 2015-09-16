@@ -202,7 +202,9 @@ Collisions being detected between objects
                     [done] try storing a box of the trait, and make it static.
                         This, combined with having the trait not require Sized made it work.
                             I HAVE NO IDEA WHY THIS WORKS.
-                [] move the levels to their own folder called level
+                [] move the levels to their own directory called level
+                [] make a collision level
+                [] make level selection dynamic, loading all the files from the level directory
         [] move each piece in collisions/mod.rs into its own file.
             Have the tests in the same file
         [] move Point to be with the rest of the collision stuff?

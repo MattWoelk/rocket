@@ -40,7 +40,10 @@ fn main() {
 
     let level = match arguments.get(1).map(|x| x.as_ref()) {
             Some("l0") => Level0::new(),
-            _          => Level0::new(),
+            _          => {
+                println!("WARNING: Level name not found. Using 0 instead.");
+                Level0::new()
+            },
     };
 
     // Initialization stuff
