@@ -8,6 +8,7 @@ extern crate rand;
 mod drawing;
 mod game;
 mod models;
+mod levels;
 mod traits;
 mod maths;
 
@@ -21,7 +22,7 @@ use piston::window::WindowSettings;
 
 use drawing::Size;
 use game::Game;
-use models::Level0;
+use levels::Level0;
 
 use maths::Point;
 

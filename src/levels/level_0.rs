@@ -4,6 +4,7 @@ use traits::{Advance, Position, Collide, Level};
 use rand::{self, ThreadRng};
 use maths::Point;
 use game::{Game, BULLET_RATE};
+use levels::Controls;
 
 use std::iter::Iterator;
 
@@ -14,22 +15,6 @@ pub struct Level0 {
     pub actions: Actions,
     pub timers: Timers,
     pub rng: ThreadRng,
-}
-
-pub enum Controls {
-    A(bool),
-    B(bool),
-    X(bool),
-    //Y(bool),
-    //LT(bool),
-    //RT(bool),
-    //LB(bool),
-    //RB(bool),
-    X1(i64),
-    Y1(i64),
-    //X2(i64),
-    //Y2(i64),
-    None,
 }
 
 #[derive(Default, Clone)]

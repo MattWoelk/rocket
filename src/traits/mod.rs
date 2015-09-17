@@ -6,7 +6,7 @@ use drawing::Size;
 use maths::{TAU, Point};
 use opengl_graphics::GlGraphics;
 use models::CollisionTestBall;
-use models::Controls;
+use levels::Controls;
 use models::{Wave, Enemy, Particle, Player};
 
 use maths::{Circle};

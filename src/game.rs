@@ -11,7 +11,7 @@ use drawing::{color, Size};
 use maths::{TAU, Point};
 use models::{Player, Bullet, Wave, Enemy, Particle, Pose};
 //use models::level_0::{Timers, Actions};
-use models::Controls;
+use levels::Controls;
 use traits::{Collide, Position, Entity, Level};
 use models::CollisionTestBall;
 
