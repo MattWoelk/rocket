@@ -159,7 +159,7 @@ Collisions being detected between objects
            [done] make the new objects have a velocity
            [done] make entity change colours when it's collided.
            [done] fix collision when there are multiple entities.
-           [] figure out a way to separate "Game" from level.
+           [done] figure out a way to separate "Game" from level.
              Game should be a storage container for all the stuff in a level.
              Game should contain a Level (trait) that holds all the state transitions.
                 and the current state.
@@ -168,7 +168,7 @@ Collisions being detected between objects
              Game --[Render, Advance/Update (particles, waves, player), Shooting, trail, spawn enemies, collision handling, logic, spawning]--> World
                 There's a ton of self.world.enemies, which is BAD.
              World [renders all the things, stores all the things]
-             [] have Game store all the elements, and have world (renamed level?)
+             [done] have Game store all the elements, and have world (renamed level?)
                 control the logic.
                     Including physics? Probably.
                 Should they be side-by-side? Or one controlled by the other?
@@ -178,7 +178,7 @@ Collisions being detected between objects
                 [done] make Game take one of these levels
                 [done] make main pass in the level to Game
              [done] remove the other binaries in cargo.toml.
-             [] make a level trait
+             [done] make a level trait
                 [done] first, change the function of level
                     so level controlls logic and physics
                 [done] then make level a trait
@@ -203,8 +203,8 @@ Collisions being detected between objects
                         This, combined with having the trait not require Sized made it work.
                             I HAVE NO IDEA WHY THIS WORKS.
                 [done] move the levels to their own directory called level
-                [] make a collision level
-                [] make level selection dynamic, loading all the files from the level directory
+                [done] make a collision level
+                [done] make level selection dynamic, loading all the files from the level directory
         [] move each piece in collisions/mod.rs into its own file.
             Have the tests in the same file
         [] move Point to be with the rest of the collision stuff?
