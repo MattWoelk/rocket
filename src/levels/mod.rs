@@ -1,6 +1,8 @@
 
 mod level_0;
+mod collision_level;
 pub use self::level_0::Level0;
+pub use self::collision_level::CollisionLevel;
 
 pub enum Controls {
     A(bool),

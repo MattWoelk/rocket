@@ -13,6 +13,7 @@ mod traits;
 mod maths;
 
 use glutin_window::GlutinWindow;
+use models::{Player};
 use opengl_graphics::{GlGraphics, OpenGL};
 use piston::input::{Event, RenderEvent};
 use piston::event_loop::{Events, EventLoop};
@@ -22,7 +23,9 @@ use piston::window::WindowSettings;
 
 use drawing::Size;
 use game::Game;
+use traits::Level;
 use levels::Level0;
+use levels::CollisionLevel;
 
 use maths::Point;
 
@@ -39,11 +42,12 @@ fn main() {
     let arguments = args().collect::<Vec<String>>();
     let size = Size::new(1024.0, 600.0);
 
-    let level = match arguments.get(1).map(|x| x.as_ref()) {
-            Some("l0") => Level0::new(),
+    let level: Box<Level> = match arguments.get(1).map(|x| x.as_ref()) {
+            Some("l0") => Box::new(Level0::new()),
+            Some("collision") => Box::new(CollisionLevel::new()),
             _          => {
                 println!("WARNING: Level name not found. Using 0 instead.");
-                Level0::new()
+                Box::new(Level0::new())
             },
     };
 
@@ -99,9 +103,23 @@ fn main() {
     let mut gl = GlGraphics::new(opengl);
 
     // The game object
-    let mut game = Game::new(
-        size,
-        level);
+    //let l: Box<Level> = Box::new(*level);
+    //let mut game = Game::new(
+    //    size,
+    //    level);
+
+    let mut rng = rand::thread_rng();
+    let mut game = Game {
+        level: level,
+        player: Player::random(&mut rng, size.clone()),
+        particles: vec![],
+        bullets: vec![],
+        waves: vec![],
+        enemies: vec![],
+        collision_test_balls: vec![],
+        size: size.clone(),
+        //resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
+    };
 
     // Event handling
     for e in window.events().ups(60).max_fps(60) {

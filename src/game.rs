@@ -5,7 +5,7 @@ use itertools;
 use opengl_graphics::GlGraphics;
 //use opengl_graphics::glyph_cache::GlyphCache;
 use piston::input::Key;
-use rand::{self};
+//use rand::{self};
 
 use drawing::{color, Size};
 use maths::{TAU, Point};
@@ -38,20 +38,21 @@ pub struct Game {
 
 impl Game {
     /// Returns a new `Game` containing a `Level0` of the given `Size`
-    pub fn new<L:Level + 'static>(size: Size, level: L) -> Game {
-        let mut rng = rand::thread_rng();
-        Game {
-            level: Box::new(level),
-            player: Player::random(&mut rng, size.clone()),
-            particles: vec![],
-            bullets: vec![],
-            waves: vec![],
-            enemies: vec![],
-            collision_test_balls: vec![],
-            size: size.clone(),
-            //resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
-        }
-    }
+    // TODO: This doesn't work properly. It makes level need to be sized and I don't know why.
+    //pub fn new<L:Level + 'static>(size: Size, level: Box<L>) -> Game {
+    //    let mut rng = rand::thread_rng();
+    //    Game {
+    //        level: level,
+    //        player: Player::random(&mut rng, size.clone()),
+    //        particles: vec![],
+    //        bullets: vec![],
+    //        waves: vec![],
+    //        enemies: vec![],
+    //        collision_test_balls: vec![],
+    //        size: size.clone(),
+    //        //resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
+    //    }
+    //}
 
     /// Processes a key press
     pub fn key_press(&mut self, key: Key) {
