@@ -131,11 +131,18 @@ pub trait Collidable {
 //   pub trait Level : Clone {}
 pub trait Level {
     fn handle_control(&mut self, control: Controls);
+    fn reset(&mut self,
+             particles: &mut Vec<Particle>,
+             player: &mut Player,
+             waves: &mut Vec<Wave>,
+             enemies: &mut Vec<Enemy>,
+             size: &Size,
+             dt: f64);
     fn update(&mut self,
-                  particles: &mut Vec<Particle>,
-                  player: &mut Player,
-                  waves: &mut Vec<Wave>,
-                  enemies: &mut Vec<Enemy>,
-                  size: &Size,
-                  dt: f64);
+              particles: &mut Vec<Particle>,
+              player: &mut Player,
+              waves: &mut Vec<Wave>,
+              enemies: &mut Vec<Enemy>,
+              size: &Size,
+              dt: f64);
 }

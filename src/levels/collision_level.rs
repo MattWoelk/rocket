@@ -10,7 +10,6 @@ use std::iter::Iterator;
 /// A model that contains the other models and renders them
 #[derive(Clone)]
 pub struct CollisionLevel {
-    pub score: u32,
     pub actions: Actions,
     pub timers: Timers,
     pub rng: ThreadRng,
@@ -22,24 +21,10 @@ impl CollisionLevel {
         let rng = rand::thread_rng();
 
         CollisionLevel {
-            score: 0,
             actions: Actions::default(),
             timers: Timers::new(),
             rng: rng,
         }
-    }
-
-    /// reset our game-state
-    fn reset(&mut self, player: &mut Player, enemies: &mut Vec<Enemy>, size: &Size) {
-        // Reset player position
-        *player.x_mut() = size.random_x(&mut self.rng);
-        *player.y_mut() = size.random_y(&mut self.rng);
-
-        // Reset score
-        self.score = 0;
-
-        // Remove all enemies
-        enemies.clear();
     }
 }
 
@@ -51,6 +36,20 @@ impl Level for CollisionLevel {
             Controls::X(pressed) => self.actions.shoot = pressed,
             _ => ()
         }
+    }
+
+    #[allow(unused_variables)]
+    fn reset(&mut self,
+             particles: &mut Vec<Particle>,
+             player: &mut Player,
+             waves: &mut Vec<Wave>,
+             enemies: &mut Vec<Enemy>,
+             size: &Size,
+             dt: f64) {
+        *player.x_mut() = size.random_x(&mut self.rng);
+        *player.y_mut() = size.random_y(&mut self.rng);
+
+        enemies.clear();
     }
 
     fn update(&mut self,
@@ -131,7 +130,13 @@ impl Level for CollisionLevel {
             let ppos = player.position();
             Game::make_explosion(particles, ppos, 8);
 
-            self.reset(player, enemies, size);
+            self.reset(
+                particles,
+                player,
+                waves,
+                enemies,
+                size,
+                dt);
         }
     }
 }
