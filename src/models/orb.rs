@@ -14,3 +14,28 @@ pub static OrbPrototype: Entity = Entity {
     }),
     color: color::BLUE,
 };
+
+fn do_thing() {
+    // more like do NOT, hahaaa.
+}
+
+
+
+
+// attempt in rust playgrount:
+// fn main() {
+//     println!("Hello, world!");
+//
+//     let h = H { f: do_thing };
+//
+//     println!("{:#?}", h);
+// }
+//
+// fn do_thing(a:H, b:H) -> String {
+//     "STR".to_string()
+// }
+//
+//
+// struct H {
+//     f: (Fn(H, H) -> String),
+// }

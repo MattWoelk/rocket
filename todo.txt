@@ -24,6 +24,8 @@ Usage:
         - a function for drawing itself?
             Ideally, these functions would not be stored as closures
             so they wouldn't need to be copied.
+            But we could set it to a static function, and then it's fine.
+            Maybe use Option<FnOnce(?)> to make no ops really fast.
     Can do things to it like:
         - impulse (sudden change in velocity)
         - teleport (sudden change in position)
