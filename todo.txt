@@ -22,6 +22,8 @@ Usage:
         - a step function
         - functions for other types of events
         - a function for drawing itself?
+            Ideally, these functions would not be stored as closures
+            so they wouldn't need to be copied.
     Can do things to it like:
         - impulse (sudden change in velocity)
         - teleport (sudden change in position)
@@ -34,6 +36,7 @@ Implementation:
     Don't use any real traits, but instead use a prototype-based system,
     where we have a default representation, and deep clone it when we need more of them.
         Could do shallow cloning as an optimization later.
+    Orb will be the example.
 
 User Input
     [done] Keyboard

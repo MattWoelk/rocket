@@ -5,6 +5,8 @@ use rand::{self, ThreadRng};
 use game::{Game, BULLET_RATE};
 use levels::{Controls, Actions, Timers};
 
+use models::{OrbPrototype};
+
 use std::iter::Iterator;
 
 /// A model that contains the other models and renders them
