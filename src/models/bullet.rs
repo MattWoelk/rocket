@@ -2,7 +2,7 @@
 use drawing::color;
 use super::Pose;
 use traits::{Advance, Collide, Position};
-use traits::Entity;
+//use traits::Entity;
 use maths::Point;
 
 use graphics::{Context, Ellipse};
@@ -41,8 +41,8 @@ impl Collide for Bullet {
     fn radius(&self) -> f64 { 3.0 }
 }
 
-impl Entity for Bullet {
-    fn get_position(&mut self) -> Point {
-        Point::new(1., 1.)
-    }
-}
+//impl Entity for Bullet {
+//    fn get_position(&mut self) -> Point {
+//        Point::new(1., 1.)
+//    }
+//}

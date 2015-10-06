@@ -44,7 +44,7 @@ fn main() {
 
     let level: Box<Level> = match arguments.get(1).map(|x| x.as_ref()) {
             Some("l0") => Box::new(Level0::new()),
-            Some("collision") => Box::new(CollisionLevel::new()),
+            Some("collision") => Box::new(Level0::new()),
             _          => {
                 println!("WARNING: Level name not found. Using 0 instead.");
                 Box::new(Level0::new())
@@ -112,11 +112,11 @@ fn main() {
     let mut game = Game {
         level: level,
         player: Player::random(&mut rng, size.clone()),
-        particles: vec![],
-        bullets: vec![],
-        waves: vec![],
-        enemies: vec![],
-        collision_test_balls: vec![],
+        //particles: vec![],
+        //bullets: vec![],
+        //waves: vec![],
+        entities: vec![],
+        //collision_test_balls: vec![],
         size: size.clone(),
         //resources: Resources { font: GlyphCache::new(&Path::new("resources/FiraMono-Bold.ttf")).unwrap() }
     };

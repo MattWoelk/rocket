@@ -5,7 +5,7 @@ extern crate graphics;
 use drawing::Size;
 use maths::{TAU, Point};
 use opengl_graphics::GlGraphics;
-use models::CollisionTestBall;
+use models::Entity;
 use levels::Controls;
 use models::{Wave, Enemy, Particle, Player};
 
@@ -112,12 +112,12 @@ pub trait Collide: Position {
 
 pub trait Renderable {
     fn draw(&self, c: &graphics::context::Context, gl: &mut GlGraphics);
-    fn update_2(&mut self, units: f64, entities: &Vec<CollisionTestBall>, my_entity_number: i64, player_pos: Point);
+    fn update_2(&mut self, units: f64, entities: &Vec<Entity>, my_entity_number: i64, player_pos: Point);
 }
 
-pub trait Entity {
-    fn get_position(&mut self) -> Point;
-}
+//pub trait Entity {
+//    fn get_position(&mut self) -> Point;
+//}
 
 pub trait Collidable {
     fn collide_with_circle(&self, &Circle) -> bool;
@@ -132,17 +132,15 @@ pub trait Collidable {
 pub trait Level {
     fn handle_control(&mut self, control: Controls);
     fn reset(&mut self,
-             particles: &mut Vec<Particle>,
              player: &mut Player,
-             waves: &mut Vec<Wave>,
-             enemies: &mut Vec<Enemy>,
+             entities: &mut Vec<Entity>,
              size: &Size,
              dt: f64);
     fn update(&mut self,
-              particles: &mut Vec<Particle>,
+              //particles: &mut Vec<Particle>,
               player: &mut Player,
-              waves: &mut Vec<Wave>,
-              enemies: &mut Vec<Enemy>,
+              //waves: &mut Vec<Wave>,
+              entities: &mut Vec<Entity>,
               size: &Size,
               dt: f64);
 }

@@ -1,5 +1,5 @@
 use drawing::Size;
-use models::{Wave, Enemy, Particle, Player, Pose};
+use models::{Wave, Entity, Particle, Player, Pose};
 use traits::{Advance, Position, Collide, Level};
 use rand::{self, ThreadRng};
 use game::{Game, BULLET_RATE};
@@ -42,10 +42,10 @@ impl Level for Level0 {
 
     #[allow(unused_variables)]
     fn reset(&mut self,
-             particles: &mut Vec<Particle>,
+             //particles: &mut Vec<Particle>,
              player: &mut Player,
-             waves: &mut Vec<Wave>,
-             enemies: &mut Vec<Enemy>,
+             //waves: &mut Vec<Wave>,
+             entities: &mut Vec<Entity>,
              size: &Size,
              dt: f64) {
         // Reset player position
@@ -56,14 +56,14 @@ impl Level for Level0 {
         self.score = 0;
 
         // Remove all enemies
-        enemies.clear();
+        entities.clear();
     }
 
     fn update(&mut self,
-              particles: &mut Vec<Particle>,
+              //particles: &mut Vec<Particle>,
               player: &mut Player,
-              waves: &mut Vec<Wave>,
-              enemies: &mut Vec<Enemy>,
+              //waves: &mut Vec<Wave>,
+              entities: &mut Vec<Entity>,
               size: &Size,
               dt: f64) {
         self.timers.current_time += dt;
@@ -73,77 +73,77 @@ impl Level for Level0 {
         player.advance_with_wrapping(displacement, size.clone());
 
         // Update particles
-        for particle in particles.iter_mut() {
-            particle.update(dt);
-        }
+        //for particle in particles.iter_mut() {
+        //    particle.update(dt);
+        //}
 
         // Remove old particles
-        particles.retain(|p| p.ttl > 0.0);
+        //particles.retain(|p| p.ttl > 0.0);
 
         // Add new particles at the player's position, to leave a trail
-        if self.timers.current_time - self.timers.last_tail_particle > 0.05 {
-            self.timers.last_tail_particle = self.timers.current_time;
-            particles.push(Particle::new(player.vector.clone().invert(), 0.5));
-        }
+        //if self.timers.current_time - self.timers.last_tail_particle > 0.05 {
+        //    self.timers.last_tail_particle = self.timers.current_time;
+        //    particles.push(Particle::new(player.vector.clone().invert(), 0.5));
+        //}
 
         // Add waves
-        if self.actions.shoot && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            waves.push(Wave::new(player.position().clone()));
-        }
+        //if self.actions.shoot && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
+        //    self.timers.last_shoot = self.timers.current_time;
+        //    waves.push(Wave::new(player.position().clone()));
+        //}
 
-        if self.actions.grass && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            waves.push(Wave::new_grass(player.position().clone()));
-        }
+        //if self.actions.grass && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
+        //    self.timers.last_shoot = self.timers.current_time;
+        //    waves.push(Wave::new_grass(player.position().clone()));
+        //}
 
-        if self.actions.fire && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            waves.push(Wave::new_fire(player.position().clone()));
-        }
+        //if self.actions.fire && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
+        //    self.timers.last_shoot = self.timers.current_time;
+        //    waves.push(Wave::new_fire(player.position().clone()));
+        //}
 
-        if self.actions.water && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
-            self.timers.last_shoot = self.timers.current_time;
-            waves.push(Wave::new_water(player.position().clone()));
-        }
+        //if self.actions.water && self.timers.current_time - self.timers.last_shoot > BULLET_RATE {
+        //    self.timers.last_shoot = self.timers.current_time;
+        //    waves.push(Wave::new_water(player.position().clone()));
+        //}
 
-        for wave in waves.iter_mut() {
-            wave.update(dt);
-        }
+        //for wave in waves.iter_mut() {
+        //    wave.update(dt);
+        //}
 
-        waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
+        //waves.retain(|w| w.radius < (size.width + size.height) * 0.75);
 
         // Spawn enemies at random locations
-        if self.timers.current_time - self.timers.last_spawned_enemy > 1.0 {
-            self.timers.last_spawned_enemy = self.timers.current_time;
-            let mut new_enemy: Enemy;
-            loop {
-                new_enemy = Enemy::new(Pose::random(&mut self.rng, size.clone()));
-                if !player.collides_with(&new_enemy) {
-                    break;
-                }
-            }
-            enemies.push(new_enemy);
-        }
+        //if self.timers.current_time - self.timers.last_spawned_enemy > 1.0 {
+        //    self.timers.last_spawned_enemy = self.timers.current_time;
+        //    let mut new_enemy: Enemy;
+        //    loop {
+        //        new_enemy = Enemy::new(Pose::random(&mut self.rng, size.clone()));
+        //        if !player.collides_with(&new_enemy) {
+        //            break;
+        //        }
+        //    }
+        //    enemies.push(new_enemy);
+        //}
 
         // Move enemies in the player's direction
-        for enemy in enemies.iter_mut() {
-            enemy.update(dt * 100.0, player.position());
+        for entity in entities.iter_mut() {
+            entity.update(dt * 100.0);
         }
 
         //handle player collisions
-        if enemies.iter().any(|enemy| player.collides_with(enemy)) {
-            // Make an explosion where the player was
-            let ppos = player.position();
-            Game::make_explosion(particles, ppos, 8);
+        //if enemies.iter().any(|enemy| player.collides_with(enemy)) {
+        //    // Make an explosion where the player was
+        //    let ppos = player.position();
+        //    Game::make_explosion(particles, ppos, 8);
 
-            self.reset(
-                particles,
-                player,
-                waves,
-                enemies,
-                size,
-                dt);
-        }
+        //    self.reset(
+        //        particles,
+        //        player,
+        //        waves,
+        //        enemies,
+        //        size,
+        //        dt);
+        //}
     }
 }

@@ -1,7 +1,7 @@
 use maths::{TAU, Point};
 use super::Pose;
 use traits::{Advance, Collide, Position};
-use traits::Entity;
+//use traits::Entity;
 
 use graphics::{Context, Line};
 use graphics::math::Vec2d;
@@ -98,8 +98,8 @@ impl Collide for Wave {
     fn radius(&self) -> f64 { self.radius }
 }
 
-impl Entity for Wave {
-    fn get_position(&mut self) -> Point {
-        Point::new(1., 1.)
-    }
-}
+//impl Entity for Wave {
+//    fn get_position(&mut self) -> Point {
+//        Point::new(1., 1.)
+//    }
+//}

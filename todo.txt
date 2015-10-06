@@ -6,6 +6,35 @@
         so size does make sense, but it's too vague.
 [] make rocket its own repository
 
+API between the game and the engine:
+Usage:
+    Create an object that has a bunch of properties.
+        - position
+        - velocity
+        - acceleration (no, forces and mass instead)
+        - mass
+        - sprites
+        - skeleton (not for this game)
+        - categories (like traits, or exactly traits, "projectile", etc.)
+        - hitbox
+        - type ("Enemy", "ExplodingEnemy", etc.)
+        - an Init function
+        - a step function
+        - functions for other types of events
+        - a function for drawing itself?
+    Can do things to it like:
+        - impulse (sudden change in velocity)
+        - teleport (sudden change in position)
+        - apply force
+        - cycle through or select sprites
+    Can add arbitrary properties like:
+        - last location since teleportation
+        - points collected
+Implementation:
+    Don't use any real traits, but instead use a prototype-based system,
+    where we have a default representation, and deep clone it when we need more of them.
+        Could do shallow cloning as an optimization later.
+
 User Input
     [done] Keyboard
     [] Controller

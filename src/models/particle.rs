@@ -4,7 +4,7 @@ use traits::{Advance, Position};
 
 use graphics::{Context, Ellipse};
 use opengl_graphics::GlGraphics;
-use traits::Entity;
+//use traits::Entity;
 use maths::Point;
 
 /// A model representing a particle
@@ -42,8 +42,8 @@ impl Particle {
     }
 }
 
-impl Entity for Particle {
-    fn get_position(&mut self) -> Point {
-        Point::new(1., 1.)
-    }
-}
+//impl Entity for Particle {
+//    fn get_position(&mut self) -> Point {
+//        Point::new(1., 1.)
+//    }
+//}

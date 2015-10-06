@@ -15,4 +15,4 @@ pub use self::enemy::Enemy;
 pub use self::particle::Particle;
 pub use self::player::Player;
 pub use self::vector::Pose;
-pub use self::entity::CollisionTestBall;
+pub use self::entity::Entity;
